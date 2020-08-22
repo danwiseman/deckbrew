@@ -15,7 +15,7 @@ RSpec.describe "MasterDecks", type: :request do
         expect(response).to render_template(:new)
         
         master_deck = FactoryBot.create(:master_deck)
-        post "/decks", :params => { :master_deck => master_deck }
+        post "/decks/new", :params => { :name => master_deck.name }
     
         expect(response).to redirect_to(assigns(:master_deck))
         follow_redirect!

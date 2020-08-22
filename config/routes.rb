@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     # Decks
     get 'decks', :to => 'master_decks#index'
     get 'decks/new', :to => 'master_decks#new'
-    post 'decks', :to => 'master_decks#create'
+    post 'decks/new', :to => 'master_decks#create'
     get 'decks/:id', :to => 'master_decks#show', as: 'master_deck'
     
   end

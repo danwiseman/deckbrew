@@ -11,12 +11,13 @@ class MasterDecksController < ApplicationController
     end
 
     def create
-        if(MasterDeck.where(:name => params['master_deck']['name'], :user => current_user).present?) 
+        puts params
+        if(MasterDeck.where(:name => params['name'], :user => current_user).present?) 
            # deck already exists fail.
            flash[:warning] = 'Deck with that name already exists.'
            render "new"
         else
-           @master_deck = MasterDeck.new(:name => params['master_deck']['name'], :user => current_user) 
+           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user) 
            if @master_deck.save 
                # create an empty master branch with a previous deck of 0 to denote it is the root deck
                @master_deck.decks.create(:branchname => 'master', :previousdeck => 0) 
