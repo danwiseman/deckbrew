@@ -18,7 +18,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_111749) do
   create_table "decks", force: :cascade do |t|
     t.bigint "master_deck_id", null: false
     t.string "branchname"
-    t.uuid "previousdeck"
+    t.integer "previousdeck"
     t.jsonb "cards", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_08_21_111749) do
   create_table "master_decks", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
-    t.uuid "head"
+    t.integer "head"
     t.string "type"
     t.jsonb "commanders", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false

@@ -12,6 +12,8 @@ gem 'pg'
 #devise:
 gem 'devise'
 
+gem 'font-awesome-rails', '~>4.x'
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets

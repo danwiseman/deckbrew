@@ -5,7 +5,7 @@ class CreateDecks < ActiveRecord::Migration[6.0]
       t.belongs_to :master_deck, null: false, foreign_key: true
       
       t.string :branchname
-      t.uuid :previousdeck
+      t.integer :previousdeck
       
       t.jsonb :cards, null: false, default: '{}'
 
