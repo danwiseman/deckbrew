@@ -1,3 +1,7 @@
+<% flash.each do |key, value| %>
+  <div class="alert alert-<%= key %>"><%= value %></div>
+<% end %>
+
 <%= form_with model: @master_deck, class: "form" do |f| %>
   <%= f.text_field :name %>
   <%= f.submit "Create" %>
