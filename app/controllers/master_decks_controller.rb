@@ -1,16 +1,26 @@
 class MasterDecksController < ApplicationController
     
-    before_action :authenticate_user!
+   
     
     def index
         
     end
-
+    
+    
+    def show
+       @master_deck = MasterDeck.friendly.find(params[:id]) 
+        
+    end
+    
+    
+    
     def new
+        before_action :authenticate_user!
         
     end
 
     def create
+        before_action :authenticate_user!
         puts params
         if(MasterDeck.where(:name => params['name'], :user => current_user).present?) 
            # deck already exists fail.
@@ -25,7 +35,7 @@ class MasterDecksController < ApplicationController
                @master_deck.save!
                
                flash[:success] = 'Deck was successfully created.'
-               redirect_to '/u/' + current_user.username + '/decks/' +  @master_deck.slug
+               redirect_to '/u/' + current_user.slug + '/decks/' +  @master_deck.slug
            else
               # error in saving
               render "new"
@@ -34,8 +44,4 @@ class MasterDecksController < ApplicationController
         
     end
     
-    def show
-       @master_deck = MasterDeck.friendly.find(params[:id]) 
-        
-    end
 end

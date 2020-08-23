@@ -10,7 +10,7 @@
 
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
-    <li class="breadcrumb-item"><a href="#"><%= current_user.email %></a></li>
+    <li class="breadcrumb-item"><a href="/u/<%= @master_deck.user.slug %>"><%= @master_deck.user.username %></a></li>
     <li class="breadcrumb-item active" aria-current="page">Deck Name</li>
   </ol>
 </nav>

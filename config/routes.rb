@@ -3,7 +3,9 @@ Rails.application.routes.draw do
   
     
     resources :users, :path => 'u', only: [:index, :show] do
-      resources :master_decks, :path => 'decks', only: [:index, :show]
+      resources :master_decks, :path => 'decks', only: [:index, :show] do
+        resources :branches, :path => 'branch', only: [:index, :show]
+      end
       
     end
   
@@ -12,7 +14,9 @@ Rails.application.routes.draw do
     
       root to: "dashboard#index", as: :authenticated_root
       
-      resources :master_decks, :path => 'decks', only: [:new, :create] 
+      resources :master_decks, :path => 'decks', only: [:new, :create] do
+        resources :branches, :path => 'branch', only: [:new, :create]
+      end
       
     end
       
