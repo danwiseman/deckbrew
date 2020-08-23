@@ -35,6 +35,12 @@ RSpec.describe "MasterDecks", type: :request do
        get "/decks/#{master_deck.id}"
        expect(response).to render_template(:show)
        
+       get "/decks/#{master_deck.id}/branch/new"
+       expect(response).to render_template(:new_deck)
+       
+       post "/decks/#{master_deck.id}/branch/new", :params => { :branchname => "new branch" } 
+       expect(response).to redirect_to("/decks/#{master_deck.id}/branch/new-branch")
+       follow_redirect!
        
         
     end
