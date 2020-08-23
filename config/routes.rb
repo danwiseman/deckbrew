@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
   
   get ':username/decks', :to => 'master_decks#index'
-  get ':username/:master_deck_name', :to => 'master_decks#show', as: 'master_deck'
+  get ':username/:path', :to => 'master_decks#show', as: 'master_deck'
   
   authenticated do
     
