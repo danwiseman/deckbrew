@@ -1,9 +1,10 @@
-<% for deck in @master_deck.decks  %>
-    <ul>
-
-        <li class="deck">
-            <%= deck.branchname %>
-        </li>
-
-    </ul>
+<div class="btn-group">
+  <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    <i class="fal fa-code-branch"></i> master
+  </button>
+  <div class="dropdown-menu">
+    <% for deck in @master_deck.decks  %>
+      <a class="dropdown-item" href="#"><%= deck.branchname %></a>
     <% end %>
+  </div>
+</div>

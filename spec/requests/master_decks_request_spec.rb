@@ -25,6 +25,19 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
+    it "creates a new branch of the deck and redirects to the new branch" do
+       
+       user = FactoryBot.create(:user)
+       sign_in user
+       master_deck = FactoryBot.create(:master_deck)
+       deck = FactoryBot.create(:deck)
+       
+       get "/decks/#{master_deck.id}"
+       expect(response).to render_template(:show)
+       
+       
+        
+    end
     
     
 
