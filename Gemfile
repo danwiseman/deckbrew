@@ -14,6 +14,10 @@ gem 'devise'
 
 gem 'font-awesome-rails', '~>4.x'
 
+gem 'friendly_id', '~> 5.4.0'
+
+
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets

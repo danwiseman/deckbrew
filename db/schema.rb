@@ -10,30 +10,53 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_132918) do
+ActiveRecord::Schema.define(version: 2020_08_23_134212) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "decks", force: :cascade do |t|
+  create_table "branches", force: :cascade do |t|
+    t.string "name"
+    t.integer "branched_from"
+    t.integer "head_deck"
     t.bigint "master_deck_id", null: false
-    t.string "branchname"
-    t.integer "previousdeck"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "slug"
+    t.index ["master_deck_id"], name: "index_branches_on_master_deck_id"
+    t.index ["slug"], name: "index_branches_on_slug", unique: true
+  end
+
+  create_table "decks", force: :cascade do |t|
+    t.bigint "branch_id", null: false
+    t.integer "version"
+    t.integer "previousversion"
     t.jsonb "cards", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.index ["master_deck_id"], name: "index_decks_on_master_deck_id"
+    t.index ["branch_id"], name: "index_decks_on_branch_id"
+  end
+
+  create_table "friendly_id_slugs", force: :cascade do |t|
+    t.string "slug", null: false
+    t.integer "sluggable_id", null: false
+    t.string "sluggable_type", limit: 50
+    t.string "scope"
+    t.datetime "created_at"
+    t.index ["slug", "sluggable_type", "scope"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type_and_scope", unique: true
+    t.index ["slug", "sluggable_type"], name: "index_friendly_id_slugs_on_slug_and_sluggable_type"
+    t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
   create_table "master_decks", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
-    t.integer "head"
     t.string "type"
-    t.jsonb "commanders", default: "{}", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "path"
+    t.string "slug"
+    t.index ["slug"], name: "index_master_decks_on_slug", unique: true
     t.index ["user_id"], name: "index_master_decks_on_user_id"
   end
 
@@ -46,11 +69,14 @@ ActiveRecord::Schema.define(version: 2020_08_23_132918) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "username"
+    t.string "slug"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["slug"], name: "index_users_on_slug", unique: true
     t.index ["username"], name: "index_users_on_username", unique: true
   end
 
-  add_foreign_key "decks", "master_decks"
+  add_foreign_key "branches", "master_decks"
+  add_foreign_key "decks", "branches"
   add_foreign_key "master_decks", "users"
 end
