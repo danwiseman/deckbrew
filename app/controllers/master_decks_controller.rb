@@ -1,6 +1,9 @@
 class MasterDecksController < ApplicationController
     
-   
+       
+    
+    before_action :authenticate_user!, only: [:new, :create]
+    
     
     def index
         
@@ -11,17 +14,14 @@ class MasterDecksController < ApplicationController
        @master_deck = MasterDeck.friendly.find(params[:id]) 
         
     end
-    
-    
-    
+
     def new
-        before_action :authenticate_user!
+        
         
     end
 
     def create
-        before_action :authenticate_user!
-        puts params
+        
         if(MasterDeck.where(:name => params['name'], :user => current_user).present?) 
            # deck already exists fail.
            flash[:warning] = 'Deck with that name already exists.'

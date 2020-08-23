@@ -1,0 +1,7 @@
+
+
+<%= form_with model: @branch, class: "form", url: "/decks/#{@master_deck.slug}/branch" do |f| %>
+  <%= f.text_field :name %>
+  <%= f.submit "Create" %>
+<% end %>
+
