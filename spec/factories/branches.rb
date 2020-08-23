@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :branch do
-    name { "MyString" }
-    belongs_to { "" }
+    name { Faker::Book.title }
+    master_deck
   end
 end

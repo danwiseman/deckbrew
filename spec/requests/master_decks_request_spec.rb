@@ -11,13 +11,13 @@ RSpec.describe "MasterDecks", type: :request do
         user = FactoryBot.create(:user)
         sign_in user
         
-        get "/#{user.username}/decks/new"
+        get "/decks/new"
         expect(response).to render_template(:new)
         
         master_deck = FactoryBot.create(:master_deck)
-        post "/#{user.username}/decks/new", :params => { :name => master_deck.name, :path => master_deck.path }
+        post "/decks", :params => { :name => master_deck.name }
     
-        expect(response).to redirect_to("/#{user.username}/#{master_deck.path}")
+        expect(response).to redirect_to("/u/#{user.username}/decks/#{master_deck.slug}")
         follow_redirect!
     
         expect(response).to render_template(:show)
@@ -30,16 +30,16 @@ RSpec.describe "MasterDecks", type: :request do
        user = FactoryBot.create(:user)
        sign_in user
        master_deck = FactoryBot.create(:master_deck)
-       deck = FactoryBot.create(:deck)
+       #branch = FactoryBot.create(:branch)
        
-       get "/#{user.username}/#{master_deck.path}"
+       get "/u/#{user.username}/decks/#{master_deck.slug}"
        expect(response).to render_template(:show)
        
-       get "/#{user.username}/#{master_deck.path}/branch/new"
-       expect(response).to render_template(:new_deck)
+       get "/decks/#{master_deck.slug}/branch/new"
+       expect(response).to render_template(:new_branch)
        
-       post "/#{user.username}/#{master_deck.path}/branch/new", :params => { :branchname => "new branch" } 
-       expect(response).to redirect_to("/#{user.username}/#{master_deck.path}/tree/new-branch")
+       post "/decks/#{master_deck.slug}/branch", :params => { :name => "new branch" } 
+       expect(response).to redirect_to("/u/#{user.username}/#{master_deck.slug}/tree/new-branch")
        follow_redirect!
        
         

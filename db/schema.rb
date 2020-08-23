@@ -24,7 +24,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_134212) do
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
     t.index ["master_deck_id"], name: "index_branches_on_master_deck_id"
-    t.index ["slug"], name: "index_branches_on_slug", unique: true
+    t.index ["slug"], name: "index_branches_on_slug"
   end
 
   create_table "decks", force: :cascade do |t|
@@ -54,9 +54,8 @@ ActiveRecord::Schema.define(version: 2020_08_23_134212) do
     t.string "type"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "path"
     t.string "slug"
-    t.index ["slug"], name: "index_master_decks_on_slug", unique: true
+    t.index ["slug"], name: "index_master_decks_on_slug"
     t.index ["user_id"], name: "index_master_decks_on_user_id"
   end
 

@@ -1,22 +1,29 @@
 Rails.application.routes.draw do
-  devise_for :users
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+  devise_for :users, :path => 'accounts' 
   
-  get ':username/decks', :to => 'master_decks#index'
-  get ':username/:path', :to => 'master_decks#show', as: 'master_deck'
+    
+    resources :users, :path => 'u', only: [:index, :show] do
+      resources :master_decks, :path => 'decks', only: [:index, :show]
+      
+    end
   
-  authenticated do
+  
+    authenticated do
     
-    root to: "dashboard#index", as: :authenticated_root
+      root to: "dashboard#index", as: :authenticated_root
+      
+      resources :master_decks, :path => 'decks', only: [:new, :create] 
+      
+    end
+      
+      
     
-    # Decks
-
-    get ':username/decks/new', :to => 'master_decks#new'
-    post ':username/decks/new', :to => 'master_decks#create'
-    
-    
-  end
+  
   
   root to: "home#index"
   
+
+  
 end
+
+

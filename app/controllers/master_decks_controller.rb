@@ -19,14 +19,13 @@ class MasterDecksController < ApplicationController
         else
            @master_deck = MasterDeck.new(:name => params['name'], :user => current_user) 
            if @master_deck.save 
-               # create an empty master branch with a previous deck of 0 to denote it is the root deck
-               @master_deck.decks.create(:branchname => 'master', :previousdeck => 0) 
-               # set the head as the only deck in the master deck
-               @master_deck.head = @master_deck.decks.last.id
+               # create an empty master branch
+               @master_deck.branches.create(:name => 'master') 
+               
                @master_deck.save!
                
                flash[:success] = 'Deck was successfully created.'
-               redirect_to @master_deck
+               redirect_to '/u/' + current_user.username + '/decks/' +  @master_deck.slug
            else
               # error in saving
               render "new"
@@ -36,7 +35,7 @@ class MasterDecksController < ApplicationController
     end
     
     def show
-       @master_deck = MasterDeck.find(params[:id]) 
+       @master_deck = MasterDeck.friendly.find(params[:id]) 
         
     end
 end
