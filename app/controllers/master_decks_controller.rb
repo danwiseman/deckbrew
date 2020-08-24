@@ -6,7 +6,8 @@ class MasterDecksController < ApplicationController
     
     
     def index
-        
+        @deck_user = User.friendly.find(params[:user_id])
+        @master_decks = MasterDeck.where(:user => @deck_user)
     end
     
     
