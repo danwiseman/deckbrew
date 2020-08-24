@@ -3,7 +3,7 @@
 <%= form_with model: @branch, class: "form", url: "/decks/#{@master_deck.slug}/branch" do |f| %>
   <div class="form-group">
     <label for="exampleFormControlSelect1">Branch From</label>
-    <%= select("branched_from", "branched_from_id",  @current_branches.collect {|b| [ b.name, b.id ] }, 
+    <%= select("branched_from",  @current_branches.collect {|b| [ b.name, b.id ] }, 
         { include_blank: false }, :class => "form-control selectpicker", :data_style => "btn btn-link" ) %>
   </div>
   <%= f.text_field :name %>

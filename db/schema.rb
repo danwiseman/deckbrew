@@ -18,6 +18,7 @@ ActiveRecord::Schema.define(version: 2020_08_23_134212) do
   create_table "branches", force: :cascade do |t|
     t.string "name"
     t.integer "branched_from"
+    t.integer "branched_from_deck"
     t.integer "head_deck"
     t.bigint "master_deck_id", null: false
     t.datetime "created_at", precision: 6, null: false
