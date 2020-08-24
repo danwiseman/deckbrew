@@ -42,7 +42,7 @@ RSpec.describe "MasterDecks", type: :request do
        expect(response).to render_template("branches/new")
        
        post "/decks/#{master_deck.slug}/branch", :params => { :name => "new branch" } 
-       expect(response).to redirect_to("/u/#{user.slug}/#{master_deck.slug}/branch/new-branch")
+       expect(response).to redirect_to("/u/#{user.slug}/decks/#{master_deck.slug}/branch/new-branch")
        follow_redirect!
        
         
