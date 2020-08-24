@@ -1,13 +1,42 @@
-<div class="card card-nav-tabs" style="width: 20rem;">
-  <div class="card-header card-header-danger">
-    Decks for user
-  </div>
-  <ul class="list-group list-group-flush">
-      
-    <% for master_deck in @master_decks  %>
-      <li class="list-group-item"><%= link_to master_deck.name, "/u/#{@deck_user.slug}/decks/#{master_deck.slug}" %></li>
-    <% end %>
-    
-  </ul>
-</div>
 
+<nav aria-label="breadcrumb" role="navigation">
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item"><a href="/u/<%= @deck_user.slug %>"><%= @deck_user.username %></a></li>
+  </ol>
+</nav>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Deck Name</th>
+            <th>Deck Type</th>
+            <th>Colors</th>
+            <th>Cost</th>
+            <th class="text-right">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+      <% for master_deck in @master_decks  %>
+        <tr>
+            
+            <td><%= link_to master_deck.name, "/u/#{@deck_user.slug}/decks/#{master_deck.slug}" %></td>
+            <td>commander</td>
+            <td><%= prettyMtgText("{W}{B}") %></td>
+            <td>$$$$</td>
+            <td class="td-actions text-right">
+                <button type="button" rel="tooltip" class="btn btn-info">
+                    <i class="fa fa-copy"></i>
+                </button>
+                <button type="button" rel="tooltip" class="btn btn-success">
+                    <i class="fa fa-heart"></i>
+                </button>
+                <button type="button" rel="tooltip" class="btn btn-danger">
+                    <i class="fa fa-share-alt"></i>
+                </button>
+            </td>
+        </tr>
+        <% end %>
+    </tbody>
+</table>
