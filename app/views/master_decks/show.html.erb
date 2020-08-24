@@ -11,39 +11,155 @@
 <nav aria-label="breadcrumb" role="navigation">
   <ol class="breadcrumb">
     <li class="breadcrumb-item"><a href="/u/<%= @master_deck.user.slug %>"><%= @master_deck.user.username %></a></li>
-    <li class="breadcrumb-item active" aria-current="page">Deck Name</li>
+    <li class="breadcrumb-item active" aria-current="page"><%= @master_deck.name %></li>
   </ol>
 </nav>
-  
-  <nav class="navbar navbar-expand-lg bg-primary">
-    <div class="container">
-    
-        <ul class="navbar-nav">
-          <li class="nav-item active">
-            <%= render 'master_decks/all' %>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Edit Deck</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/decks/<%= @master_deck.slug %>/branch/new">Branch this Deck</a>
-          </li>
-          
-        </ul>
-      </div>
 
-  </nav>
- 
-<div class="row">
-  <div class="container">
-    <div class="alert alert-info" role="alert">
-      This is a default alert—check it out!
+<div class="card bg-info">
+    <div class="card-body">
+        <h5 class="card-category card-category-social">
+            <i class="fa fa-quote-left"></i> About This Deck
+        </h5>
+        <h4 class="card-title">
+            Snippet from the user on what the deck is all about. Or defaults to oracle text from the commander. Or something else
+        </h4>
+
+        <div class="card-stats">
+            <div class="author">
+                <a href="#pablo">
+                   <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=334&q=80&ixid=dW5zcGxhc2guY29tOzs7Ozs%3D" alt="..." class="avatar img-raised">
+                   <span><%= @master_deck.user.username %></span>
+                </a>
+            </div>
+           <div class="stats ml-auto">
+                <i class="material-icons">favorite</i> 2.4K &#xB7;
+                <i class="material-icons">share</i> 45
+            </div>
+        </div>
     </div>
+</div>
+
+<div class="row"> 
+
+<div class="card text-center">
+  <div class="card-header card-header-info">
+    <ul class="nav nav-tabs">
+      <li class="nav-item nav-item-dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> master</a>
+        <div class="dropdown-menu">
+          <% for branch in @master_deck.branches  %>
+            <a class="dropdown-item" href="#"><%= branch.name %></a>
+          <% end %>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#0">Create a new branch</a>
+        </div>
+        
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#0">Edit This Deck</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#0">Fork This Deck</a>
+      </li>
+    </ul>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <img src="https://c1.scryfall.com/file/scryfall-cards/normal/front/9/f/9f25e1cf-eeb4-458d-8fb2-b3a2f86bdd54.jpg?1562033824" />
+      
+      
+    </div>
+    
   </div>
 </div>
 
-<div class="row">
-  <div class="card">
-  <%= render 'master_decks/all' %>
-  </div>
-</div>
+</div> 
+
+<!-- Temp Comment Section -->
+
+      <div class="section section-comments">
+        <div class="row">
+          <div class="col-md-8 ml-auto mr-auto">
+            <div class="media-area">
+              <h3 class="title text-center">3 Comments</h3>
+              <div class="media">
+                <a class="float-left" href="#pablo">
+                  <div class="avatar">
+                    <img class="media-object" src="../assets/img/faces/card-profile4-square.jpg" alt="...">
+                  </div>
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">Tina Andrew <small>&#xB7; 7 minutes ago</small></h4>
+                  <h6 class="text-muted"></h6>
+                  <p>Chance too good. God level bars. I&apos;m so proud of @LifeOfDesiigner #1 song in the country. Panda! Don&apos;t be scared of the truth because we need to restart the human foundation in truth I stand with the most humility. We are so blessed!</p>
+                  <div class="media-footer">
+                    <a href="#pablo" class="btn btn-primary btn-link float-right" rel="tooltip" title="Reply to Comment">
+                      <i class="material-icons">reply</i> Reply
+                    </a>
+                    <a href="#pablo" class="btn btn-danger btn-link float-right">
+                      <i class="material-icons">favorite</i> 243
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <div class="media">
+                <a class="float-left" href="#pablo">
+                  <div class="avatar">
+                    <img class="media-object" alt="Tim Picture" src="../assets/img/faces/card-profile1-square.jpg">
+                  </div>
+                </a>
+                <div class="media-body">
+                  <h4 class="media-heading">John Camber <small>&#xB7; Yesterday</small></h4>
+                  <p>Hello guys, nice to have you on the platform! There will be a lot of great stuff coming soon. We will keep you posted for the latest news.</p>
+                  <p> Don&apos;t forget, You&apos;re Awesome!</p>
+                  <div class="media-footer">
+                    <a href="#pablo" class="btn btn-primary btn-link float-right" rel="tooltip" title="Reply to Comment">
+                      <i class="material-icons">reply</i> Reply
+                    </a>
+                    <a href="#pablo" class="btn btn-link float-right">
+                      <i class="material-icons">favorite</i> 25
+                    </a>
+                  </div>
+                  <div class="media">
+                    <a class="float-left" href="#pablo">
+                      <div class="avatar">
+                        <img class="media-object" alt="64x64" src="../assets/img/faces/card-profile4-square.jpg">
+                      </div>
+                    </a>
+                    <div class="media-body">
+                      <h4 class="media-heading">Tina Andrew <small>&#xB7; 12 Hours Ago</small></h4>
+                      <p>Hello guys, nice to have you on the platform! There will be a lot of great stuff coming soon. We will keep you posted for the latest news.</p>
+                      <p> Don&apos;t forget, You&apos;re Awesome!</p>
+                      <div class="media-footer">
+                        <a href="#pablo" class="btn btn-primary btn-link float-right" rel="tooltip" title="Reply to Comment">
+                          <i class="material-icons">reply</i> Reply
+                        </a>
+                        <a href="#pablo" class="btn btn-link btn-secondary float-right">
+                          <i class="material-icons">favorite</i> 2
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <h3 class="title text-center">Post your comment</h3>
+            <div class="media media-post">
+              <a class="author float-left" href="#pablo">
+                <div class="avatar">
+                  <img class="media-object" alt="64x64" src="../assets/img/faces/card-profile6-square.jpg">
+                </div>
+              </a>
+              <div class="media-body">
+                <div class="form-group label-floating bmd-form-group">
+                  <label class="form-control-label bmd-label-floating" for="exampleBlogPost"> Write some nice stuff or nothing...</label>
+                  <textarea class="form-control" rows="5" id="exampleBlogPost"></textarea>
+                </div>
+                <div class="media-footer">
+                  <a href="#pablo" class="btn btn-primary btn-round btn-wd float-right">Post Comment</a>
+                </div>
+              </div>
+            </div> <!-- end media-post -->
+          </div>
+        </div>
+        </div>
