@@ -17,8 +17,8 @@ class BranchesController < ApplicationController
            render "new"
         else
            @branch = Branch.new(:name => params['name'], :master_deck => @master_deck, 
-                                :branched_from => params['branched_from_id'], 
-                                :branched_from_deck => Branch.find(params['branched_from_id']).head_deck) 
+                                :branched_from => params['branched_from']['branched_from_id'], 
+                                :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).head_deck) 
            if @branch.save 
                # create the branch's deck
                @branch.decks.create(:version => 0) 
