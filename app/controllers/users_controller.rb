@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
     
-    before_action :authenticate_user!, only: [:index]
+    before_action :authenticate_user!, only: [:index, :edit]
     
     def index
         redirect_to "/u/#{current_user.slug}"
@@ -9,6 +9,11 @@ class UsersController < ApplicationController
     
     
     def show
+        @profile_user = User.friendly.find(params[:id])
+    end
+    
+    def edit
+        
         
     end
 end
