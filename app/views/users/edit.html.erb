@@ -7,27 +7,27 @@
                 <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
-                <h3 class="title"><%= @profile_user.username %></h3>
+                <h3 class="title"><%= current_user.username %></h3>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
                 <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a>
               </div>
             </div>
-            <div class="follow">
-              <% if @profile_user == current_user %>
-              <a class="btn btn-fab btn-primary btn-round" rel="tooltip" title="Edit Profile" href="<%= "/u/#{current_user.slug}/edit" %>">
-                <i class="material-icons">edit</i>
-              </a>
-              <% else %>
-              <button class="btn btn-fab btn-primary btn-round" rel="tooltip" title="Follow this user">
-                <i class="material-icons">add</i>
-              </button>
-              <% end %>
-            </div>
+            
           </div>
         </div>
-        <div class="description text-center">
-          <p>User's description here. </p>
+        <div>
+          <%= form_with model: @user_profile, class: "form", url: "/u/#{current_user.slug}" do |f| %>
+            <%= f.text_field :tagline %>
+            <div class="togglebutton">
+              <label>
+                <input type="checkbox" checked="<%= @user_profile.default_deck_visibility? ? 'checked' : '' %>">
+                  <span class="toggle"></span>
+                  Default Decks are Public
+              </label>
+            </div>
+            <%= f.submit "Update" %>
+          <% end %>
         </div>
         
         

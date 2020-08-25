@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     authenticated do
     
       root to: "users#index", as: :authenticated_root
-      
+      resources :users, :path => 'u', only: [:edit, :update] 
       resources :master_decks, :path => 'decks', only: [:new, :create] do
         resources :branches, :path => 'branch', only: [:new, :create]
       end

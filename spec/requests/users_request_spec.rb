@@ -30,7 +30,7 @@ RSpec.describe "Users", type: :request do
        
        expect(page).to have_current_path('/u/' + user.slug + '/edit')
        
-       fill_in "user_tagline", :with => "I like Liliana"
+       fill_in "user_profile_tagline", :with => "I like Liliana"
        click_button "Update"
        
        expect(page).to have_content 'I like Liliana'
