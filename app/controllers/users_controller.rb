@@ -16,4 +16,10 @@ class UsersController < ApplicationController
         @user_profile = current_user.user_profile
         
     end
+    
+    def update
+       current_user.user_profile.update(tagline: params['user_profile']['tagline'], 
+                        default_deck_visibility: params['user_profile']['default_deck_visibility']) 
+       redirect_to "/u/#{current_user.slug}"
+    end
 end
