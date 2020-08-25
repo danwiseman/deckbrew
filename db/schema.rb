@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_23_134212) do
+ActiveRecord::Schema.define(version: 2020_08_25_142021) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,6 +60,17 @@ ActiveRecord::Schema.define(version: 2020_08_23_134212) do
     t.index ["user_id"], name: "index_master_decks_on_user_id"
   end
 
+  create_table "user_profiles", force: :cascade do |t|
+    t.string "avatar"
+    t.jsonb "socialmedia"
+    t.string "tagline"
+    t.boolean "default_deck_visibility"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id"], name: "index_user_profiles_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -79,4 +90,5 @@ ActiveRecord::Schema.define(version: 2020_08_23_134212) do
   add_foreign_key "branches", "master_decks"
   add_foreign_key "decks", "branches"
   add_foreign_key "master_decks", "users"
+  add_foreign_key "user_profiles", "users"
 end
