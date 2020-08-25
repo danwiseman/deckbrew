@@ -1,8 +1,6 @@
 FactoryBot.define do
-  factory :master_deck do
+  factory :branch do
     name { Faker::Book.title }
-    user
-    
+    master_deck
   end
-
 end

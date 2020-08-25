@@ -14,6 +14,10 @@ gem 'devise'
 
 gem 'font-awesome-rails', '~>4.x'
 
+gem 'friendly_id', '~> 5.4.0'
+
+
+
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
 # Use SCSS for stylesheets
@@ -71,6 +75,12 @@ group :test do
   gem 'selenium-webdriver'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
+end
+
+
+group :test do
+  gem 'shoulda-matchers', '~> 3.0', require: false
+
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

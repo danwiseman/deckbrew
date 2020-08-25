@@ -6,32 +6,36 @@
     <%= csp_meta_tag %>
      <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport" />
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Deck Brew" %>">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/166cb37d41.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Material+Icons" />
-    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= stylesheet_link_tag 'material-kit', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
     
+    <link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.min.css" rel="stylesheet" type="text/css" />
+
+    
+    
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    
+  
+    <%= stylesheet_link_tag 'material-kit', media: 'all', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body class="product-page">
     <%= render 'layouts/navigation' %>
-    <div class="page-header header-filter" data-parallax="true">
+    <div class="page-header header-filter">
       <div class="container">
       <div class="row">
         <div class="col-md-8 ml-auto mr-auto text-center">
-          <h2 class="title">Shopping Page</h2>
+          
         </div>
       </div>
     </div>
     </div>
     <div class="main main-raised main-product">
       <div class="container">
-        <div class="card card-plain">
-        <div class="card-body">
+        
           <%= content_for?(:content) ? yield(:content) : yield %>
-        </div>
-        </div>
+
       </div>
     </div>
     
@@ -39,8 +43,15 @@
     <%= render 'layouts/footer' %>
     <%= javascript_pack_tag 'core/jquery', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'core/popper', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/moment', 'data-turbolinks-track': 'reload' %>
+    
     <%= javascript_pack_tag 'core/bootstrap-material-design', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'plugins/moment', 'data-turbolinks-track': 'reload' %>
+    
+    <%= javascript_pack_tag 'plugins/jasny-bootstrap', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'plugins/bootstrap-datetimepicker', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'plugins/bootstrap-selectpicker', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'plugins/bootstrap-tagsinput', 'data-turbolinks-track': 'reload' %>
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <%= javascript_pack_tag 'material-kit', 'data-turbolinks-track': 'reload' %>
     
     

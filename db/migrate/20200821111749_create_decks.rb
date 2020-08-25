@@ -2,10 +2,10 @@ class CreateDecks < ActiveRecord::Migration[6.0]
   def change
     create_table :decks do |t|
       
-      t.belongs_to :master_deck, null: false, foreign_key: true
+      t.belongs_to :branch, null: false, foreign_key: true
       
-      t.string :branchname
-      t.integer :previousdeck
+      t.integer :version
+      t.integer :previousversion
       
       t.jsonb :cards, null: false, default: '{}'
 

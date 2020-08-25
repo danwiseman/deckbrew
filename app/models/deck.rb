@@ -1,3 +1,5 @@
 class Deck < ApplicationRecord
-    belongs_to :master_deck
+    belongs_to :branch
+    
+    
 end

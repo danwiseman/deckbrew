@@ -2,7 +2,7 @@
   <div class="alert alert-<%= key %>"><%= value %></div>
 <% end %>
 
-<%= form_with model: @master_deck, class: "form" do |f| %>
+<%= form_with model: @master_deck, class: "form", url: "/decks" do |f| %>
   <%= f.text_field :name %>
   <%= f.submit "Create" %>
 <% end %>
