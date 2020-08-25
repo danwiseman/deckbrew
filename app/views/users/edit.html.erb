@@ -23,7 +23,9 @@
               <label>
                 <input type="checkbox" checked="<%= @user_profile.default_deck_visibility? ? 'checked' : '' %>">
                   <span class="toggle"></span>
-                  Default Decks are Public
+                  Default Decks are <%= @user_profile.default_deck_visibility? ? 
+                                    '<span class="text-success">Public</span>' : '<span class="text-warning">Private</span>' 
+                                    %>
               </label>
             </div>
             <%= f.submit "Update" %>
