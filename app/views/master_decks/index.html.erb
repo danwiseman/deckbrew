@@ -8,4 +8,4 @@ product-page
   </ol>
 </nav>
 
-<%= render "all_decks_table" %>
+<%= render partial: "master_decks/all_decks_table", locals: { master_decks: @deck_user.master_decks, user: @deck_user } %>
