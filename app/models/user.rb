@@ -5,8 +5,11 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :validatable
          
   has_many :master_decks
+  has_one :user_profile
   
   attr_writer :login
+  
+  after_create :create_profile
 
   def login
     @login || self.username || self.email
@@ -23,5 +26,11 @@ class User < ApplicationRecord
   
   extend FriendlyId
   friendly_id :username, use: :slugged
+  
+  private 
+  
+  def create_profile
+    self.user_profile = UserProfile.new
+  end
   
 end

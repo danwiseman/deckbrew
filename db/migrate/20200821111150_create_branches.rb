@@ -5,6 +5,7 @@ class CreateBranches < ActiveRecord::Migration[6.0]
       t.integer :branched_from
       t.integer :branched_from_deck
       t.integer :head_deck
+      t.boolean :public
       
       t.belongs_to :master_deck, null: false, foreign_key: true
       

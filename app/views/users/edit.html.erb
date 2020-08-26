@@ -1,0 +1,37 @@
+<div class="profile-content">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 ml-auto mr-auto">
+            <div class="profile">
+              <div class="avatar">
+                <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+              </div>
+              <div class="name">
+                <h3 class="title"><%= current_user.username %></h3>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-dribbble"><i class="fa fa-dribbble"></i></a>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-twitter"><i class="fa fa-twitter"></i></a>
+                <a href="#pablo" class="btn btn-just-icon btn-link btn-pinterest"><i class="fa fa-pinterest"></i></a>
+              </div>
+            </div>
+            
+          </div>
+        </div>
+        <div>
+          <%= form_with model: @user_profile, class: "form", url: "/u/#{current_user.slug}" do |f| %>
+            <%= f.text_field :tagline %>
+            <div class="togglebutton">
+              <label>
+                <%= f.check_box :default_deck_visibility %>
+                <span class="toggle"></span>
+                  Default Decks are <%= @user_profile.default_deck_visibility? ? 
+                                    '<span class="text-success">Public</span>' : '<span class="text-warning">Private</span>' 
+                                    %>
+              </label>
+            </div>
+            <%= f.submit "Update" %>
+          <% end %>
+        </div>
+        
+        
+      </div>
+</div>
