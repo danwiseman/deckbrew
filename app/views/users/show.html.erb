@@ -1,10 +1,14 @@
+<% content_for :body_style do %>
+profile-page
+<% end %>
+
 <div class="profile-content">
       <div class="container">
         <div class="row">
           <div class="col-md-6 ml-auto mr-auto">
             <div class="profile">
               <div class="avatar">
-                <img src="../assets/img/faces/christian.jpg" alt="Circle Image" class="img-raised rounded-circle img-fluid">
+                <img src="https://c1.scryfall.com/file/scryfall-cards/art_crop/front/b/0/b006b169-295d-4ead-8e8e-29a9c3246025.jpg?1562363463" alt="Circle Image" class="img-raised rounded-circle img-fluid">
               </div>
               <div class="name">
                 <h3 class="title"><%= @profile_user.username %></h3>
@@ -28,6 +32,20 @@
         </div>
         <div class="description text-center">
           <p><%= prettyMtgText current_user.user_profile.tagline %></p>
+        </div>
+        <div class="row">
+          <div class="col-md-7 ml-auto mr-auto ">
+            <h3 class="title">Decks</h3>
+          <%= render "master_decks/all_decks_table" %>
+          </div>
+          <div class="col-md-2 mr-auto ml-auto stats">
+                <h4 class="title">Stats</h4>
+                <ul class="list-unstyled">
+                  <li>Favorite Commander: ...</li>
+                  <li>Most used card: ...</li>
+                  <li><%= prettyMtgText "{W} and {U} most played" %></li>
+                </ul>
+          </div>
         </div>
         
         

@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
     t.integer "branched_from"
     t.integer "branched_from_deck"
     t.integer "head_deck"
+    t.boolean "public"
     t.bigint "master_deck_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -53,6 +54,8 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
     t.string "name"
     t.bigint "user_id"
     t.string "type"
+    t.boolean "public"
+    t.string "description"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
