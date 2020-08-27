@@ -8,5 +8,15 @@ product-page
 
 <%= form_with model: @master_deck, class: "form", url: "/decks" do |f| %>
   <%= f.text_field :name %>
+  <div class="togglebutton">
+    <label>
+      <%= f.check_box :is_public, checked: current_user.user_profile.default_deck_visibility? %>
+      <span class="toggle"></span>
+        <%= current_user.user_profile.default_deck_visibility? ? 
+                          tag.span("public", class: "text_success") : tag.span("private", class: "text_warning")
+                          %>
+    </label>
+  </div>
+  <%= f.text_area :description %>
   <%= f.submit "Create" %>
 <% end %>
