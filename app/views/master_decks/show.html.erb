@@ -67,14 +67,8 @@ product-page
       </li>
     </ul>
   </div>
-  <div class="card-body">
-    <div class="row">
-      <img src="https://c1.scryfall.com/file/scryfall-cards/normal/front/9/f/9f25e1cf-eeb4-458d-8fb2-b3a2f86bdd54.jpg?1562033824" />
-      
-      
-    </div>
-    
-  </div>
+  <!-- fix the branch show to show the correct branch, or should it only show master? -->
+  <%= render partial: "branches/detail", locals: { master_deck: @master_deck, branch: @master_deck.branches.friendly.find("master") } %>
 </div>
 
 </div> 
