@@ -52,7 +52,7 @@ product-page
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> master</a>
         <div class="dropdown-menu">
           <% for branch in @master_deck.branches  %>
-            <a class="dropdown-item" href="#"><%= branch.name %></a>
+            <a class="dropdown-item" href="/u/<%= @master_deck.user.slug %>/decks/<%= @master_deck.slug %>/branch/<%= branch.slug %>"><%= branch.name %></a>
           <% end %>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="#0">Create a new branch</a>

@@ -18,15 +18,7 @@
             <td><%= prettyMtgText("{W}{B}") %></td>
             <td>$$$$</td>
             <td class="td-actions text-right">
-                <button type="button" rel="tooltip" class="btn btn-info">
-                    <i class="fa fa-copy"></i>
-                </button>
-                <button type="button" rel="tooltip" class="btn btn-success">
-                    <i class="fa fa-heart"></i>
-                </button>
-                <button type="button" rel="tooltip" class="btn btn-danger">
-                    <i class="fa fa-share-alt"></i>
-                </button>
+                <%= render partial: "master_decks/table_actions", locals: { master_deck: master_deck, deck_user: user } %>
             </td>
         </tr>
         <% end %>
