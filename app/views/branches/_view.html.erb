@@ -1,0 +1,25 @@
+<div class="card text-center">
+  <div class="card-header card-header-info">
+    <ul class="nav nav-tabs">
+      <li class="nav-item nav-item-dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> master</a>
+        <div class="dropdown-menu">
+          <% for branch in master_deck.branches  %>
+            <a class="dropdown-item" href="/u/<%= master_deck.user.slug %>/decks/<%= master_deck.slug %>/branch/<%= branch.slug %>"><%= branch.name %></a>
+          <% end %>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="#0">Create a new branch</a>
+        </div>
+        
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#0">Edit This Deck</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#0">Fork This Deck</a>
+      </li>
+    </ul>
+  </div>
+  <!-- fix the branch show to show the correct branch, or should it only show master? -->
+  <%= render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch } %>
+</div>
