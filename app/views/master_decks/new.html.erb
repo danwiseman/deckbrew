@@ -13,7 +13,8 @@ product-page
 </div>
 <div class="form-group">
   <%= f.label "Deck Type:", for: :type %>
-  <%= f.select :type, options_for_select([["Commander", "commander"], ["Modern", "modern"]]), {}, {:class => 'form-control selectpicker'} %>
+  <%= f.select :type, options_for_select([["Commander", "commander"], ["Modern", "modern"]]), 
+              {}, {:class => 'form-control selectpicker', :data => { :style => 'btn btn-link' }} %>
   
   
 </div>
@@ -22,9 +23,8 @@ product-page
     <label>
       <%= f.check_box :is_public, checked: current_user.user_profile.default_deck_visibility? %>
       <span class="toggle"></span>
-        <%= current_user.user_profile.default_deck_visibility? ? 
-                          tag.span("Public Deck", class: "text-success") : tag.span("Private Deck", class: "text-warning")
-                          %>
+        <%= tag.span("Public Deck", class: "text-success label-on") %>
+        <%= tag.span("Private Deck", class: "text-warning label-off") %>
     </label>
   </div>
 </div>
@@ -39,3 +39,4 @@ product-page
   <%= f.submit "Create" %>
 </div>
 <% end %>
+
