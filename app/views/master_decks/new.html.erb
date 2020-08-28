@@ -13,10 +13,9 @@ product-page
 </div>
 <div class="form-group">
   <%= f.label "Deck Type:", for: :type %>
+  <!-- TODO: add all the different deck types -->
   <%= f.select :type, options_for_select([["Commander", "commander"], ["Modern", "modern"]]), 
               {}, {:class => 'form-control selectpicker', :data => { :style => 'btn btn-link' }} %>
-  
-  
 </div>
 <div class="form-group">
   <div class="togglebutton">
@@ -31,6 +30,7 @@ product-page
 <div class="form-group">
   <%= f.label "Deck Description:", for: :description %>
   <%= f.text_area :description, class: "form-control" %>
+  <!-- TODO: add link to help article about this -->
   <p><small class="text-muted">Supports Markdown and MTG tags</small></p>
 
 
