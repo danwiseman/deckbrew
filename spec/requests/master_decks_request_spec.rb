@@ -35,24 +35,20 @@ RSpec.describe "MasterDecks", type: :request do
        click_button "Log in"
        
        master_deck = FactoryBot.create(:master_deck)
-       branch = FactoryBot.create(:branch)
+       #branch = FactoryBot.create(:branch)
        visit "/decks/new"
        fill_in "name", :with => master_deck.name
        click_button "Create"
     
        
        visit "/decks/#{master_deck.slug}/branch/new"
-       #expect(response).to render_template("branches/new")
-       
+
        # page works, but this doesn't
        
-       #fill_in "name", :with => "new branch"
-       #select branch.name, :from => "branched_from[branched_from_id]"
-       #click_button "Create"
+       fill_in "name", :with => "new branch"
+       click_button "Create"
        
-       #post "/decks/#{master_deck.slug}/branch", :params => { :name => "new branch" } 
-       #expect(response).to redirect_to("/u/#{user.slug}/decks/#{master_deck.slug}/branch/new-branch")
-       #follow_redirect!
+       expect(page).to have_text("new branch") 
        
         
     end
