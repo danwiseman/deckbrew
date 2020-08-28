@@ -2,6 +2,8 @@
 login-page
 <% end %>
 
+<div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="card card-login card-hidden">
     <div class="card-header card-header-primary text-center">
@@ -51,3 +53,5 @@ login-page
     </div>
   </div>          
 <% end %>
+
+</div>
