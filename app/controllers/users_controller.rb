@@ -10,8 +10,7 @@ class UsersController < ApplicationController
     
     def show
         @profile_user = User.friendly.find(params[:id])
-        @master_decks = @profile_user.master_decks
-        @deck_user = @profile_user
+        
     end
     
     def edit

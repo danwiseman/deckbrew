@@ -23,9 +23,8 @@
               <label>
                 <%= f.check_box :default_deck_visibility %>
                 <span class="toggle"></span>
-                  Default Decks are <%= @user_profile.default_deck_visibility? ? 
-                                    '<span class="text-success">Public</span>' : '<span class="text-warning">Private</span>' 
-                                    %>
+                  <%= tag.span("Decks default to Public", class: "text-success label-on") %>
+                  <%= tag.span("Decks default to private", class: "text-warning label-off") %>
               </label>
             </div>
             <%= f.submit "Update" %>

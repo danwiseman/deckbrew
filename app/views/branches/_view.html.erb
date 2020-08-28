@@ -1,0 +1,28 @@
+<div class="card text-center">
+  <div class="card-header card-header-info">
+    <ul class="nav nav-tabs">
+      <li class="nav-item nav-item-dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
+        <div class="dropdown-menu">
+          <% for branch in master_deck.branches  %>
+            <a class="dropdown-item" href="/u/<%= master_deck.user.slug %>/decks/<%= master_deck.slug %>/branch/<%= branch.slug %>"><%= branch.name %></a>
+          <% end %>
+          <% if master_deck.user == current_user %>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" href="/decks/<%= master_deck.slug %>/branch/new">Create a new branch</a>
+          <% end %>
+        </div>
+        
+      </li>
+      <% if master_deck.user == current_user %>
+      <li class="nav-item">
+        <a class="nav-link" href="/decks/<%= master_deck.slug %>/edit">Edit This Deck</a>
+      </li>
+      <% end %>
+      <li class="nav-item">
+        <a class="nav-link" href="#0">Fork This Deck</a>
+      </li>
+    </ul>
+  </div>
+  <%= render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch } %>
+</div>

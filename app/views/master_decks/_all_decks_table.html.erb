@@ -10,23 +10,15 @@
         </tr>
     </thead>
     <tbody>
-      <% for master_deck in @master_decks  %>
+      <% for master_deck in master_decks  %>
         <tr>
             
-            <td><%= link_to master_deck.name, "/u/#{@deck_user.slug}/decks/#{master_deck.slug}" %></td>
+            <td><%= render partial: "master_decks/deck_link", locals: { master_deck: master_deck, deck_user: user } %></td>
             <td>commander</td>
             <td><%= prettyMtgText("{W}{B}") %></td>
             <td>$$$$</td>
             <td class="td-actions text-right">
-                <button type="button" rel="tooltip" class="btn btn-info">
-                    <i class="fa fa-copy"></i>
-                </button>
-                <button type="button" rel="tooltip" class="btn btn-success">
-                    <i class="fa fa-heart"></i>
-                </button>
-                <button type="button" rel="tooltip" class="btn btn-danger">
-                    <i class="fa fa-share-alt"></i>
-                </button>
+                <%= render partial: "master_decks/table_actions", locals: { master_deck: master_deck, deck_user: user } %>
             </td>
         </tr>
         <% end %>

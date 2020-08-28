@@ -31,12 +31,12 @@ profile-page
           </div>
         </div>
         <div class="description text-center">
-          <p><%= prettyMtgText current_user.user_profile.tagline %></p>
+          <p><%= prettyMtgText @profile_user.user_profile.tagline %></p>
         </div>
         <div class="row">
           <div class="col-md-7 ml-auto mr-auto ">
             <h3 class="title">Decks</h3>
-          <%= render "master_decks/all_decks_table" %>
+          <%= render partial: "master_decks/all_decks_table", locals: { master_decks: @profile_user.master_decks, user: @profile_user } %>
           </div>
           <div class="col-md-2 mr-auto ml-auto stats">
                 <h4 class="title">Stats</h4>

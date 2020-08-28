@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
     before_action :authenticate_user!, only: [:new, :create]
-    before_action :set_master_deck, only: [:new, :create]
+    before_action :set_master_deck, only: [:new, :create, :show]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -10,7 +10,7 @@ class BranchesController < ApplicationController
     
     
     def create
-        puts params
+        
         if(@master_deck.branches.where(:name => params['name']).present?) 
            # branch already exists fail.
            flash[:warning] = 'A branch for this deck with that name already exists.'
@@ -35,7 +35,7 @@ class BranchesController < ApplicationController
     end
     
     def show 
-        
+        @branch = @master_deck.branches.friendly.find(params['id'])
         
     end
     
