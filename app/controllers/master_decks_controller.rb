@@ -33,7 +33,7 @@ class MasterDecksController < ApplicationController
            flash[:warning] = 'Deck with that name already exists.'
            render "new"
         else
-           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :type => params['type'],
+           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :deck_type => params['deck_type'],
                                         :description => params['description'], :is_public => params['is_public']) 
            if @master_deck.save 
                # create an empty master branch
