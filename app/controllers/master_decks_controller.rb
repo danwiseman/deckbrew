@@ -6,24 +6,29 @@ class MasterDecksController < ApplicationController
     
     
     def index
-        puts params
+
         if params.has_key?(:user_id)
             @deck_user = User.friendly.find(params[:user_id])
         else
            @deck_user = current_user 
         end
         @master_decks = MasterDeck.where(:user => @deck_user)
+        
+        render layout: "dashboard"
     end
     
     
     def show
+        
        @master_deck = MasterDeck.friendly.find(params[:id]) 
+       
+       render layout: "dashboard"
         
     end
 
     def new
         
-        
+        render layout: "dashboard"
     end
 
     def create
@@ -48,6 +53,7 @@ class MasterDecksController < ApplicationController
               render "new"
            end
         end
+        
         
     end
     
