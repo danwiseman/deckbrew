@@ -34,6 +34,12 @@
                     <span class="sidebar-normal"> Edit Profile </span>
                   </a>
                 </li>
+                <li class="nav-item">
+                  <%= link_to  destroy_user_session_path, method: :delete, class: "nav-link" do %>
+                    <span class="sidebar-mini"><i class="fad fa-sign-out-alt"></i></span>
+                    <span class="sidebar-normal"> Log Out </span>
+                  <% end %>
+                </li>
               </ul>
             </div>
           </div>

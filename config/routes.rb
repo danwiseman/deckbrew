@@ -9,6 +9,9 @@ Rails.application.routes.draw do
       
     end
   
+    devise_scope :user do
+        get '/accounts/sign_out', to: 'devise/sessions#destroy'
+      end
   
     authenticated do
     
@@ -17,6 +20,8 @@ Rails.application.routes.draw do
       resources :master_decks, :path => 'decks', only: [:new, :create] do
         resources :branches, :path => 'branch', only: [:new, :create]
       end
+      
+      
       
     end
       
