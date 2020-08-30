@@ -59,6 +59,9 @@
               </p>
             </a>
             <div class="collapse" id="pagesExamples">
+              <% if user_signed_in? %>
+              <%= render partial: "master_decks/most_recent_navlist", locals: { deck_user: current_user } %>
+              <% end %>
               <ul class="nav">
                 <li class="nav-item ">
                   <a class="nav-link" href="/decks/new">
