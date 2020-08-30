@@ -1,6 +1,7 @@
 class UserProfile < ApplicationRecord
     belongs_to :user
     
+    store_accessor :socialmedia, :twitter, :facebook, :github
     
     after_initialize :init
 

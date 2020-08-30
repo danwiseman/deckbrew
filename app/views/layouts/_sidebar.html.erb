@@ -1,0 +1,83 @@
+    <div class="sidebar" data-color="rose" data-background-color="azure" data-image="../assets/img/sidebar-1.jpg">
+
+      <div class="logo"><a href="/" class="simple-text logo-mini">
+          <i class="fad fa-coffee"></i>
+        </a>
+        <a href="/" class="simple-text logo-normal">
+          Deck Brew
+        </a></div>   
+   
+      <div class="sidebar-wrapper">
+        <% if user_signed_in? %>
+        <div class="user">
+          <div class="photo">
+            <img src="../assets/img/faces/avatar.jpg" />
+          </div>
+          <div class="user-info">
+            <a data-toggle="collapse" href="#collapseExample" class="username">
+              <span>
+                <%= current_user.username %>
+                <b class="caret"></b>
+              </span>
+            </a>
+            <div class="collapse" id="collapseExample">
+              <ul class="nav">
+                <li class="nav-item">
+                  <a class="nav-link" href="/u/<%= current_user.slug %>">
+                    <span class="sidebar-mini"><i class="fad fa-user"></i></span>
+                    <span class="sidebar-normal"> My Profile </span>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/u/<%= current_user.slug %>/edit">
+                    <span class="sidebar-mini"><i class="fad fa-user-edit"></i></span>
+                    <span class="sidebar-normal"> Edit Profile </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <% else %>
+        <div class="user">
+          <p class="text-center">
+          <a href="/accounts/sign_in" class="btn btn-warning btn-round">
+            Sign In
+          </a>
+          <a href="/accounts/sign_up" class="btn btn-info btn-round">
+            Sign Up
+          </a>
+          </p>
+        </div>
+        <% end %>
+        <ul class="nav">
+          <li class="nav-item ">
+            <a class="nav-link" data-toggle="collapse" href="#pagesExamples">
+              <i class="fad fa-layer-group"></i>
+              <p> Decks
+                <b class="caret"></b>
+              </p>
+            </a>
+            <div class="collapse" id="pagesExamples">
+              <% if user_signed_in? %>
+              <%= render partial: "master_decks/most_recent_navlist", locals: { deck_user: current_user } %>
+              <% end %>
+              <ul class="nav">
+                <li class="nav-item ">
+                  <a class="nav-link" href="/decks/new">
+                    <span class="sidebar-mini"> <i class="fad fa-layer-plus"></i> </span>
+                    <span class="sidebar-normal"> Create a Deck </span>
+                  </a>
+                </li>
+                <li class="nav-item ">
+                  <a class="nav-link" href="/decks/search">
+                    <span class="sidebar-mini"> <i class="fad fa-search"></i> </span>
+                    <span class="sidebar-normal"> Search for a Deck </span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </li>
+          
+      </div>
+    </div>
