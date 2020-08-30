@@ -11,11 +11,12 @@ class UsersController < ApplicationController
     def show
         @profile_user = User.friendly.find(params[:id])
         
+        render layout: "dashboard"
     end
     
     def edit
         @user_profile = current_user.user_profile
-        
+        render layout: "dashboard"
     end
     
     def update
