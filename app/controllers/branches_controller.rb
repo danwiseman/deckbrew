@@ -20,16 +20,14 @@ class BranchesController < ApplicationController
                                 :branched_from => params['branched_from']['branched_from_id'], 
                                 :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
            if @branch.save 
-               # create the branch's deck
-               puts Branch.find(params['branched_from']['branched_from_id']).head_deck
                @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
-               
                @branch.save!
                
                flash[:success] = 'Branch was successfully created.'
-               redirect_to '/u/' + current_user.slug + '/decks/' +  @master_deck.slug + '/branch/' + @branch.slug
+               redirect_to BranchesHelper.PathToBranch(@branch)
            else
               # error in saving
+              flash[:warning] = "An error occurred. Could not save the branch"
               render "new"
            end
         end
@@ -45,5 +43,6 @@ class BranchesController < ApplicationController
     def set_master_deck
         @master_deck = MasterDeck.friendly.find(params[:master_deck_id])
     end
+    
     
 end
