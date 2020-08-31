@@ -22,15 +22,15 @@
 
   <body class="<%= yield(:body_style) %>">
     <%= render 'layouts/navigation' %>
-    <div class="page-header header-filter">
- 
+    <div class="page-header header-filter clear-filter">
+      <%= yield(:header_content) %>
     </div>
     </div>
-    <div class="main main-raised main-product">
-      <div class="container">
-        
+    <div class="main main-raised">
+      <div class="section">
+        <div class="container">
           <%= content_for?(:content) ? yield(:content) : yield %>
-
+        </div>
       </div>
     </div>
     
