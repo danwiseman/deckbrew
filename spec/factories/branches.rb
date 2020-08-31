@@ -2,6 +2,9 @@ FactoryBot.define do
   factory :branch do
     name { "master" }
     slug { "master" }
+    branched_from { 0 }
+    branched_from_deck { 0 }
+    
      
     master_deck
     

@@ -10,7 +10,7 @@ class BranchesController < ApplicationController
     
     
     def create
-        puts params
+        
         if(@master_deck.branches.where(:name => params['name']).present?) 
            # branch already exists fail.
            flash[:warning] = 'A branch for this deck with that name already exists.'
