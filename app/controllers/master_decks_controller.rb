@@ -44,6 +44,10 @@ class MasterDecksController < ApplicationController
                # create an empty master branch
                
                @master_deck.branches.create(:name => 'master', :is_public => params['is_public']) 
+               mbr = @master_deck.branches.friendly.find("master")
+               mbr.decks.create(:version => 0, :previousversion => 0)
+               #mbr.head_deck = nd.id
+               mbr.save!
                
                @master_deck.save!
                

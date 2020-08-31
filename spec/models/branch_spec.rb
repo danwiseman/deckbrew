@@ -20,7 +20,6 @@ RSpec.describe Branch, type: :model do
         expect(br).to_not be_valid
     end
 
-    it "is not valid without a head_deck"
     it "is not valid without a branched_from"
     it "is not valid without a branched_from_deck"
   

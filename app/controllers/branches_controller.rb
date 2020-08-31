@@ -10,7 +10,7 @@ class BranchesController < ApplicationController
     
     
     def create
-        
+        puts params
         if(@master_deck.branches.where(:name => params['name']).present?) 
            # branch already exists fail.
            flash[:warning] = 'A branch for this deck with that name already exists.'
@@ -18,10 +18,11 @@ class BranchesController < ApplicationController
         else
            @branch = Branch.new(:name => params['name'], :master_deck => @master_deck, 
                                 :branched_from => params['branched_from']['branched_from_id'], 
-                                :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).head_deck) 
+                                :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
            if @branch.save 
                # create the branch's deck
-               @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).head_deck.id) 
+               puts Branch.find(params['branched_from']['branched_from_id']).head_deck
+               @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
                
                @branch.save!
                
