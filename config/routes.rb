@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :users, :path => 'u', only: [:edit, :update] 
       resources :master_decks, :path => 'decks', only: [:new, :create] do
         resources :branches, :path => 'branch', only: [:new, :create]
+        get ":master_deck_id/branch/new/:branched_from_id", to: "branches#new", on: :collection
       end
       
       

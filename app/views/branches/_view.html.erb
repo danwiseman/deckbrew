@@ -9,7 +9,7 @@
           <% end %>
           <% if master_deck.user == current_user %>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/decks/<%= master_deck.slug %>/branch/new">Create a new branch</a>
+            <a class="dropdown-item" href="/decks/<%= master_deck.slug %>/branch/new/<%= branch.slug %>">Create a new branch</a>
           <% end %>
         </div>
         

@@ -5,7 +5,11 @@ class BranchesController < ApplicationController
     
     def new
         @current_branches = @master_deck.branches.all
-        
+        if params.has_key?(:branched_from_id)
+            @branched_from_id = @master_deck.branches.friendly.find(params['branched_from_id']).id
+        else 
+            @branched_from_id = nil
+        end
         render layout: "dashboard"
     end
     
