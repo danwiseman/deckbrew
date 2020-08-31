@@ -6,6 +6,7 @@ class BranchesController < ApplicationController
     def new
         @current_branches = @master_deck.branches.all
         
+        render layout: "dashboard"
     end
     
     
@@ -36,6 +37,7 @@ class BranchesController < ApplicationController
     def show 
         @branch = @master_deck.branches.friendly.find(params['id'])
         
+        render layout: "dashboard"
     end
     
     private
