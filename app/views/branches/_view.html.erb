@@ -5,7 +5,7 @@
         <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
         <div class="dropdown-menu">
           <% for branch in master_deck.branches  %>
-            <a class="dropdown-item" href="/u/<%= master_deck.user.slug %>/decks/<%= master_deck.slug %>/branch/<%= branch.slug %>"><%= branch.name %></a>
+            <a class="dropdown-item" href="<%= BranchesHelper.PathToBranch(branch) %>"><%= branch.name %></a>
           <% end %>
           <% if master_deck.user == current_user %>
             <div class="dropdown-divider"></div>
