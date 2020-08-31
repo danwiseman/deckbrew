@@ -11,17 +11,17 @@ RSpec.describe "MasterDecks", type: :request do
         user = FactoryBot.create(:user)
         sign_in user
         
-        get "/decks/new"
-        expect(response).to render_template(:new)
         
-        master_deck = FactoryBot.create(:master_deck)
-        post "/decks", :params => { :name => master_deck.name }
+        master_deck = FactoryBot.build(:master_deck)
+        visit "/decks/new"
+        
+        fill_in "name", :with => master_deck.name
+        select "Commander", from: 'deck_type'
+        check "is_public"
+        fill_in "description", :with => master_deck.description
+        click_button "Create"
     
-        expect(response).to redirect_to("/u/#{user.slug}/decks/#{master_deck.slug}")
-        follow_redirect!
-    
-        expect(response).to render_template(:show)
-        expect(response.body).to include("Deck was successfully created.")
+        expect(page).to have_text(master_deck.name)
         
     end
     
@@ -35,15 +35,9 @@ RSpec.describe "MasterDecks", type: :request do
        click_button "Log in"
        
        master_deck = FactoryBot.create(:master_deck)
-       #branch = FactoryBot.create(:branch)
-       visit "/decks/new"
-       fill_in "name", :with => master_deck.name
-       click_button "Create"
-    
-       
+
        visit "/decks/#{master_deck.slug}/branch/new"
 
-       # page works, but this doesn't
        
        fill_in "name", :with => "new branch"
        click_button "Create"

@@ -42,6 +42,7 @@ class MasterDecksController < ApplicationController
                                         :description => params['description'], :is_public => params['is_public']) 
            if @master_deck.save 
                # create an empty master branch
+               
                @master_deck.branches.create(:name => 'master', :is_public => params['is_public']) 
                
                @master_deck.save!
