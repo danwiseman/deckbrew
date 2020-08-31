@@ -19,15 +19,8 @@
   
     <%= stylesheet_link_tag 'material-dashboard', media: 'all', 'data-turbolinks-track': 'reload' %>
     
+   
     
-    <script>
-
-    $( window ).on( "load", function() {
-        <% flash.each do |key, value| %>
-            db.showNotification('top', 'right', '<%= key %>', '<%= value %>');
-        <% end %>
-    });
-    </script>
     
   </head>
 
@@ -49,20 +42,34 @@
 
        <%= render 'layouts/footer' %>
      </div>
-     
-    <%= javascript_pack_tag 'core/jquery', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'core/popper', 'data-turbolinks-track': 'reload' %>
+
+    <%= javascript_include_tag 'core/jquery.min' %>
+    <%= javascript_include_tag 'core/popper.min' %>
     
-    <%= javascript_pack_tag 'core/bootstrap-material-design', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/moment', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'core/bootstrap-material-design.min' %>
+    <%= javascript_include_tag 'plugins/moment.min' %>
     
-    <%= javascript_pack_tag 'plugins/jasny-bootstrap', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-datetimepicker', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-selectpicker', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-tagsinput', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'plugins/jasny-bootstrap.min' %>
+    <%= javascript_include_tag 'plugins/bootstrap-datetimepicker' %>
+    <%= javascript_include_tag 'plugins/bootstrap-selectpicker' %>
+    <%= javascript_include_tag 'plugins/bootstrap-notify' %>
+    <%= javascript_include_tag 'plugins/bootstrap-tagsinput' %>
+    <%= javascript_include_tag 'plugins/perfect-scrollbar.jquery.min' %>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <%= javascript_pack_tag 'material-kit', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'material-dashboard' %>
+    <%= javascript_include_tag 'deckbrew-app' %>
     
+     <script>
+
+       
+        $(document).ready(function() {
+          <% flash.each do |key, value| %>
+            deckbrew.showNotification('top', 'right', '<%= key %>', '<%= value %>');
+        <% end %>
+       
+        });
+
+    </script>
     
   </body>
 </html>

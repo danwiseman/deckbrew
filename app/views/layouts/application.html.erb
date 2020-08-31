@@ -23,21 +23,7 @@
   <body class="<%= yield(:body_style) %>">
     <%= render 'layouts/navigation' %>
     <div class="page-header header-filter">
-      <div class="container">
-      <div class="row">
-        <div class="col-md-8 ml-auto mr-auto text-center">
-          
-          <% flash.each do |key, value| %>
-            <div class="alert alert-<%= key %> alert-dismissible fade show" role="alert"><%= value %>
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-            
-            </div>
-          
-          <% end %>
-        </div>
-      </div>
+ 
     </div>
     </div>
     <div class="main main-raised main-product">
@@ -50,19 +36,36 @@
     
     
     <%= render 'layouts/footer' %>
-    <%= javascript_pack_tag 'core/jquery', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'core/popper', 'data-turbolinks-track': 'reload' %>
     
-    <%= javascript_pack_tag 'core/bootstrap-material-design', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/moment', 'data-turbolinks-track': 'reload' %>
+ 
+     
+    <%= javascript_include_tag 'core/jquery.min' %>
+    <%= javascript_include_tag 'core/popper.min' %>
     
-    <%= javascript_pack_tag 'plugins/jasny-bootstrap', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-datetimepicker', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-selectpicker', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_pack_tag 'plugins/bootstrap-tagsinput', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'core/bootstrap-material-design.min' %>
+    <%= javascript_include_tag 'plugins/moment.min' %>
+    
+    <%= javascript_include_tag 'plugins/jasny-bootstrap.min' %>
+    <%= javascript_include_tag 'plugins/bootstrap-datetimepicker' %>
+    <%= javascript_include_tag 'plugins/bootstrap-selectpicker' %>
+    <%= javascript_include_tag 'plugins/bootstrap-notify' %>
+    <%= javascript_include_tag 'plugins/bootstrap-tagsinput' %>
+    <%= javascript_include_tag 'plugins/perfect-scrollbar.jquery.min' %>
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-    <%= javascript_pack_tag 'material-kit', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'material-kit.min' %>
+    <%= javascript_include_tag 'deckbrew-app' %>
     
+     <script>
+
+       
+        $(document).ready(function() {
+          <% flash.each do |key, value| %>
+            deckbrew.showNotification('top', 'right', '<%= key %>', '<%= value %>');
+        <% end %>
+       
+        });
+
+    </script>
     
   </body>
 </html>

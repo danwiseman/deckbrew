@@ -18,33 +18,3 @@ require("channels")
 
 import "bootstrap"
 import "../stylesheets/application"
-
-import { Application } from "stimulus"
-import { definitionsFromContext } from "stimulus/webpack-helpers"
-
-const application = Application.start()
-const context = require.context("../controllers", true, /\.js$/)
-application.load(definitionsFromContext(context))
-
-
-db = {
-    
-    showNotification: function(from, align, type, message) {
-    //type = ['', 'info', 'danger', 'success', 'warning', 'rose', 'primary'];
-
-    //color = Math.floor((Math.random() * 6) + 1);
-
-    $.notify({
-      icon: "add_alert",
-      message: message
-
-    }, {
-      type: type,
-      timer: 3000,
-      placement: {
-        from: from,
-        align: align
-      }
-    });
-  }
-}
