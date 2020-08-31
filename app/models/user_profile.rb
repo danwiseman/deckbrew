@@ -11,4 +11,7 @@ class UserProfile < ApplicationRecord
         
     end
     
+    
+    validates_presence_of :default_deck_visibility
+    
 end

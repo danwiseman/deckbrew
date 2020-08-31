@@ -1,11 +1,9 @@
 FactoryBot.define do
   factory :deck do
-    branchname { 'master' }
-    master_deck
+    branch
+    version { Faker::Number.number(digits: 3) }
+    previousversion { Faker::Number.number(digits: 4) }
+    
   end
   
-  factory :branched_deck do
-    branchname { 'new branch' }
-    master_deck
-  end
 end
