@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
   create_table "master_decks", force: :cascade do |t|
     t.string "name"
     t.bigint "user_id"
-    t.string "type"
+    t.string "deck_type"
     t.boolean "is_public"
     t.string "description"
     t.datetime "created_at", precision: 6, null: false

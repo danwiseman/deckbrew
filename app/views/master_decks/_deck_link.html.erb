@@ -1,5 +1,5 @@
 <%= link_to master_deck.name, "/u/#{deck_user.slug}/decks/#{master_deck.slug}" %> 
-<% if master_deck.public? %>
+<% if master_deck.is_public? %>
     <span class="badge badge-success">Public</span>
 <% else %> 
     <span class="badge badge-default">Private</span>

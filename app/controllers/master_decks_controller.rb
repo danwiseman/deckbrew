@@ -6,24 +6,29 @@ class MasterDecksController < ApplicationController
     
     
     def index
-        puts params
+
         if params.has_key?(:user_id)
             @deck_user = User.friendly.find(params[:user_id])
         else
            @deck_user = current_user 
         end
         @master_decks = MasterDeck.where(:user => @deck_user)
+        
+        render layout: "dashboard"
     end
     
     
     def show
+        
        @master_deck = MasterDeck.friendly.find(params[:id]) 
+       
+       render layout: "dashboard"
         
     end
 
     def new
         
-        
+        render layout: "dashboard"
     end
 
     def create
@@ -33,7 +38,7 @@ class MasterDecksController < ApplicationController
            flash[:warning] = 'Deck with that name already exists.'
            render "new"
         else
-           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :type => params['type'],
+           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :deck_type => params['deck_type'],
                                         :description => params['description'], :is_public => params['is_public']) 
            if @master_deck.save 
                # create an empty master branch
@@ -48,6 +53,7 @@ class MasterDecksController < ApplicationController
               render "new"
            end
         end
+        
         
     end
     
