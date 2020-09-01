@@ -64,7 +64,7 @@ class MasterDecksController < ApplicationController
         
         # create a default master branch that is (currently) not branched from anything.
         # TODO: add a forked from field
-        master_deck.branches.create(:name => 'main', :is_public => is_public, :branched_from => 0, :branched_from_deck => 0)
+        master_deck.branches.create(:name => 'main', :is_public => is_public, history: { 'branched_from': { 'source_deck': 0, 'source_branch': 0 }})
         
         # create a default deck for the new master branch
         master_branch = master_deck.branches.friendly.find("main")
