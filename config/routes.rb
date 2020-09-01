@@ -19,8 +19,9 @@ Rails.application.routes.draw do
       root to: "users#index", as: :authenticated_root
       resources :users, :path => 'u', only: [:edit, :update] 
       resources :master_decks, :path => 'decks', only: [:new, :create] do
-        resources :branches, :path => 'branch', only: [:new, :create]
+        resources :branches, :path => 'branch', only: [:new, :create, :compare]
         get ":master_deck_id/branch/new/:branched_from_id", to: "branches#new", on: :collection
+        get ":master_deck_id/branch/compare/:source_branch", to: "branches#compare", on: :collection
       end
       
       

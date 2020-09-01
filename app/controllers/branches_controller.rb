@@ -44,6 +44,15 @@ class BranchesController < ApplicationController
         render layout: "dashboard"
     end
     
+    def compare
+        if params.has_key?(:source_branch)
+            @source_branch = @master_deck.branches.friendly.find(params['source_branch'])
+        else
+            @source_branch = @master_deck.branches.friendly.find('master')
+        end
+        render layout: "dashboard"
+    end
+    
     private
     
     def set_master_deck
