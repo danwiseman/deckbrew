@@ -3,6 +3,7 @@
     <small>Choose two branches to see what's changed. If you want, you can even merge the changes from one branch to another</small></h4>
     
 </div>
+<%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/merge" do %>
 <div class="row">
     <div class="col-md-6">
         <div class="row">
@@ -33,6 +34,7 @@
         </div>
       
   </div>
+  <% end %>
   <div class="row">
   <div class="card">
       <div class="card-body">

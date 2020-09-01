@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
     before_action :authenticate_user!, only: [:new, :create]
-    before_action :set_master_deck, only: [:new, :create, :show, :compare]
+    before_action :set_master_deck, only: [:new, :create, :show, :compare, :merge]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -53,6 +53,30 @@ class BranchesController < ApplicationController
         end
         @current_branches = @master_deck.branches.all
         render layout: "dashboard"
+    end
+    
+    def merge
+       source_b_id = params['source_branch']['id']
+       dest_b_id = params['destination_branch']['destination_branch_id']
+       
+        unless source_b_id == dest_b_id
+           @merge_base = @master_deck.branches.friendly.find(dest_b_id)
+           @merge_source = @master_deck.branches.friendly.find(source_b_id)
+           
+           @merge_base.decks.new(:version => @merge_base.decks.last.version+1,
+                                :previousversion => @merge_source.head_deck,
+                                :cards => @merge_source.decks.find(@merge_source.head_deck).cards)
+           @merge_base.head_deck = @merge_base.decks.last
+           
+           flash[:success] = 'Branch was merged.'
+           redirect_to BranchesHelper.PathToBranch(@merge_base)
+           
+        else
+            flash[:warning] = 'Both branches cannot be the same to merge.'
+            render "compare"
+        end
+       
+       
     end
     
     private
