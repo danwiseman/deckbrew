@@ -26,6 +26,7 @@ class BranchesController < ApplicationController
                                 :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
            if @branch.save 
                @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
+               @branch.head_deck = @branch.decks.last.id
                @branch.save!
                
                flash[:success] = 'Branch was successfully created.'

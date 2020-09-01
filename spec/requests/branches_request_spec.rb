@@ -92,7 +92,17 @@ RSpec.describe "Branches", type: :request do
         sign_in user
         
         # generate a master deck with lots of branches
-        master_deck = FactoryBot.create(:master_deck)
+        fbmaster_deck = FactoryBot.build(:master_deck)
+        visit "/decks/new"
+        
+        fill_in "name", :with => fbmaster_deck.name
+        select "Commander", from: 'deck_type'
+        check "is_public"
+        fill_in "description", :with => fbmaster_deck.description
+        click_button "Create"
+        
+        master_deck = MasterDeck.where(:name => fbmaster_deck.name, :user => user).last
+        
         visit "/decks/#{master_deck.slug}/branch/new/main"
         fill_in "name", :with => "branch1"
         click_button "Create"
@@ -104,16 +114,16 @@ RSpec.describe "Branches", type: :request do
         click_button "Create"
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"
-        expect(page).to have_text("merge branch3")
         
         # select merge into master
-        expect(page).to have_select 'source_branch', selected: 'branch3'
-        select 'main', from: 'destination_branch'
+        expect(page).to have_select 'source_branch[id]', selected: 'branch3'
+        select 'main', from: 'destination_branch[destination_branch_id]'
         
         # merge
-        click_button "Merge"
+        click_button "Merge These Branches"
         
         # expect master to now have the deck of branch3
+        
         expect(master_deck.branches.friendly.find("main").head_deck).to eq(master_deck.branches.friendly.find("branch3").head_deck)
         
     end

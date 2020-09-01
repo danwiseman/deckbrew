@@ -69,6 +69,7 @@ class MasterDecksController < ApplicationController
         # create a default deck for the new master branch
         master_branch = master_deck.branches.friendly.find("main")
         master_branch.decks.create(:version => 0, :previousversion => 0)
+        master_branch.head_deck = master_branch.decks.last.id
         
         master_branch.save!
         master_deck.save!
