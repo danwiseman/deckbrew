@@ -114,7 +114,7 @@ RSpec.describe "Branches", type: :request do
         click_button "Merge"
         
         # expect master to now have the deck of branch3
-        expect(master_deck.branches.friendly.find("main").head_deck).to eq(master_deck.branches.friendly.find("main").head_deck)
+        expect(master_deck.branches.friendly.find("main").head_deck).to eq(master_deck.branches.friendly.find("branch3").head_deck)
         
     end
 

@@ -1,0 +1,43 @@
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col">
+            <%= select("destination_branch", "destination_branch_id", 
+                options_from_collection_for_select(@current_branches, 'id', 'name'),
+                      { include_blank: false },
+                        :class => "form-control selectpicker destination-select", :data_style => "btn btn-link" ) %>
+            </div>
+            <div class="col text-center merge-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="col">
+            <%= select("source_branch", "id", 
+                options_from_collection_for_select(@current_branches, 'id', 'name', @source_branch.id),
+                      { include_blank: false },
+                        :class => "form-control selectpicker source-select", :data_style => "btn btn-link" ) %>
+            </div>
+        </div>
+    </div>
+  </div>
+  
+  <style>
+    .merge-arrow {
+        padding-top: 2%;
+        margin-left: -20%;
+        margin-right: -20%;
+        
+    }
+  
+    div.destination-select .filter-option-inner-inner::before {
+        content: "destination: ";
+        color: #eee;
+    }
+    
+    div.source-select .filter-option-inner-inner::before {
+        content: "source: ";
+        color: #eee;
+    }
+      
+  </style>
+  

@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
     before_action :authenticate_user!, only: [:new, :create]
-    before_action :set_master_deck, only: [:new, :create, :show]
+    before_action :set_master_deck, only: [:new, :create, :show, :compare]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -50,6 +50,7 @@ class BranchesController < ApplicationController
         else
             @source_branch = @master_deck.branches.friendly.find('main')
         end
+        @current_branches = @master_deck.branches.all
         render layout: "dashboard"
     end
     
