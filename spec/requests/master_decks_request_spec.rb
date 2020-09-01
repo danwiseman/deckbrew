@@ -31,10 +31,10 @@ RSpec.describe "MasterDecks", type: :request do
         
         # generate a master deck with branches
         master_deck = FactoryBot.create(:master_deck)
-        visit "/decks/#{master_deck.slug}/branch/new/master"
+        visit "/decks/#{master_deck.slug}/branch/new/main"
         fill_in "name", :with => "branch1"
         click_button "Create"
-        visit "/decks/#{master_deck.slug}/branch/new/master"
+        visit "/decks/#{master_deck.slug}/branch/new/main"
         fill_in "name", :with => "branch2"
         click_button "Create"
         visit "/decks/#{master_deck.slug}/branch/new/branch1"

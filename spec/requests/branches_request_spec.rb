@@ -93,10 +93,10 @@ RSpec.describe "Branches", type: :request do
         
         # generate a master deck with lots of branches
         master_deck = FactoryBot.create(:master_deck)
-        visit "/decks/#{master_deck.slug}/branch/new/master"
+        visit "/decks/#{master_deck.slug}/branch/new/main"
         fill_in "name", :with => "branch1"
         click_button "Create"
-        visit "/decks/#{master_deck.slug}/branch/new/master"
+        visit "/decks/#{master_deck.slug}/branch/new/main"
         fill_in "name", :with => "branch2"
         click_button "Create"
         visit "/decks/#{master_deck.slug}/branch/new/branch1"
@@ -108,13 +108,13 @@ RSpec.describe "Branches", type: :request do
         
         # select merge into master
         expect(page).to have_select 'source_branch', selected: 'branch3'
-        select 'master', from: 'destination_branch'
+        select 'main', from: 'destination_branch'
         
         # merge
         click_button "Merge"
         
         # expect master to now have the deck of branch3
-        expect(master_deck.branches.friendly.find("master").head_deck).to eq(master_deck.branches.friendly.find("master").head_deck)
+        expect(master_deck.branches.friendly.find("main").head_deck).to eq(master_deck.branches.friendly.find("main").head_deck)
         
     end
 

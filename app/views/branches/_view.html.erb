@@ -14,7 +14,7 @@
         </div>
         
       </li>
-      <% if branch.name != "master" %>
+      <% if branch.name != "main" %>
       <li class="nav-item">
           <span class="nav-link">
               branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from)) %>" class="badge badge-primary">
