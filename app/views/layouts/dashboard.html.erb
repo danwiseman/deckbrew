@@ -58,6 +58,7 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
     <%= javascript_include_tag 'material-dashboard' %>
     <%= javascript_include_tag 'deckbrew-app' %>
+    <%= javascript_include_tag 'svgdraw' %>
     
      <script>
 
@@ -68,6 +69,8 @@
         <% end %>
        
         });
+        
+        <%= yield(:page_script) %>
 
     </script>
     

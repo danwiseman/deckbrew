@@ -25,7 +25,28 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
-    
+    it "shows the branch history of the master_deck" do
+        user = FactoryBot.create(:user)
+        sign_in user
+        
+        # generate a master deck with branches
+        master_deck = FactoryBot.create(:master_deck)
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch1"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch2"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/branch1"
+        fill_in "name", :with => "branch3"
+        click_button "Create"
+        
+        
+        visit "/u/#{user.slug}/decks/#{master_deck.slug}/tree"
+        
+        expect(page).to have_text("branch2")
+        
+    end
     
     
 

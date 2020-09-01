@@ -21,6 +21,12 @@ class MasterDecksController < ApplicationController
        
        render layout: "dashboard"
     end
+    
+    def tree
+        @master_deck = MasterDeck.friendly.find(params[:id]) 
+       
+        render layout: "dashboard"
+    end
 
     def new
         render layout: "dashboard"

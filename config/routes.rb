@@ -4,6 +4,7 @@ Rails.application.routes.draw do
     
     resources :users, :path => 'u', only: [:index, :show] do
       resources :master_decks, :path => 'decks', only: [:index, :show] do
+        get ":id/tree", to: "master_decks#tree", on: :collection
         resources :branches, :path => 'branch', only: [:index, :show]
       end
       
