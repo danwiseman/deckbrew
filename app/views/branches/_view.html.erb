@@ -2,18 +2,29 @@
   <div class="card-header card-header-info">
     <ul class="nav nav-tabs">
       <li class="nav-item nav-item-dropdown">
-        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
         <div class="dropdown-menu">
-          <% for branch in master_deck.branches  %>
-            <a class="dropdown-item" href="<%= BranchesHelper.PathToBranch(branch) %>"><%= branch.name %></a>
+          <% for branch_li in master_deck.branches  %>
+            <a class="dropdown-item" href="<%= BranchesHelper.PathToBranch(branch_li) %>"><%= branch_li.name %></a>
           <% end %>
           <% if master_deck.user == current_user %>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/decks/<%= master_deck.slug %>/branch/new">Create a new branch</a>
+            <a class="dropdown-item" href="/decks/<%= master_deck.slug %>/branch/new/<%= branch.slug %>">Create a new branch</a>
           <% end %>
         </div>
         
       </li>
+      <% if branch.name != "master" %>
+      <li class="nav-item">
+          <span class="nav-link">
+              branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from)) %>" class="badge badge-primary">
+                <i class="fad fa-code-branch"></i>
+                    <%= Branch.find(branch.branched_from).name %>
+                </a>
+              
+            </span>
+      </li>
+      <% end %>
       <% if master_deck.user == current_user %>
       <li class="nav-item">
         <a class="nav-link" href="/decks/<%= master_deck.slug %>/edit">Edit This Deck</a>

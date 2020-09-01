@@ -25,25 +25,26 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
-    it "creates a new branch of the deck and redirects to the new branch" do
-       
-       user = FactoryBot.create(:user)
-       #sign_in user
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
-       
-       master_deck = FactoryBot.create(:master_deck)
-
-       visit "/decks/#{master_deck.slug}/branch/new"
-
-       
-       fill_in "name", :with => "new branch"
-       click_button "Create"
-       
-       expect(page).to have_text("new branch") 
-       
+    it "shows the branch history of the master_deck" do
+        user = FactoryBot.create(:user)
+        sign_in user
+        
+        # generate a master deck with branches
+        master_deck = FactoryBot.create(:master_deck)
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch1"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch2"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/branch1"
+        fill_in "name", :with => "branch3"
+        click_button "Create"
+        
+        
+        visit "/u/#{user.slug}/decks/#{master_deck.slug}/tree"
+        
+        expect(page).to have_text("branch2")
         
     end
     

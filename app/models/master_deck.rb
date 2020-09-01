@@ -1,6 +1,7 @@
 class MasterDeck < ApplicationRecord
     belongs_to :user
     has_many :branches
+    has_one :master_deck_history
     
     extend FriendlyId
     friendly_id :name, :use => :scoped, :scope => :user
