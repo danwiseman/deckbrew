@@ -57,7 +57,7 @@ RSpec.describe "Branches", type: :request do
     end
     
     it "uses the selected branch when the user wants to branch from it" do
-             user = FactoryBot.create(:user)
+       user = FactoryBot.create(:user)
        #sign_in user
        visit "/accounts/sign_in"
        fill_in "user_login", :with => user.username
@@ -85,7 +85,36 @@ RSpec.describe "Branches", type: :request do
        
        expect(page).to have_text("branched from new branch")
       
-       
+    end
+    
+    it "correctly shows deck differences and merges a branch into another branch" do
+        user = FactoryBot.create(:user)
+        sign_in user
+        
+        # generate a master deck with lots of branches
+        master_deck = FactoryBot.create(:master_deck)
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch1"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/master"
+        fill_in "name", :with => "branch2"
+        click_button "Create"
+        visit "/decks/#{master_deck.slug}/branch/new/branch1"
+        fill_in "name", :with => "branch3"
+        click_button "Create"
+        
+        visit "/decks/#{master_deck.slug}/branch/compare/branch3"
+        expect(page).to have_text("merge branch3")
+        
+        # select merge into master
+        expect(page).to have_select 'source_branch', selected: 'branch3'
+        select 'master', from: 'destination_branch'
+        
+        # merge
+        click_button "Merge"
+        
+        # expect master to now have the deck of branch3
+        expect(master_deck.branches.friendly.find("master").head_deck).to eq(master_deck.branches.friendly.find("master").head_deck)
         
     end
 
