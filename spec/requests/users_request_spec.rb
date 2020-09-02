@@ -27,12 +27,12 @@ RSpec.describe "Users", type: :request do
        expect(page).to have_current_path('/u/' + user.slug + '/edit')
        
        fill_in "user_profile_tagline", :with => "I like Liliana"
-       fill_in "user_profile_twitter", :with => "mtgrocks"
+       fill_in "user_profile_twitter", :with => Faker::Twitter.screen_name
        click_button "Update"
        
        expect(page).to have_content 'I like Liliana'
        expect(page).to have_selector '.fa-twitter'
-       expect(page).to_not have_current_path '.fa-facebook'
+       expect(page).to_not have_selector '.fa-facebook'
         
     end
 
