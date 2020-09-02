@@ -17,7 +17,12 @@ class MasterDecksController < ApplicationController
     
     
     def show
-       @master_deck = MasterDeck.friendly.find(params[:id]) 
+        @master_deck = MasterDeck.friendly.find(params[:id]) 
+        if params.has_key?(:branch_id)
+           @selected_branch = @master_deck.branches.friendly.find(params[:branch_id])
+        else
+            @selected_branch = @master_deck.branches.friendly.find('main')
+        end
        
        render layout: "dashboard"
     end
