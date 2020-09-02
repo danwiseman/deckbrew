@@ -1,14 +1,28 @@
 <nav class="navbar navbar-expand-lg bg-primary">
-    <div class="container">
-        
-
+    
+        <div class="navbar-wrapper">
+            <div class="navbar-minimize">
+              <button id="minimizeSidebar" class="btn btn-just-icon btn-white btn-fab btn-round">
+                <i class="material-icons text_align-center visible-on-sidebar-regular">more_vert</i>
+                <i class="material-icons design_bullet-list-67 visible-on-sidebar-mini">view_list</i>
+              </button>
+            </div>
+            
+          </div>
+          
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
                 <li class="nav-item active">
-                    <a href="#pablo" class="nav-link">link</a>
+                    <a href="/decks/new" class="nav-link">Deck Builder</a>
                 </li>
                 <li class="nav-item">
-                    <a href="#pablo" class="nav-link">link</a>
+                    <a href="/decks/browse" class="nav-link">Browse Decks</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/blog/getting-started" class="nav-link">Getting Started</a>
+                </li>
+                <li class="nav-item">
+                    <a href="/help" class="nav-link">Help</a>
                 </li>
             </ul>
 
@@ -20,6 +34,13 @@
                     <i class="material-icons">search</i>
                 </button>
             </form>
+            
+            <%= if user_signed_in? 
+                navbar_signed_in_user_dropdown
+            else
+                navbar_no_user_dropdown
+            end %>
+            
+            
         </div>
-    </div>
 </nav>
