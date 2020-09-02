@@ -5,7 +5,8 @@ class CreateBranches < ActiveRecord::Migration[6.0]
       t.integer :head_deck
       t.boolean :is_public
       
-      t.jsonb :history, null: false, default: '{}'
+      t.jsonb :branched_from
+      t.jsonb :merge_history, default: []
       
       t.belongs_to :master_deck, null: false, foreign_key: true
       

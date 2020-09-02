@@ -19,7 +19,8 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
     t.string "name"
     t.integer "head_deck"
     t.boolean "is_public"
-    t.jsonb "history", default: "{}", null: false
+    t.jsonb "branched_from"
+    t.jsonb "merge_history", default: []
     t.bigint "master_deck_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
