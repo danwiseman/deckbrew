@@ -1,6 +1,8 @@
 require 'rails_helper'
 require_relative '../support/branch_helpers'
+require_relative '../support/master_deck_helpers'
 
+include MasterDeckHelpers
 include BranchHelpers
 
 RSpec.describe "Branches", type: :request do
@@ -18,7 +20,6 @@ RSpec.describe "Branches", type: :request do
 
        visit "/decks/#{master_deck.slug}/branch/new"
 
-       
        fill_in "name", :with => "new branch"
        click_button "Create"
        
@@ -37,20 +38,16 @@ RSpec.describe "Branches", type: :request do
        fill_in "user_password", :with => user.password
        click_button "Log in"
        
-       master_deck = FactoryBot.create(:master_deck)
-
+       master_deck = create_master_deck_via_form(user)
        visit "/decks/#{master_deck.slug}/branch/new"
 
-       
        fill_in "name", :with => "new branch"
        click_button "Create"
        
        expect(page).to have_text("new branch") 
        
-       
        visit "/decks/#{master_deck.slug}/branch/new"
 
-       
        fill_in "name", :with => "should branch from new branch"
        select "new branch", from: "branched_from[branched_from_id]"
        click_button "Create"
@@ -67,19 +64,16 @@ RSpec.describe "Branches", type: :request do
        fill_in "user_password", :with => user.password
        click_button "Log in"
        
-       master_deck = FactoryBot.create(:master_deck)
+       master_deck = create_master_deck_via_form(user)
 
        visit "/decks/#{master_deck.slug}/branch/new"
 
-       
        fill_in "name", :with => "new branch"
        click_button "Create"
        
        expect(page).to have_text("new branch") 
        
-       
        visit "/decks/#{master_deck.slug}/branch/new/new-branch"
-       
        expect(page).to have_select 'branched_from[branched_from_id]', selected: 'new branch'
        
        fill_in "name", :with => "should branch from new branch"
@@ -90,22 +84,26 @@ RSpec.describe "Branches", type: :request do
       
     end
     
-    it "correctly shows deck differences and merges a branch into another branch" do
+    
+    it "shows the branch history of the master_deck" do
         user = FactoryBot.create(:user)
         sign_in user
         
-        # generate a master deck with lots of branches
-        fbmaster_deck = FactoryBot.build(:master_deck)
-        visit "/decks/new"
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        create_many_branches(master_deck)
         
-        fill_in "name", :with => fbmaster_deck.name
-        select "Commander", from: 'deck_type'
-        check "is_public"
-        fill_in "description", :with => fbmaster_deck.description
-        click_button "Create"
+        visit "/u/#{user.slug}/decks/#{master_deck.slug}/tree"
         
-        master_deck = MasterDeck.where(:name => fbmaster_deck.name, :user => user).last
+        expect(page).to have_text("branch2")
         
+    end
+    
+    it "correctly shows deck differences and merges a branch into another branch" do
+        user = FactoryBot.create(:user)
+        sign_in user
+
+        master_deck = create_master_deck_via_form(user)
         create_many_branches(master_deck)
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"

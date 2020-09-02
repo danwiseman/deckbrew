@@ -185,7 +185,7 @@ module SymbolsHelper
   def mtgSetSymbol(setCode, options = {})
     options = {rarity: "common", size: 1, fixed_width: false}.merge(options)
 
-    classText += "ss-#{options[:rarity]} "
+    classText = "ss-#{options[:rarity]} "
     if(options[:size] > 1)
       classText += "ss-#{options[:size]}x "
     end
