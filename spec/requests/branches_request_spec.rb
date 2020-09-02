@@ -1,7 +1,9 @@
 require 'rails_helper'
 require_relative '../support/branch_helpers'
 require_relative '../support/master_deck_helpers'
+require_relative '../support/user_helpers'
 
+include UserHelpers
 include MasterDeckHelpers
 include BranchHelpers
 
@@ -10,11 +12,7 @@ RSpec.describe "Branches", type: :request do
     it "creates a new branch of the deck and redirects to the new branch" do
        
        user = FactoryBot.create(:user)
-       #sign_in user
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
+       sign_in_via_form(user)
        
        master_deck = FactoryBot.create(:master_deck)
 
@@ -32,11 +30,7 @@ RSpec.describe "Branches", type: :request do
     it "correctly branches from the selected branch and correct deck" do
         
        user = FactoryBot.create(:user)
-       #sign_in user
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
+       sign_in_via_form(user)
        
        master_deck = create_master_deck_via_form(user)
        visit "/decks/#{master_deck.slug}/branch/new"
@@ -58,11 +52,7 @@ RSpec.describe "Branches", type: :request do
     
     it "uses the selected branch when the user wants to branch from it" do
        user = FactoryBot.create(:user)
-       #sign_in user
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
+       sign_in_via_form(user)
        
        master_deck = create_master_deck_via_form(user)
 
@@ -87,7 +77,7 @@ RSpec.describe "Branches", type: :request do
     
     it "shows the branch history of the master_deck" do
         user = FactoryBot.create(:user)
-        sign_in user
+        sign_in_via_form(user)
         
         # generate a master deck with branches
         master_deck = create_master_deck_via_form(user)
@@ -101,7 +91,7 @@ RSpec.describe "Branches", type: :request do
     
     it "correctly shows deck differences and merges a branch into another branch" do
         user = FactoryBot.create(:user)
-        sign_in user
+        sign_in_via_form(user)
 
         master_deck = create_master_deck_via_form(user)
         create_many_branches(master_deck)
