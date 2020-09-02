@@ -1,4 +1,7 @@
 require 'rails_helper'
+require_relative '../support/branch_helpers'
+
+include BranchHelpers
 
 RSpec.describe "Branches", type: :request do
     
@@ -57,7 +60,7 @@ RSpec.describe "Branches", type: :request do
     end
     
     it "uses the selected branch when the user wants to branch from it" do
-             user = FactoryBot.create(:user)
+       user = FactoryBot.create(:user)
        #sign_in user
        visit "/accounts/sign_in"
        fill_in "user_login", :with => user.username
@@ -85,7 +88,37 @@ RSpec.describe "Branches", type: :request do
        
        expect(page).to have_text("branched from new branch")
       
-       
+    end
+    
+    it "correctly shows deck differences and merges a branch into another branch" do
+        user = FactoryBot.create(:user)
+        sign_in user
+        
+        # generate a master deck with lots of branches
+        fbmaster_deck = FactoryBot.build(:master_deck)
+        visit "/decks/new"
+        
+        fill_in "name", :with => fbmaster_deck.name
+        select "Commander", from: 'deck_type'
+        check "is_public"
+        fill_in "description", :with => fbmaster_deck.description
+        click_button "Create"
+        
+        master_deck = MasterDeck.where(:name => fbmaster_deck.name, :user => user).last
+        
+        create_many_branches(master_deck)
+        
+        visit "/decks/#{master_deck.slug}/branch/compare/branch3"
+        
+        # select merge into master
+        expect(page).to have_select 'source_branch[id]', selected: 'branch3'
+        select 'main', from: 'destination_branch[destination_branch_id]'
+        
+        # merge
+        click_button "Merge These Branches"
+        
+        # expect master to now have the deck of branch3
+        expect(Deck.find(master_deck.branches.friendly.find("main").head_deck).cards).to eq(Deck.find(master_deck.branches.friendly.find("branch3").head_deck).cards)
         
     end
 

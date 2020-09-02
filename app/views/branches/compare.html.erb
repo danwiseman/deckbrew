@@ -1,0 +1,96 @@
+<div class="row">
+    <h4>Compare branches<br />
+    <small>Choose two branches to see what's changed. If you want, you can even merge the changes from one branch to another</small></h4>
+    
+</div>
+<%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/merge" do %>
+<div class="row">
+    <div class="col-md-6">
+        <div class="row">
+            <div class="col">
+            <%= select("destination_branch", "destination_branch_id", 
+                options_from_collection_for_select(@current_branches, 'id', 'name'),
+                      { include_blank: false },
+                        :class => "form-control selectpicker destination-select", :data_style => "btn btn-link" ) %>
+            </div>
+            <div class="col text-center merge-arrow">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <div class="col">
+            <%= select("source_branch", "id", 
+                options_from_collection_for_select(@current_branches, 'id', 'name', @source_branch.id),
+                      { include_blank: false },
+                        :class => "form-control selectpicker source-select", :data_style => "btn btn-link" ) %>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div class="row">
+      <div class="card text-right">
+          <div class="card-body">
+            <p class="float-left">If you like the changes you see, you can merge these branches here.</p>
+            <button class="btn btn-primary float-right">Merge These Branches</button>
+          </div>
+        </div>
+      
+  </div>
+  <% end %>
+  <div class="row">
+  <div class="card">
+      <div class="card-body">
+  <ul class="nav nav-pills nav-pills-primary" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#link1" role="tablist" aria-expanded="true">
+            All Card Changes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#link2" role="tablist" aria-expanded="false">
+            Mana Changes
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#link3" role="tablist" aria-expanded="false">
+            Creature Changes
+        </a>
+    </li>
+</ul>
+<div class="tab-content tab-space">
+    <div class="tab-pane active" id="link1" aria-expanded="true">
+      Collaboratively administrate empowered markets via plug-and-play networks. Dynamically procrastinate B2C users after installed base benefits.
+      <br><br>
+      Dramatically visualize customer directed convergence without revolutionary ROI.
+    </div>
+    <div class="tab-pane" id="link2" aria-expanded="false">
+      Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables for real-time schemas.
+      <br><br>Dramatically maintain clicks-and-mortar solutions without functional solutions.
+    </div>
+    <div class="tab-pane" id="link3" aria-expanded="false">
+        Completely synergize resource taxing relationships via premier niche markets. Professionally cultivate one-to-one customer service with robust ideas.
+        <br><br>Dynamically innovate resource-leveling customer service for state of the art customer service.
+    </div>
+</div>
+  </div>
+  </div>
+  </div>
+  
+  <style>
+    .merge-arrow {
+        padding-top: 2%;
+        margin-left: -20%;
+        margin-right: -20%;
+        
+    }
+  
+    div.destination-select .filter-option-inner-inner::before {
+        content: "destination: ";
+        color: #eee;
+    }
+    
+    div.source-select .filter-option-inner-inner::before {
+        content: "source: ";
+        color: #eee;
+    }
+      
+  </style>
+  

@@ -6,7 +6,7 @@
         branch_hash = Hash.new{|h,k| h[k] = [] }
         for branch_me in @master_deck.branches
             # add the branch to the proper spot on the hash
-            branch_hash[(branch_me.branched_from.nil?) ? 0 : branch_me.branched_from].push(branch_me.id)
+            branch_hash[(branch_me.branched_from['source_deck'].nil?) ? 0 : branch_me.branched_from['source_deck']].push(branch_me.id)
             # now create a line that can be referenced by the JS
             %>
             <path
@@ -83,7 +83,7 @@ function connectAll() {
     for branch_connect in @master_deck.branches
         unless branch_connect.branched_from.nil?
             %>
-            connectElements($("#svg1"), $("#path<%= branch_connect.id %>"), $("#branch<%= branch_connect.branched_from %>"),   $("#branch<%= branch_connect.id %>"));
+            connectElements($("#svg1"), $("#path<%= branch_connect.id %>"), $("#branch<%= branch_connect.branched_from['source_deck'] %>"),   $("#branch<%= branch_connect.id %>"));
             <% 
         end
     end %>

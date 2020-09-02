@@ -39,6 +39,7 @@ class MasterDecksController < ApplicationController
            flash[:warning] = 'Deck with that name already exists.'
            render "new"
         else
+            
            @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :deck_type => params['deck_type'],
                                         :description => params['description'], :is_public => params['is_public']) 
            if @master_deck.save 
@@ -64,11 +65,17 @@ class MasterDecksController < ApplicationController
         
         # create a default master branch that is (currently) not branched from anything.
         # TODO: add a forked from field
-        master_deck.branches.create(:name => 'master', :is_public => is_public, :branched_from => 0, :branched_from_deck => 0)
+        master_deck.branches.create(:name => 'main', :is_public => is_public, 
+                                    :source_branch => 0, 
+                                    :source_deck => 0)
         
         # create a default deck for the new master branch
-        master_branch = master_deck.branches.friendly.find("master")
+        master_branch = master_deck.branches.friendly.find("main")
+        #master_branch.update()
+
+            
         master_branch.decks.create(:version => 0, :previousversion => 0)
+        master_branch.head_deck = master_branch.decks.last.id
         
         master_branch.save!
         master_deck.save!
