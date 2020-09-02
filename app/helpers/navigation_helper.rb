@@ -24,9 +24,9 @@ module NavigationHelper
             unless master_deck.nil?
                 master_deck_link = tag.li class: master_deck_link_class do
                     unless branch.nil?
-                        link_to  master_deck.name, MasterDecksHelper.PathToMasterDeck(master_deck) 
+                        MasterDecksHelper.master_deck_with_privacy_badge(master_deck, true) 
                     else
-                        master_deck.name
+                        MasterDecksHelper.master_deck_with_privacy_badge(master_deck)
                     end
                 end
             end

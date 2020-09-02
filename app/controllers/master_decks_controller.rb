@@ -18,8 +18,10 @@ class MasterDecksController < ApplicationController
     
     def show
         @master_deck = MasterDeck.friendly.find(params[:id]) 
+        @show_full_breadcrumbs = false
         if params.has_key?(:branch_id)
            @selected_branch = @master_deck.branches.friendly.find(params[:branch_id])
+           @show_full_breadcrumbs = true
         else
             @selected_branch = @master_deck.branches.friendly.find('main')
         end
