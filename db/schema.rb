@@ -17,10 +17,10 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
 
   create_table "branches", force: :cascade do |t|
     t.string "name"
-    t.integer "branched_from"
-    t.integer "branched_from_deck"
     t.integer "head_deck"
     t.boolean "is_public"
+    t.jsonb "branched_from"
+    t.jsonb "merge_history", default: []
     t.bigint "master_deck_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -1,4 +1,7 @@
 require 'rails_helper'
+require_relative '../support/branch_helpers'
+
+include BranchHelpers
 
 RSpec.describe "Branches", type: :request do
     
@@ -103,15 +106,7 @@ RSpec.describe "Branches", type: :request do
         
         master_deck = MasterDeck.where(:name => fbmaster_deck.name, :user => user).last
         
-        visit "/decks/#{master_deck.slug}/branch/new/main"
-        fill_in "name", :with => "branch1"
-        click_button "Create"
-        visit "/decks/#{master_deck.slug}/branch/new/main"
-        fill_in "name", :with => "branch2"
-        click_button "Create"
-        visit "/decks/#{master_deck.slug}/branch/new/branch1"
-        fill_in "name", :with => "branch3"
-        click_button "Create"
+        create_many_branches(master_deck)
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"
         

@@ -21,9 +21,11 @@ class BranchesController < ApplicationController
            flash[:warning] = 'A branch for this deck with that name already exists.'
            render "new"
         else
-           @branch = Branch.new(:name => params['name'], :master_deck => @master_deck, 
-                                :branched_from => params['branched_from']['branched_from_id'], 
-                                :branched_from_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
+           @branch = Branch.new(:name => params['name'], :master_deck => @master_deck,
+                                 :source_branch => params['branched_from']['branched_from_id'], 
+                                 :source_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id)
+        
+                                
            if @branch.save 
                @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
                @branch.head_deck = @branch.decks.last.id
@@ -67,6 +69,16 @@ class BranchesController < ApplicationController
                                 :previousversion => @merge_source.head_deck,
                                 :cards => @merge_source.decks.find(@merge_source.head_deck).cards)
            @merge_base.head_deck = @merge_base.decks.last
+           
+           new_merge = [{
+              event: 'merge',
+              source_branch: @merge_source.id,
+              source_deck: @merge_source.head_deck,
+              time: Time.now.iso8601
+            }].to_json
+            
+            Branch.where(id: @merge_base.id).update_all(["merge_history = merge_history || ?::jsonb", new_merge])
+           
            
            flash[:success] = 'Branch was merged.'
            redirect_to BranchesHelper.PathToBranch(@merge_base)

@@ -17,9 +17,9 @@
       <% if branch.name != "main" %>
       <li class="nav-item">
           <span class="nav-link">
-              branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from)) %>" class="badge badge-primary">
+              branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from['source_branch'])) %>" class="badge badge-primary">
                 <i class="fad fa-code-branch"></i>
-                    <%= Branch.find(branch.branched_from).name %>
+                    <%= Branch.find(branch.branched_from['source_branch']).name %>
                 </a>
               
             </span>
