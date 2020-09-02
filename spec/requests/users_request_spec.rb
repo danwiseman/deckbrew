@@ -1,15 +1,15 @@
 require 'rails_helper'
+require_relative '../support/user_helpers'
+
+include UserHelpers
+
 
 RSpec.describe "Users", type: :request do
     
     it "shows the user's profile screen after log in" do
     
        user = FactoryBot.create(:user)
-       
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
+       sign_in_via_form(user)
        
        expect(page).to have_current_path('/u/' + user.slug)
        
@@ -17,12 +17,8 @@ RSpec.describe "Users", type: :request do
     
     it "allows the user to update their profile" do
         
-        user = FactoryBot.create(:user)
-       
-       visit "/accounts/sign_in"
-       fill_in "user_login", :with => user.username
-       fill_in "user_password", :with => user.password
-       click_button "Log in"
+       user = FactoryBot.create(:user)
+       sign_in_via_form(user)
        
        expect(page).to have_current_path('/u/' + user.slug)
        
@@ -31,12 +27,12 @@ RSpec.describe "Users", type: :request do
        expect(page).to have_current_path('/u/' + user.slug + '/edit')
        
        fill_in "user_profile_tagline", :with => "I like Liliana"
-       fill_in "user_profile_twitter", :with => "mtgrocks"
+       fill_in "user_profile_twitter", :with => Faker::Twitter.screen_name
        click_button "Update"
        
        expect(page).to have_content 'I like Liliana'
        expect(page).to have_selector '.fa-twitter'
-       expect(page).to_not have_current_path '.fa-facebook'
+       expect(page).to_not have_selector '.fa-facebook'
         
     end
 
