@@ -1,5 +1,6 @@
 module NavigationHelper
     
+    
     def breadcrumbs(user, master_deck=nil, branch=nil)
         
         
@@ -24,9 +25,9 @@ module NavigationHelper
             unless master_deck.nil?
                 master_deck_link = tag.li class: master_deck_link_class do
                     unless branch.nil?
-                        MasterDecksHelper.master_deck_with_privacy_badge(master_deck, true) 
+                        master_deck_with_privacy_badge(master_deck, true) 
                     else
-                        MasterDecksHelper.master_deck_with_privacy_badge(master_deck)
+                        master_deck_with_privacy_badge(master_deck, false)
                     end
                 end
             end
