@@ -33,24 +33,41 @@ module HistoryHelper
         history = branches_and_merges(master_deck)
         timeline += tag.ul class: "timeline" do
             entries = ""
+            invert_entry = true
             for entry in history
-               entries += dashboard_timeline_entry(entry) 
+               entries += dashboard_timeline_entry(entry, invert_entry)
+               invert_entry = (invert_entry == true) ? false : true
             end
             entries.html_safe 
         end
         timeline.html_safe 
     end
     
-    def dashboard_timeline_entry(entry)
+    def dashboard_timeline_entry(entry, is_inverted)
         entry_li = ""
-        entry_li += tag.li class: "timeline-inverted" do
+        entry_class = "primary"
+        entry_li_class = ""
+        if is_inverted == true
+            entry_li_class = "timeline-inverted"
+        end
+        case entry[:type]
+            when 'merge'
+                entry_class = "success"
+            when 'branch'
+                entry_class = "info"
+            when 'delete'
+                entry_class = "danger"
+            else
+                entry_class = "warning"
+        end
+        entry_li += tag.li class: entry_li_class do
                         entry_divs = ""
-                        entry_divs += tag.div class: "timeline-badge danger" do
+                        entry_divs += tag.div class: "timeline-badge #{entry_class}" do
                                         tag.i class: "fad fa-code-branch"
                                     end
                         entry_divs += tag.div class: "timeline-panel" do
                                         panel_text = ""
-                                        panel_text += tag.span entry[:name], class: "badge badge-pill badge-danger"
+                                        panel_text += tag.span entry[:name], class: "badge badge-pill badge-#{entry_class}"
                                         panel_text += tag.div class: "timeline-body" do
                                             body_text = ""
                                             body_text += tag.p entry[:type]
