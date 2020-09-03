@@ -36,7 +36,7 @@ RSpec.describe "MasterDecks", type: :request do
         
         visit "/u/#{user.slug}/decks/#{master_deck.slug}/tree"
         
-        expect(page).to have_text("branch2")
+        expect(page).to match /const branch2/
         
     end
     

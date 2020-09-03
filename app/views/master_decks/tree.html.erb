@@ -11,8 +11,7 @@
         <% end %>
     <div id="graph-container"></div>
 
-
-
+    <%= dashboard_timeline(@master_deck) %>
 
 
 <% content_for :page_script do %>
@@ -30,20 +29,9 @@
     // Simulate git commands with Gitgraph API.
 
     
-    <%=  branches_and_merges(@master_deck)  %>
+    <%=  git_graph(@master_deck)  %>
     
-    ///develop.commit("Add TypeScript");
-
-    //const aFeature = develop.branch("a-feature");
-   // aFeature
-     // .commit("Make it work")
-    //  .commit("Make it right")
-      //.commit("Make it fast");
-
-    //develop.merge(aFeature);
-    //develop.commit("Prepare v1");
-
-    //master.merge(develop).tag("v1.0.0");
+    
 
 
 <% end %>
