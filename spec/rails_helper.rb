@@ -83,6 +83,7 @@ RSpec.configure do |config|
   
   config.include Warden::Test::Helpers
   config.include RequestSpecHelper, type: :request
+  config.include RequestSpecHelper, type: :helper
   
   config.include Capybara::DSL
   

@@ -2,7 +2,7 @@
   <div class="card-header card-header-info">
     <ul class="nav nav-tabs">
       <li class="nav-item nav-item-dropdown">
-        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
+        <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false" id="selected_branch"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
         <div class="dropdown-menu">
           <% for branch_li in master_deck.branches  %>
             <a class="dropdown-item" href="<%= BranchesHelper.PathToBranch(branch_li) %>"><%= branch_li.name %></a>
