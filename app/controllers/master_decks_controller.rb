@@ -1,7 +1,7 @@
 class MasterDecksController < ApplicationController
     
        
-    before_action :authenticate_user!, only: [:new, :create]
+    before_action :authenticate_user!, only: [:new, :create, :fork_deck]
     
     
     def index
@@ -17,8 +17,20 @@ class MasterDecksController < ApplicationController
     
     
     def show
-        @master_deck = MasterDeck.friendly.find(params[:id]) 
+        @master_deck = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:id]) 
         @show_full_breadcrumbs = false
+        
+        if params.has_key?(:user_id)
+            @deck_user = User.friendly.find(params[:user_id])
+        else
+           @deck_user = current_user 
+        end
+        
+        if (@master_deck.is_public == false && @deck_user != current_user)
+            redirect_to action: 'no_permission', reason: "You are not authorized to view this deck."
+            return
+        end
+        
         if params.has_key?(:branch_id)
            @selected_branch = @master_deck.branches.friendly.find(params[:branch_id])
            @show_full_breadcrumbs = true
@@ -29,8 +41,19 @@ class MasterDecksController < ApplicationController
        render layout: "dashboard"
     end
     
+    def fork_deck
+        @deck_to_fork = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:id]) 
+        if params.has_key?(:branch_id)
+           @selected_branch = @deck_to_fork.branches.friendly.find(params[:branch_id])
+        else
+            @selected_branch = @deck_to_fork.branches.friendly.find('main')
+        end
+        
+        render layout: "dashboard"
+    end
+    
     def tree
-        @master_deck = MasterDeck.friendly.find(params[:id]) 
+        @master_deck = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:id])  
        
         render layout: "dashboard"
     end
@@ -63,6 +86,12 @@ class MasterDecksController < ApplicationController
         end
         
         
+    end
+    
+    
+    def no_permission
+        @reason = params[:reason]
+        render layout: "devise"
     end
     
     

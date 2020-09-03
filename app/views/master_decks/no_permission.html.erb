@@ -1,0 +1,23 @@
+<% content_for :body_style do %>
+login-page
+<% end %>
+
+<div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
+
+  <div class="card card-login card-hidden">
+    <div class="card-header card-header-danger text-center">
+      <h4 class="card-title">HEY!</h4>
+    </div>
+    <div class="card-body text-center">
+        <h1><i class="fad fa-exclamation-square text-danger"></i></h1>
+      <p><%= @reason %></p>
+    </div>
+        
+        <div class="card-footer justify-content-center">
+        <% unless user_signed_in? %>
+            <a href="/accounts/sign_in" class="btn btn-danger">Sign In</a>
+        <% end %>
+      </div>
+      </div>
+    </div>
+ 
