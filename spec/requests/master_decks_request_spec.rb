@@ -105,7 +105,7 @@ RSpec.describe "MasterDecks", type: :request do
         select "branch3", from: 'forked_from_branch[forked_from_branch_id]'
         click_button "Fork"
         
-        expect(page).to have_text("forked from #{user.username}/#{master_deck_to_fork.name}")
+        expect(page).to have_text("Forked from: #{user.username}/#{master_deck_to_fork.name}")
         
         
         
@@ -120,8 +120,9 @@ RSpec.describe "MasterDecks", type: :request do
         create_many_branches(master_deck_to_not_fork)
         
         visit "/u/#{user.slug}/decks/#{master_deck_to_not_fork.slug}/fork"
+        click_button "Fork"
         
-        expect(page).to have_text("You cannot fork your own decks, but you may copy them")
+        expect(page).to have_text("You cannot fork this deck")
         
     end
     
@@ -139,8 +140,9 @@ RSpec.describe "MasterDecks", type: :request do
         
         sign_in_via_form(second_user)
         visit "/u/#{user.slug}/decks/#{master_deck_to_not_fork.slug}/fork"
+        click_button "Fork"
         
-        expect(page).to have_text("You cannot fork private decks")
+        expect(page).to have_text("You cannot fork this deck")
         
     end
     

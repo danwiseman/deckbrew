@@ -88,6 +88,51 @@ class MasterDecksController < ApplicationController
         
     end
     
+    def create_fork
+        @deck_to_fork = MasterDeck.find(params[:forked_from_id]) 
+        
+        if @deck_to_fork.is_public == false || @deck_to_fork.user == current_user
+            # private or same user
+            redirect_to action: 'no_permission', reason: "You cannot fork this deck."
+            return
+        end
+        
+        
+        if(MasterDeck.where(:name => params['name'], :user => current_user).present?) 
+           # deck already exists fail.
+           flash[:warning] = 'Deck with that name already exists.'
+           render "new"
+        else
+            
+           @master_deck = MasterDeck.new(:name => params['name'], :user => current_user, :deck_type => @deck_to_fork.deck_type,
+                                        :description => @deck_to_fork.description, :is_public => params['is_public'], 
+                                        :forked_from => @deck_to_fork.id, :forked_from_branch => @deck_to_fork.branches.friendly.find(params['forked_from_branch']['forked_from_branch_id']).id,
+                                        :forked_from_deck => @deck_to_fork.branches.friendly.find(params['forked_from_branch']['forked_from_branch_id']).head_deck) 
+           if @master_deck.save 
+               # create an empty master branch
+               createMasterBranch(@master_deck, params['is_public'])
+               
+               @merge_base = @master_deck.branches.friendly.find("main")
+               @merge_source = @deck_to_fork.branches.friendly.find(params['forked_from_branch']['forked_from_branch_id'])
+               
+               @merge_base.decks.new(:version => @merge_base.decks.last.version+1,
+                                    :previousversion => @merge_source.head_deck,
+                                    :cards => @merge_source.decks.find(@merge_source.head_deck).cards)
+               @merge_base.head_deck = @merge_base.decks.last
+               
+               
+               flash[:success] = 'Deck was successfully created.'
+               redirect_to MasterDecksHelper.PathToMasterDeck(@master_deck)
+           else
+              # error in saving
+              flash[:warning] = 'Deck was not saved. Please try again.'
+              render "new"
+           end
+        end
+        
+        
+    end
+    
     
     def no_permission
         @reason = params[:reason]
