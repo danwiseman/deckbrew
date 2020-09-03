@@ -70,7 +70,7 @@ module HistoryHelper
                                         panel_text += tag.span entry[:name], class: "badge badge-pill badge-#{entry_class}"
                                         panel_text += tag.div class: "timeline-body" do
                                             body_text = ""
-                                            body_text += tag.p entry[:type]
+                                            body_text += tag.p timeline_action_description(entry[:name], entry[:source_branch], entry[:type])
                                             body_text += tag.h6  do
                                                 tag.i class: "ti-time"
                                                 tag.time Time.zone.parse(entry[:date].to_s).utc.iso8601, class: "timeago", datetime: Time.zone.parse(entry[:date].to_s).utc.iso8601
@@ -83,6 +83,25 @@ module HistoryHelper
                         entry_divs.html_safe 
                     end
         entry_li.html_safe             
+    end
+    
+    def timeline_action_description(source, destination, action)
+        results = ""
+        action = (destination == 0) ? "created" : action
+        case action
+            when "branch"
+                results += "#{source} was branched from #{Branch.find(destination).name}"
+            when "merge"
+                results = "#{Branch.find(destination).name} was merged into #{source}"
+            when "delete"
+                results += "#{source} was deleted"
+            when "created"
+                results += "#{source} was created"
+            else 
+                results += "unknown error"
+        end
+        
+        results
     end
     
     def graph_entry(details)

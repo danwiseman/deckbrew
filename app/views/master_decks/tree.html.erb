@@ -1,17 +1,39 @@
-
-        <% 
+             <% 
         # Create a hash of the branches where they need to go.
         branch_hash = Hash.new{|h,k| h[k] = [] }
         for branch_me in @master_deck.branches
             # add the branch to the proper spot on the hash
             branch_hash[(branch_me.branched_from['source_deck'].nil?) ? 0 : branch_me.branched_from['source_deck']].push(branch_me.id)
             # now create a line that can be referenced by the JS
+        end
             %>
             
-        <% end %>
-    <div id="graph-container"></div>
+<%= breadcrumbs(@master_deck.user, @master_deck) %>
 
-    <%= dashboard_timeline(@master_deck) %>
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-nav-tabs">
+            <div class="card-header card-header-success"><i class="fad fa-code-branch"></i> Graph</div>
+            <div class="card-body">
+                <div id="graph-container"></div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-6">
+        <div class="card card-nav-tabs card-plain">
+            <div class="card-header card-header-info"><i class="fad fa-stream"></i> Timeline</div>
+            <div class="card-body">
+                <%= dashboard_timeline(@master_deck) %>
+            </div>
+            
+            
+        </div>
+    </div>
+</div>
+
+
+    
 
 
 <% content_for :page_script do %>
