@@ -28,16 +28,9 @@
  
     
     // Simulate git commands with Gitgraph API.
-    const main = gitgraph.branch("main");
-    main.commit("Initial deck creation");
+
     
-    <% for branch_me in @master_deck.branches
-            unless branch_me.source_branch == 0
-    %>
-                const <%= branch_me.slug.gsub("-","") %> = <%= Branch.find(branch_me.source_branch).slug.gsub("-","") %>.branch("<%= branch_me.name %>");
-                <%= branch_me.slug.gsub("-","") %>.commit("");
-    <%     end 
-    end   %>
+    <%=  branches_and_merges(@master_deck)  %>
     
     ///develop.commit("Add TypeScript");
 
