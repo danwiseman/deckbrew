@@ -32,13 +32,13 @@ profile-page
         <div class="card-footer">
           <h4 class="card-title"><%= @profile_user.username %></h4>
           <h6 class="card-category">
-            <% if @profile_user.user_profile.facebook != "" %>
+            <% if @profile_user.user_profile.facebook != "" && @profile_user.user_profile.facebook.nil? == false %>
               <a href="https://facebook.com/<%= @profile_user.user_profile.facebook %>" class="btn btn-social btn-just-icon btn-facebook"><i class="fab fa-facebook"></i></a>
             <% end %>
-            <% if @profile_user.user_profile.twitter != "" %>
+            <% if @profile_user.user_profile.twitter != "" && @profile_user.user_profile.twitter.nil? == false %>
               <a href="https://twitter.com/<%= @profile_user.user_profile.twitter %>" class="btn btn-social btn-just-icon btn-twitter"><i class="fab fa-twitter"></i></a>
             <% end %>
-            <% if @profile_user.user_profile.github != "" %>
+            <% if @profile_user.user_profile.github != "" && @profile_user.user_profile.github.nil? == false %>
               <a href="https://github.com/<%= @profile_user.user_profile.github %>" class="btn btn-social btn-just-icon btn-github"><i class="fab fa-github"></i></a>
             <% end %>
             
