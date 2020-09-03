@@ -16,6 +16,8 @@ login-page
         <div class="card-footer justify-content-center">
         <% unless user_signed_in? %>
             <a href="/accounts/sign_in" class="btn btn-danger">Sign In</a>
+        <% else %>
+        <%= link_to 'Back', :back, class: "btn btn-danger" %>
         <% end %>
       </div>
       </div>
