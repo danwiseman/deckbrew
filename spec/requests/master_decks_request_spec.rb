@@ -105,8 +105,10 @@ RSpec.describe "MasterDecks", type: :request do
         select "branch3", from: 'forked_from_branch[forked_from_branch_id]'
         click_button "Fork"
         
-        expect(page).to have_text("Forked from: #{user.username}/#{master_deck_to_fork.name}")
+        forked_master_deck = user.master_decks.friendly.find(master_deck_to_fork.slug) 
         
+        expect(page).to have_text("Forked from: #{user.username}/#{master_deck_to_fork.name}")
+        expect(Deck.find(forked_master_deck.branches.friendly.find("main").head_deck).cards).to eq(Deck.find(master_deck_to_fork.branches.friendly.find("branch3").head_deck).cards)
         
         
     end
