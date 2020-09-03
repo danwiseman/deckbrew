@@ -1,107 +1,59 @@
-
-<div id="svgContainer" style="margin: 50px 50px;">
-    <svg id="svg1" width="0" height="0" >
-        <% 
+             <% 
         # Create a hash of the branches where they need to go.
         branch_hash = Hash.new{|h,k| h[k] = [] }
         for branch_me in @master_deck.branches
             # add the branch to the proper spot on the hash
             branch_hash[(branch_me.branched_from['source_deck'].nil?) ? 0 : branch_me.branched_from['source_deck']].push(branch_me.id)
             # now create a line that can be referenced by the JS
+        end
             %>
-            <path
-                id="path<%= branch_me.id %>"
-                d="M0 0"         
-                stroke="#000" 
-                fill="none" 
-                stroke-width="12px";/>
-        <% end %>
-    </svg>
+            
+<%= breadcrumbs(@master_deck.user, @master_deck) %>
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card card-nav-tabs">
+            <div class="card-header card-header-success"><i class="fad fa-code-branch"></i> Graph</div>
+            <div class="card-body">
+                <div id="graph-container"></div>
+            </div>
+        </div>
+        
+    </div>
+    <div class="col-md-6">
+        <div class="card card-nav-tabs card-plain">
+            <div class="card-header card-header-info"><i class="fad fa-stream"></i> Timeline</div>
+            <div class="card-body">
+                <%= dashboard_timeline(@master_deck) %>
+            </div>
+            
+            
+        </div>
+    </div>
 </div>
 
- <% if branch_hash.has_key?(0) %>
-   <ul class="branch-tree">
-      <li>
-        <span class="badge badge-pill badge-danger" id="branch<%= branch_hash[0][0] %>">main</span>
-        <ul>
-        <% 
-        main_branch = branch_hash[0][0]
-        for sub_branch in branch_hash[main_branch] %>
-        <li>
-          <span class="badge badge-pill badge-success" id="branch<%= sub_branch %>"><%= @master_deck.branches.find(sub_branch).name %></span>
-          <% if branch_hash.has_key?(sub_branch) %>
-            <ul>
-            <% for nested_branch in branch_hash[sub_branch] %>
-               <li>
-                  <span class="badge badge-pill badge-info" id="branch<%= nested_branch %>"><%= @master_deck.branches.find(nested_branch).name %></span>
-                  <% if branch_hash.has_key?(nested_branch) %>
-                    <ul>
-                    <% for deep_nested_branch in branch_hash[nested_branch] %>
-                       <li>
-                          <span class="badge badge-pill badge-warning" id="branch<%= deep_nested_branch %>"><%= @master_deck.branches.find(deep_nested_branch).name %></span>
-                      </li>
-                    <%  end %>
-                    </ul>
-                   <% end %>
-              </li>
-            <%  end %>
-            </ul>
-           <% end %>
-        </li>
-        <% end %>
-        </ul>
-        
-      </li>
-      
-    </ul>
-<% end %>
-
-<style>
-
-ul.branch-tree {
-
-	z-index: -10;
-	position:absolute;
-
 
     
-}
-    
-.branch-tree li {
-    
- 
-    
-}    
-    
-</style>
+
 
 <% content_for :page_script do %>
 
-function connectAll() {
 
-    <%
-    for branch_connect in @master_deck.branches
-        unless branch_connect.branched_from.nil?
-            %>
-            connectElements($("#svg1"), $("#path<%= branch_connect.id %>"), $("#branch<%= branch_connect.branched_from['source_deck'] %>"),   $("#branch<%= branch_connect.id %>"));
-            <% 
-        end
-    end %>
+    // Get the graph container HTML element.
+    const graphContainer = document.getElementById("graph-container");
+    
+  
 
-}
+    // Instantiate the graph.
+    const gitgraph = GitgraphJS.createGitgraph(graphContainer);
+ 
+    
+    // Simulate git commands with Gitgraph API.
 
-$(document).ready(function() {
-    // reset svg each time 
-    $("#svg1").attr("height", "0");
-    $("#svg1").attr("width", "0");
-    connectAll();
-});
+    
+    <%=  git_graph(@master_deck)  %>
+    
+    
 
-$(window).resize(function () {
-    // reset svg each time 
-    $("#svg1").attr("height", "0");
-    $("#svg1").attr("width", "0");
-    connectAll();
-});
 
 <% end %>
