@@ -2,39 +2,52 @@
 product-page
 <% end %>
 
-
-
-<%= form_with model: @master_deck, class: "form", url: "/decks" do |f| %>
-<div class="form-group">
-  <%= f.label "Deck Name:", for: :name %>
-  <%= f.text_field :name, class: "form-control" %>
-</div>
-<div class="form-group">
-  <%= f.label "Deck Type:", for: :deck_type %>
-  <!-- TODO: add all the different deck types -->
-  <%= f.select :deck_type, options_for_select([["Commander", "commander"], ["Modern", "modern"]]), 
-              {}, {:class => 'form-control selectpicker', :data => { :style => 'btn btn-link' }} %>
-</div>
-<div class="form-group">
-  <div class="togglebutton">
-    <label>
-      <%= f.check_box :is_public, checked: current_user.user_profile.default_deck_visibility? %>
-      <span class="toggle"></span>
-        <%= tag.span("Public Deck", class: "text-success label-on") %>
-        <%= tag.span("Private Deck", class: "text-warning label-off") %>
-    </label>
+<div class="row">
+  <div class="col-md-6">
+      <div class="card">
+          <div class="card-header card-header-icon card-header-primary">
+            <div class="card-icon">
+              <i class="fad fa-layer-plus"></i>
+            </div>
+          </div>
+          <div class="card-body">
+              
+              <%= form_with model: @master_deck, class: "form", url: "/decks" do |f| %>
+              <div class="form-group">
+                <%= f.label "Deck Name:", for: :name %>
+                <%= f.text_field :name, class: "form-control" %>
+              </div>
+              <div class="form-group">
+                <%= f.label "Deck Type:", for: :deck_type %>
+                <!-- TODO: add all the different deck types -->
+                <%= f.select :deck_type, options_for_select([["Commander", "commander"], ["Modern", "modern"]]), 
+                            {}, {:class => 'form-control selectpicker', :data => { :style => 'btn btn-link' }} %>
+              </div>
+              <div class="form-group">
+                <div class="togglebutton">
+                  <label>
+                    <%= f.check_box :is_public, checked: current_user.user_profile.default_deck_visibility? %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Public Deck", class: "text-success label-on") %>
+                      <%= tag.span("Private Deck", class: "text-warning label-off") %>
+                  </label>
+                </div>
+              </div>
+              <div class="form-group">
+                <%= f.label "Deck Description:", for: :description %>
+                <%= f.text_area :description, class: "form-control" %>
+                <!-- TODO: add link to help article about this -->
+                <p><small class="text-muted">Supports Markdown and MTG tags</small></p>
+              
+              
+              </div>
+              <div class="form-group">
+                <%= f.submit "Create", class: "btn btn-primary" %>
+              </div>
+              <% end %>
+              
+              </div>
+      </div>
   </div>
-</div>
-<div class="form-group">
-  <%= f.label "Deck Description:", for: :description %>
-  <%= f.text_area :description, class: "form-control" %>
-  <!-- TODO: add link to help article about this -->
-  <p><small class="text-muted">Supports Markdown and MTG tags</small></p>
-
 
 </div>
-<div class="form-group">
-  <%= f.submit "Create" %>
-</div>
-<% end %>
-
