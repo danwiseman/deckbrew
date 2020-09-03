@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_08_25_142021) do
+ActiveRecord::Schema.define(version: 2020_09_03_164739) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,9 @@ ActiveRecord::Schema.define(version: 2020_08_25_142021) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
+    t.integer "forked_from"
+    t.integer "forked_from_branch"
+    t.integer "forked_from_deck"
     t.index ["slug"], name: "index_master_decks_on_slug"
     t.index ["user_id"], name: "index_master_decks_on_user_id"
   end

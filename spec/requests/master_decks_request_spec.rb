@@ -53,6 +53,28 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
+    it "forks another user's deck into a new master_deck" do
+       user = FactoryBot.create(:user)
+       second_user = FactoryBot.create(:user)
+       sign_in_via_form(user)
+       
+       # generate a master deck with branches
+        master_deck_to_fork = create_master_deck_via_form(user)
+        create_many_branches(master_deck_to_fork)
+        
+        sign_out_via_link
+        
+        sign_in_via_form(second_user)
+        visit "/u/#{user.slug}/decks/#{master_deck_to_fork.slug}/branch/branch2"
+        
+        click_link "Fork This Deck"
+        
+        expect(page).to have_text("forked from #{user.username}/#{master_deck_to_fork.name}")
+        
+        
+        
+    end
+    
     
 
 end

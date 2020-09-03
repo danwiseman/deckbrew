@@ -9,4 +9,8 @@ module UserHelpers
         
     end
     
+    def sign_out_via_link
+       visit "/accounts/sign_out" 
+    end
+    
 end

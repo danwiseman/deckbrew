@@ -8,6 +8,11 @@ product-page
     else
       breadcrumbs(@master_deck.user, @master_deck)
     end %>
+<% if @master_deck.forked_from != nil 
+    forked_master_deck = MasterDeck.find(@master_deck.forked_from)
+%>
+Forked from: <%= link_to "#{forked_master_deck.user.username}/#{forked_master_deck.name}", MasterDeckHelpers.PathToMasterDeck(forked_master_deck) %>
+<% end %>
 
 <%= render partial: "master_decks/deck_stats", locals: { master_deck: @master_deck, branch: @selected_branch } %>
 
