@@ -1,1 +1,2451 @@
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).GitgraphJS={})}(this,function(t){"use strict";var e="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:{};function r(t){return t&&t.__esModule&&Object.prototype.hasOwnProperty.call(t,"default")?t.default:t}function s(t,e){return t(e={exports:{}},e.exports),e.exports}var i=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0}),function(t){t.VerticalReverse="vertical-reverse",t.Horizontal="horizontal",t.HorizontalReverse="horizontal-reverse"}(e.Orientation||(e.Orientation={}))});r(i);i.Orientation;var n=s(function(t,e){function r(t,e){return Object.assign({},e.reduce((e,r)=>Object.assign({},e,{[r]:t[r]}),{}))}function s(t){return void 0===t}Object.defineProperty(e,"__esModule",{value:!0}),e.booleanOptionOr=function(t,e){return"boolean"==typeof t?t:e},e.numberOptionOr=function(t,e){return"number"==typeof t?t:e},e.pick=r,e.debug=function(t,e){console.log(JSON.stringify(t.map(t=>r(t,e)),null,2))},e.isUndefined=s,e.withoutUndefinedKeys=function(t={}){return Object.keys(t).reduce((e,r)=>s(t[r])?e:Object.assign({},e,{[r]:t[r]}),{})},e.arrowSvgPath=function(t,e,r){const s=r.style.dot.size,n=t.template.arrow.size,o=s+t.template.arrow.offset,a=Math.PI/7,h=function(t,e,r){const s=e.x-r.x,n=e.y-r.y,o=t.template.commit.spacing;let a,h;switch(t.orientation){case i.Orientation.Horizontal:a=n,h=-o;break;case i.Orientation.HorizontalReverse:a=n,h=o;break;case i.Orientation.VerticalReverse:a=-o,h=s;break;default:a=o,h=s}return t.isVertical?Math.abs(n)>o&&(h=0):Math.abs(s)>o&&(a=0),t.reverseArrow&&(a*=-1,h*=-1),Math.atan2(a,h)}(t,e,r),c=o*Math.cos(h),l=o*Math.sin(h),m=(o+n)*Math.cos(h-a),u=(o+n)*Math.sin(h-a),p=(o+n/2)*Math.cos(h),d=(o+n/2)*Math.sin(h),g=(o+n)*Math.cos(h+a),f=(o+n)*Math.sin(h+a);return`M${c},${l} L${m},${u} Q${p},${d} ${g},${f} L${g},${f}`}});r(n);n.booleanOptionOr,n.numberOptionOr,n.pick,n.debug,n.isUndefined,n.withoutUndefinedKeys,n.arrowSvgPath;var o=s(function(t,e){var r;Object.defineProperty(e,"__esModule",{value:!0}),function(t){t.Bezier="bezier",t.Straight="straight"}(r||(r={})),e.MergeStyle=r,e.DEFAULT_FONT="normal 12pt Calibri";class s{constructor(t){t.branch=t.branch||{},t.branch.label=t.branch.label||{},t.arrow=t.arrow||{},t.commit=t.commit||{},t.commit.dot=t.commit.dot||{},t.commit.message=t.commit.message||{},this.colors=t.colors||["#000000"],this.branch={color:t.branch.color,lineWidth:t.branch.lineWidth||2,mergeStyle:t.branch.mergeStyle||r.Bezier,spacing:n.numberOptionOr(t.branch.spacing,20),label:{display:n.booleanOptionOr(t.branch.label.display,!0),color:t.branch.label.color||t.commit.color,strokeColor:t.branch.label.strokeColor||t.commit.color,bgColor:t.branch.label.bgColor||"white",font:t.branch.label.font||t.commit.message.font||e.DEFAULT_FONT,borderRadius:n.numberOptionOr(t.branch.label.borderRadius,10)}},this.arrow={size:t.arrow.size||null,color:t.arrow.color||null,offset:t.arrow.offset||2},this.commit={color:t.commit.color,spacing:n.numberOptionOr(t.commit.spacing,25),hasTooltipInCompactMode:n.booleanOptionOr(t.commit.hasTooltipInCompactMode,!0),dot:{color:t.commit.dot.color||t.commit.color,size:t.commit.dot.size||3,strokeWidth:n.numberOptionOr(t.commit.dot.strokeWidth,0),strokeColor:t.commit.dot.strokeColor,font:t.commit.dot.font||t.commit.message.font||"normal 10pt Calibri"},message:{display:n.booleanOptionOr(t.commit.message.display,!0),displayAuthor:n.booleanOptionOr(t.commit.message.displayAuthor,!0),displayHash:n.booleanOptionOr(t.commit.message.displayHash,!0),color:t.commit.message.color||t.commit.color,font:t.commit.message.font||e.DEFAULT_FONT}},this.tag=t.tag||{}}}e.Template=s;const i=new s({colors:["#6963FF","#47E8D4","#6BDB52","#E84BA5","#FFA657"],branch:{color:"#000000",lineWidth:4,spacing:50,mergeStyle:r.Straight},commit:{spacing:60,dot:{size:16,strokeColor:"#000000",strokeWidth:4},message:{color:"black"}},arrow:{size:16,offset:-1.5}});e.blackArrowTemplate=i;const o=new s({colors:["#979797","#008fb5","#f1c109"],branch:{lineWidth:10,spacing:50},commit:{spacing:80,dot:{size:14},message:{font:"normal 14pt Arial"}}});var a;function h(t){return t?"string"==typeof t?{[a.BlackArrow]:i,[a.Metro]:o}[t]:t:o}e.metroTemplate=o,function(t){t.Metro="metro",t.BlackArrow="blackarrow"}(a||(a={})),e.TemplateName=a,e.templateExtend=function(t,e){const r=h(t);return e.branch||(e.branch={}),e.commit||(e.commit={}),{colors:e.colors||r.colors,arrow:Object.assign({},r.arrow,e.arrow),branch:Object.assign({},r.branch,e.branch,{label:Object.assign({},r.branch.label,e.branch.label)}),commit:Object.assign({},r.commit,e.commit,{dot:Object.assign({},r.commit.dot,e.commit.dot),message:Object.assign({},r.commit.message,e.commit.message)}),tag:Object.assign({},r.tag,e.tag)}},e.getTemplate=h});r(o);o.MergeStyle,o.DEFAULT_FONT,o.Template,o.blackArrowTemplate,o.metroTemplate,o.TemplateName,o.templateExtend,o.getTemplate;var a=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.Tag=class{constructor(t,e,r,s){this.name=t,this.tagStyle=e,this.commitStyle=s,this.render=r}get style(){return{strokeColor:this.tagStyle.strokeColor||this.commitStyle.color,bgColor:this.tagStyle.bgColor||this.commitStyle.color,color:this.tagStyle.color||"white",font:this.tagStyle.font||this.commitStyle.message.font||o.DEFAULT_FONT,borderRadius:n.numberOptionOr(this.tagStyle.borderRadius,10),pointerWidth:n.numberOptionOr(this.tagStyle.pointerWidth,12)}}}});r(a);a.Tag;var h=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});const r=()=>(Math.random().toString(16).substring(3)+Math.random().toString(16).substring(3)+Math.random().toString(16).substring(3)+Math.random().toString(16).substring(3)).substring(0,40);class s{constructor(t){let e,s;this.refs=[],this.x=0,this.y=0;try{[,e,s]=t.author.match(/(.*) <(.*)>/)}catch(r){[e,s]=[t.author,""]}this.author={name:e,email:s,timestamp:Date.now()},this.committer={name:e,email:s,timestamp:Date.now()},this.subject=t.subject,this.body=t.body||"",this.hash=t.hash||r(),this.hashAbbrev=this.hash.substring(0,7),this.parents=t.parents?t.parents:[],this.parentsAbbrev=this.parents.map(t=>t.substring(0,7)),this.style=Object.assign({},t.style,{message:Object.assign({},t.style.message),dot:Object.assign({},t.style.dot)}),this.dotText=t.dotText,this.onClick=(()=>t.onClick?t.onClick(this):void 0),this.onMessageClick=(()=>t.onMessageClick?t.onMessageClick(this):void 0),this.onMouseOver=(()=>t.onMouseOver?t.onMouseOver(this):void 0),this.onMouseOut=(()=>t.onMouseOut?t.onMouseOut(this):void 0),this.renderDot=t.renderDot,this.renderMessage=t.renderMessage,this.renderTooltip=t.renderTooltip}get message(){let t="";return this.style.message.displayHash&&(t+=`${this.hashAbbrev} `),t+=this.subject,this.style.message.displayAuthor&&(t+=` - ${this.author.name} <${this.author.email}>`),t}get branchToDisplay(){return this.branches?this.branches[0]:""}setRefs(t){return this.refs=t.getNames(this.hash),this}setTags(t,e,r){return this.tags=t.getNames(this.hash).map(t=>new a.Tag(t,e(t),r(t),this.style)),this}setBranches(t){return this.branches=t,this}setPosition({x:t,y:e}){return this.x=t,this.y=e,this}withDefaultColor(t){const e=Object.assign({},this.style,{dot:Object.assign({},this.style.dot),message:Object.assign({},this.style.message)});e.color||(e.color=t),e.dot.color||(e.dot.color=t),e.message.color||(e.message.color=t);const r=this.cloneCommit();return r.style=e,r}cloneCommit(){const t=new s({author:`${this.author.name} <${this.author.email}>`,subject:this.subject,style:this.style,body:this.body,hash:this.hash,parents:this.parents,dotText:this.dotText,onClick:this.onClick,onMessageClick:this.onMessageClick,onMouseOver:this.onMouseOver,onMouseOut:this.onMouseOut,renderDot:this.renderDot,renderMessage:this.renderMessage,renderTooltip:this.renderTooltip});return t.refs=this.refs,t.branches=this.branches,t.tags=this.tags,t.x=this.x,t.y=this.y,t}}e.Commit=s});r(h);h.Commit;var c=s(function(t,r){var s=e&&e.__rest||function(t,e){var r={};for(var s in t)Object.prototype.hasOwnProperty.call(t,s)&&e.indexOf(s)<0&&(r[s]=t[s]);if(null!=t&&"function"==typeof Object.getOwnPropertySymbols){var i=0;for(s=Object.getOwnPropertySymbols(t);i<s.length;i++)e.indexOf(s[i])<0&&(r[s[i]]=t[s[i]])}return r};Object.defineProperty(r,"__esModule",{value:!0});class i{constructor(t,e,r){this._branch=t,this.name=t.name,this._graph=e,this._onGraphUpdate=r}branch(t){const e="string"==typeof t?{name:t}:t;return e.from=this,this._graph.createBranch(e).getUserApi()}commit(t){return"string"==typeof t&&(t={subject:t}),t||(t={}),this._commitWithParents(t,[]),this._onGraphUpdate(),this}merge(...t){let e=t[0];(function(t){return"object"==typeof t&&!(t instanceof i)})(e)||(e={branch:t[0],fastForward:!1,commitOptions:{subject:t[1]}});const{branch:r,fastForward:s,commitOptions:n}=e,o="string"==typeof r?r:r.name,a=this._graph.refs.getCommit(o);if(!a)throw new Error(`The branch called "${o}" is unknown`);let h=!1;if(s){const t=this._graph.refs.getCommit(this._branch.name);t&&(h=this._areCommitsConnected(t,a))}return s&&h?this._fastForwardTo(a):this._commitWithParents(Object.assign({},n,{subject:n&&n.subject||`Merge branch ${o}`}),[a]),this._onGraphUpdate(),this}tag(t){return"string"==typeof t?this._graph.getUserApi().tag({name:t,ref:this._branch.name}):this._graph.getUserApi().tag(Object.assign({},t,{ref:this._branch.name})),this}checkout(){const t=this._branch,e=this._graph.refs.getCommit(t.name);return this._graph.currentBranch=t,e&&this._graph.refs.set("HEAD",e),this}_commitWithParents(t,e){const r=this._graph.refs.getCommit(this._branch.name);r?e.unshift(r):this._branch.parentCommitHash&&e.unshift(this._branch.parentCommitHash);const{tag:i}=t,n=s(t,["tag"]),o=new h.Commit(Object.assign({hash:this._graph.generateCommitHash(),author:this._branch.commitDefaultOptions.author||this._graph.author,subject:this._branch.commitDefaultOptions.subject||this._graph.commitMessage},n,{parents:e,style:this._getCommitStyle(t.style)}));if(r){this._graph.refs.getNames(r).forEach(t=>this._graph.refs.set(t,o.hash))}else this._graph.refs.set(this._branch.name,o.hash);this._graph.commits.push(o),this.checkout(),i&&this.tag(i)}_areCommitsConnected(t,e){const r=this._graph.commits.find(({hash:t})=>e===t);return!!r&&(!(0===r.parents.length)&&(!!r.parents.includes(t)||r.parents.some(e=>this._areCommitsConnected(t,e))))}_fastForwardTo(t){this._graph.refs.set(this._branch.name,t)}_getCommitStyle(t={}){return Object.assign({},n.withoutUndefinedKeys(this._graph.template.commit),n.withoutUndefinedKeys(this._branch.commitDefaultOptions.style),t,{message:Object.assign({},n.withoutUndefinedKeys(this._graph.template.commit.message),n.withoutUndefinedKeys(this._branch.commitDefaultOptions.style.message),t.message,n.withoutUndefinedKeys({display:this._graph.shouldDisplayCommitMessage&&void 0})),dot:Object.assign({},n.withoutUndefinedKeys(this._graph.template.commit.dot),n.withoutUndefinedKeys(this._branch.commitDefaultOptions.style.dot),t.dot)})}}r.BranchUserApi=i});r(c);c.BranchUserApi;var l=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});const r="";e.DELETED_BRANCH_NAME=r;class s{constructor(t){this.gitgraph=t.gitgraph,this.name=t.name,this.style=t.style,this.parentCommitHash=t.parentCommitHash,this.commitDefaultOptions=t.commitDefaultOptions||{style:{}},this.onGraphUpdate=t.onGraphUpdate,this.renderLabel=t.renderLabel}getUserApi(){return new c.BranchUserApi(this,this.gitgraph,this.onGraphUpdate)}isDeleted(){return this.name===r}}e.Branch=s,e.createDeletedBranch=function(t,e,i){return new s({name:r,gitgraph:t,style:e,onGraphUpdate:i})}});r(l);l.DELETED_BRANCH_NAME,l.Branch,l.createDeletedBranch;var m=s(function(t,e){var r;Object.defineProperty(e,"__esModule",{value:!0}),function(t){t.Compact="compact"}(r||(r={})),e.Mode=r});r(m);m.Mode;var u=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.RegularGraphRows=class{constructor(t){this.rows=new Map,this.maxRowCache=void 0,this.computeRowsFromCommits(t)}getRowOf(t){return this.rows.get(t)||0}getMaxRow(){return void 0===this.maxRowCache&&(this.maxRowCache=function(t){const e=new Set;return t.forEach(t=>e.add(t)),Array.from(e)}(Array.from(this.rows.values())).length-1),this.maxRowCache}computeRowsFromCommits(t){t.forEach((t,e)=>{this.rows.set(t.hash,e)}),this.maxRowCache=void 0}}});r(u);u.RegularGraphRows;var p=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.CompactGraphRows=class extends u.RegularGraphRows{computeRowsFromCommits(t){t.forEach((e,r)=>{let s=r;if(0!==r){const i=this.getRowOf(e.parents[0]),n=t[r-1];s=Math.max(i+1,this.getRowOf(n.hash)),e.parents.length>1&&i<this.getRowOf(e.parents[1])&&s++}this.rows.set(e.hash,s)})}}});r(p);p.CompactGraphRows;var d=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0}),e.GraphRows=u.RegularGraphRows,e.createGraphRows=function(t,e){return t===m.Mode.Compact?new p.CompactGraphRows(e):new u.RegularGraphRows(e)}});r(d);d.GraphRows,d.createGraphRows;var g=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.BranchesOrder=class{constructor(t,e,r){this.branches=new Set,this.colors=e,t.forEach(t=>this.branches.add(t.branchToDisplay)),r&&(this.branches=new Set(Array.from(this.branches).sort(r)))}get(t){return Array.from(this.branches).findIndex(e=>e===t)}getColorOf(t){return this.colors[this.get(t)%this.colors.length]}}});r(g);g.BranchesOrder;var f=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.Refs=class{constructor(){this.commitPerName=new Map,this.namesPerCommit=new Map}set(t,e){const r=this.commitPerName.get(t);return r&&this.removeNameFrom(r,t),this.addNameTo(e,t),this.addCommitTo(t,e),this}getCommit(t){return this.commitPerName.get(t)}getNames(t){return this.namesPerCommit.get(t)||[]}getAllNames(){return Array.from(this.commitPerName.keys())}hasCommit(t){return this.namesPerCommit.has(t)}hasName(t){return this.commitPerName.has(t)}removeNameFrom(t,e){const r=this.namesPerCommit.get(t)||[];this.namesPerCommit.set(t,r.filter(t=>t!==e))}addNameTo(t,e){const r=this.namesPerCommit.get(t)||[];this.namesPerCommit.set(t,[...r,e])}addCommitTo(t,e){this.commitPerName.set(t,e)}}});r(f);f.Refs;var b=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.BranchesPathsCalculator=class{constructor(t,e,r,s,i,n){this.branchesPaths=new Map,this.commits=t,this.branches=e,this.commitSpacing=r,this.isGraphVertical=s,this.isGraphReverse=i,this.createDeletedBranch=n}execute(){return this.fromCommits(),this.withMergeCommits(),this.smoothBranchesPaths()}fromCommits(){this.commits.forEach(t=>{let e=this.branches.get(t.branchToDisplay);e||(e=this.getDeletedBranchInPath()||this.createDeletedBranch());const r=[],s=this.branchesPaths.get(e),i=this.commits.find(({hash:e})=>e===t.parents[0]);s?r.push(...s):i&&r.push({x:i.x,y:i.y}),r.push({x:t.x,y:t.y}),this.branchesPaths.set(e,r)})}withMergeCommits(){this.commits.filter(({parents:t})=>t.length>1).forEach(t=>{const e=this.commits.find(({hash:e})=>e===t.parents[1]);if(!e)return;const r=e.branches?e.branches[0]:"";let s=this.branches.get(r);if(!s&&!(s=this.getDeletedBranchInPath()))return;const i=[...this.branchesPaths.get(s)||[]];this.branchesPaths.set(s,[...i,{x:t.x,y:t.y,mergeCommit:!0}])})}getDeletedBranchInPath(){return Array.from(this.branchesPaths.keys()).find(t=>t.isDeleted())}smoothBranchesPaths(){const t=new Map;return this.branchesPaths.forEach((e,r)=>{if(e.length<=1)return void t.set(r,[e]);e=this.isGraphVertical?e.sort((t,e)=>t.y>e.y?-1:1):e.sort((t,e)=>t.x>e.x?1:-1),this.isGraphReverse&&(e=e.reverse());const s=e.reduce((t,r,s)=>{if(r.mergeCommit){t[t.length-1].push(n.pick(r,["x","y"]));let i=s-1,o=e[i];for(;i>=0&&o.mergeCommit;)o=e[--i];i>=0&&t.push([o])}else t[t.length-1].push(r);return t},[[]]);this.isGraphReverse&&s.forEach(t=>t.reverse()),this.isGraphVertical?s.forEach(e=>{if(e.length<=1)return;const s=e[0],i=e[e.length-1],n=e[1].x,o=Math.round(Math.abs(s.y-i.y)/this.commitSpacing)-1,a=o>0?new Array(o).fill(0).map((t,r)=>({x:n,y:e[0].y-this.commitSpacing*(r+1)})):[],h=t.get(r)||[];t.set(r,[...h,[s,...a,i]])}):s.forEach(e=>{if(e.length<=1)return;const s=e[0],i=e[e.length-1],n=e[1].y,o=Math.round(Math.abs(s.x-i.x)/this.commitSpacing)-1,a=o>0?new Array(o).fill(0).map((t,r)=>({y:n,x:e[0].x+this.commitSpacing*(r+1)})):[],h=t.get(r)||[];t.set(r,[...h,[s,...a,i]])})}),t}},e.toSvgPath=function(t,e,r){return t.map(t=>"M"+t.map(({x:t,y:s},i,n)=>{if(e&&n.length>1&&(1===i||i===n.length-1)){const e=n[i-1];if(r){const r=(e.y+s)/2;return`C ${e.x} ${r} ${t} ${r} ${t} ${s}`}{const r=(e.x+t)/2;return`C ${r} ${e.y} ${r} ${s} ${t} ${s}`}}return`L ${t} ${s}`}).join(" ").slice(1)).join(" ")}});r(b);b.BranchesPathsCalculator,b.toSvgPath;var y=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.GitgraphUserApi=class{constructor(t,e){this._graph=t,this._onGraphUpdate=e}clear(){return this._graph.refs=new f.Refs,this._graph.tags=new f.Refs,this._graph.commits=[],this._graph.branches=new Map,this._graph.currentBranch=this._graph.createBranch("master"),this._onGraphUpdate(),this}commit(t){return this._graph.currentBranch.getUserApi().commit(t),this}branch(t){return this._graph.createBranch(t).getUserApi()}tag(...t){let e,r,s,i,n;if("string"==typeof t[0]?(e=t[0],r=t[1]):(e=t[0].name,r=t[0].ref,s=t[0].style,i=t[0].render),!r){const t=this._graph.refs.getCommit("HEAD");if(!t)return this;r=t}if(this._graph.refs.hasCommit(r)&&(n=r),this._graph.refs.hasName(r)&&(n=this._graph.refs.getCommit(r)),!n)throw new Error(`The ref "${r}" does not exist`);return this._graph.tags.set(e,n),this._graph.tagStyles[e]=s,this._graph.tagRenders[e]=i,this._onGraphUpdate(),this}import(t){const e=new Error("Only `git2json` format is supported for imported data.");if(!Array.isArray(t))throw e;if(!t.every(t=>"object"==typeof t&&"object"==typeof t.author&&Array.isArray(t.refs)))throw e;const r=t.map(t=>Object.assign({},t,{style:Object.assign({},this._graph.template.commit,{message:Object.assign({},this._graph.template.commit.message,{display:this._graph.shouldDisplayCommitMessage})}),author:`${t.author.name} <${t.author.email}>`})).reverse();this.clear(),this._graph.commits=r.map(t=>new h.Commit(t)),r.forEach(({refs:t,hash:e})=>{t&&e&&(t.map(t=>t.split("tag: ")).map(([t,e])=>e).filter(t=>"string"==typeof t).forEach(t=>this._graph.tags.set(t,e)),t.filter(t=>!t.startsWith("tag: ")).forEach(t=>this._graph.refs.set(t,e)))});const s=this._getBranches();return this._graph.commits.map(t=>this._withBranches(s,t)).reduce((t,e)=>e.branches?(e.branches.forEach(e=>t.add(e)),t):t,new Set).forEach(t=>this.branch(t)),this._onGraphUpdate(),this}_withBranches(t,e){let r=Array.from((t.get(e.hash)||new Set).values());return 0===r.length&&(r=[l.DELETED_BRANCH_NAME]),e.setBranches(r)}_getBranches(){const t=new Map,e=[];return this._graph.refs.getAllNames().filter(t=>"HEAD"!==t).forEach(r=>{const s=this._graph.refs.getCommit(r);for(s&&e.push(s);e.length>0;){const s=e.pop(),i=this._graph.commits.find(({hash:t})=>t===s),n=t.get(s)||new Set;n.add(r),t.set(s,n),i&&i.parents&&i.parents.length>0&&e.push(i.parents[0])}}),t}}});r(y);y.GitgraphUserApi;var v=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0});e.GitgraphCore=class{constructor(t={}){this.refs=new f.Refs,this.tags=new f.Refs,this.tagStyles={},this.tagRenders={},this.commits=[],this.branches=new Map,this.listeners=[],this.nextTimeoutId=null,this.template=o.getTemplate(t.template),this.currentBranch=this.createBranch("master"),this.orientation=t.orientation,this.reverseArrow=n.booleanOptionOr(t.reverseArrow,!1),this.initCommitOffsetX=n.numberOptionOr(t.initCommitOffsetX,0),this.initCommitOffsetY=n.numberOptionOr(t.initCommitOffsetY,0),this.mode=t.mode,this.author=t.author||"Sergio Flores <saxo-guy@epic.com>",this.commitMessage=t.commitMessage||"He doesn't like George Michael! Boooo!",this.generateCommitHash="function"==typeof t.generateCommitHash?t.generateCommitHash:()=>void 0,this.branchesOrderFunction="function"==typeof t.compareBranchesOrder?t.compareBranchesOrder:void 0,this.branchLabelOnEveryCommit=n.booleanOptionOr(t.branchLabelOnEveryCommit,!1)}get isHorizontal(){return this.orientation===i.Orientation.Horizontal||this.orientation===i.Orientation.HorizontalReverse}get isVertical(){return!this.isHorizontal}get isReverse(){return this.orientation===i.Orientation.HorizontalReverse||this.orientation===i.Orientation.VerticalReverse}get shouldDisplayCommitMessage(){return!this.isHorizontal&&this.mode!==m.Mode.Compact}getUserApi(){return new y.GitgraphUserApi(this,()=>this.next())}subscribe(t){this.listeners.push(t);let e=!0;return()=>{if(!e)return;e=!1;const r=this.listeners.indexOf(t);this.listeners.splice(r,1)}}getRenderedData(){const t=this.computeRenderedCommits(),e=this.computeRenderedBranchesPaths(t),r=this.computeCommitMessagesX(e);return this.computeBranchesColor(t,e),{commits:t,branchesPaths:e,commitMessagesX:r}}createBranch(t){let e={gitgraph:this,name:"",parentCommitHash:this.refs.getCommit("HEAD"),style:this.template.branch,onGraphUpdate:()=>this.next()};if("string"==typeof t)e.name=t,e.parentCommitHash=this.refs.getCommit("HEAD");else{const r=t.from?t.from.name:"HEAD",s=this.refs.getCommit(r)||(this.refs.hasCommit(t.from)?t.from:void 0);t.style=t.style||{},e=Object.assign({},e,t,{parentCommitHash:s,style:Object.assign({},e.style,t.style,{label:Object.assign({},e.style.label,t.style.label)})})}const r=new l.Branch(e);return this.branches.set(r.name,r),r}computeRenderedCommits(){const t=this.getBranches(),e=this.commits.map(e=>this.withBranches(t,e)),r=d.createGraphRows(this.mode,this.commits),s=new g.BranchesOrder(e,this.template.colors,this.branchesOrderFunction);return e.map(t=>t.setRefs(this.refs)).map(t=>this.withPosition(r,s,t)).map(t=>t.withDefaultColor(this.getBranchDefaultColor(s,t.branchToDisplay))).map(t=>t.setTags(this.tags,t=>Object.assign({},this.tagStyles[t],this.template.tag),t=>this.tagRenders[t]))}computeRenderedBranchesPaths(t){return new b.BranchesPathsCalculator(t,this.branches,this.template.commit.spacing,this.isVertical,this.isReverse,()=>l.createDeletedBranch(this,this.template.branch,()=>this.next())).execute()}computeBranchesColor(t,e){const r=new g.BranchesOrder(t,this.template.colors,this.branchesOrderFunction);Array.from(e).forEach(([t])=>{t.computedColor=t.style.color||this.getBranchDefaultColor(r,t.name)})}computeCommitMessagesX(t){return Array.from(t).length*this.template.branch.spacing}withBranches(t,e){let r=Array.from((t.get(e.hash)||new Set).values());return 0===r.length&&(r=[l.DELETED_BRANCH_NAME]),e.setBranches(r)}getBranches(){const t=new Map,e=[];return this.refs.getAllNames().filter(t=>"HEAD"!==t).forEach(r=>{const s=this.refs.getCommit(r);for(s&&e.push(s);e.length>0;){const s=e.pop(),i=this.commits.find(({hash:t})=>t===s),n=t.get(s)||new Set;n.add(r),t.set(s,n),i&&i.parents&&i.parents.length>0&&e.push(i.parents[0])}}),t}withPosition(t,e,r){const s=t.getRowOf(r.hash),n=t.getMaxRow(),o=e.get(r.branchToDisplay);switch(this.orientation){default:return r.setPosition({x:this.initCommitOffsetX+this.template.branch.spacing*o,y:this.initCommitOffsetY+this.template.commit.spacing*(n-s)});case i.Orientation.VerticalReverse:return r.setPosition({x:this.initCommitOffsetX+this.template.branch.spacing*o,y:this.initCommitOffsetY+this.template.commit.spacing*s});case i.Orientation.Horizontal:return r.setPosition({x:this.initCommitOffsetX+this.template.commit.spacing*s,y:this.initCommitOffsetY+this.template.branch.spacing*o});case i.Orientation.HorizontalReverse:return r.setPosition({x:this.initCommitOffsetX+this.template.commit.spacing*(n-s),y:this.initCommitOffsetY+this.template.branch.spacing*o})}}getBranchDefaultColor(t,e){return t.getColorOf(e)}next(){this.nextTimeoutId&&window.clearTimeout(this.nextTimeoutId),this.nextTimeoutId=window.setTimeout(()=>{this.listeners.forEach(t=>t(this.getRenderedData()))},0)}}});r(v);v.GitgraphCore;var O=s(function(t,e){Object.defineProperty(e,"__esModule",{value:!0}),e.GitgraphCore=v.GitgraphCore,e.Mode=m.Mode,e.GitgraphUserApi=y.GitgraphUserApi,e.BranchUserApi=c.BranchUserApi,e.Branch=l.Branch,e.Commit=h.Commit,e.Tag=a.Tag,e.Refs=f.Refs,e.MergeStyle=o.MergeStyle,e.TemplateName=o.TemplateName,e.templateExtend=o.templateExtend,e.Orientation=i.Orientation,e.toSvgPath=b.toSvgPath,e.arrowSvgPath=n.arrowSvgPath});r(O);var w=O.GitgraphCore,C=O.Mode,A=(O.GitgraphUserApi,O.BranchUserApi,O.Branch,O.Commit,O.Tag,O.Refs,O.MergeStyle),_=O.TemplateName,M=O.templateExtend,x=O.Orientation,S=O.toSvgPath,E=O.arrowSvgPath,B="http://www.w3.org/2000/svg";function R(t){var e=document.createElementNS(B,"g");return t.children.forEach(function(t){return t&&e.appendChild(t)}),t.translate&&e.setAttribute("transform","translate("+t.translate.x+", "+t.translate.y+")"),t.fill&&e.setAttribute("fill",t.fill),t.stroke&&e.setAttribute("stroke",t.stroke),t.strokeWidth&&e.setAttribute("stroke-width",t.strokeWidth.toString()),t.onClick&&e.addEventListener("click",t.onClick),t.onMouseOver&&e.addEventListener("mouseover",t.onMouseOver),t.onMouseOut&&e.addEventListener("mouseout",t.onMouseOut),e}function k(t){var e=document.createElementNS(B,"text");return e.setAttribute("alignment-baseline","central"),e.setAttribute("dominant-baseline","central"),e.textContent=t.content,t.fill&&e.setAttribute("fill",t.fill),t.font&&e.setAttribute("style","font: "+t.font),t.anchor&&e.setAttribute("text-anchor",t.anchor),t.translate&&(e.setAttribute("x",t.translate.x.toString()),e.setAttribute("y",t.translate.y.toString())),t.onClick&&e.addEventListener("click",t.onClick),e}function j(t){var e=document.createElementNS(B,"path");return e.setAttribute("d",t.d),t.fill&&e.setAttribute("fill",t.fill),t.stroke&&e.setAttribute("stroke",t.stroke),t.strokeWidth&&e.setAttribute("stroke-width",t.strokeWidth.toString()),t.translate&&e.setAttribute("transform","translate("+t.translate.x+", "+t.translate.y+")"),e}function T(t){var e=document.createElementNS(B,"use");return e.setAttribute("href","#"+t),e.setAttributeNS("http://www.w3.org/1999/xlink","xlink:href","#"+t),e}var P=10,D=5;function N(t,e){var r=function(t){var e=document.createElementNS(B,"rect");return e.setAttribute("width",t.width.toString()),e.setAttribute("height",t.height.toString()),t.borderRadius&&e.setAttribute("rx",t.borderRadius.toString()),t.fill&&e.setAttribute("fill",t.fill||"transparent"),t.stroke&&e.setAttribute("stroke",t.stroke),e}({width:0,height:0,borderRadius:t.style.label.borderRadius,stroke:t.style.label.strokeColor||e.style.color,fill:t.style.label.bgColor}),s=k({content:t.name,translate:{x:P,y:0},font:t.style.label.font,fill:t.style.label.color||e.style.color}),i=R({children:[r]});return new MutationObserver(function(){var t=s.getBBox(),e=t.height,i=t.width+2*P,n=e+2*D;r.setAttribute("width",i.toString()),r.setAttribute("height",n.toString()),s.setAttribute("y",(n/2).toString())}).observe(i,{attributes:!1,subtree:!1,childList:!0}),i.appendChild(s),i}var U=10,H=5;var G=10,z=10;function L(t){var e=0;if(t){var r=t.getBoundingClientRect().height,s=window.getComputedStyle(t).marginTop||"0px";e=r+parseInt(s.replace("px",""),10)}return e}t.MergeStyle=A,t.Mode=C,t.Orientation=x,t.TemplateName=_,t.createGitgraph=function(t,e){var r,s,i={},n={},o=!1,a=0,h=null,c=function(t){var e=document.createElementNS(B,"svg");return t?(t.children&&t.children.forEach(function(t){return e.appendChild(t)}),t.viewBox&&e.setAttribute("viewBox",t.viewBox),t.height&&e.setAttribute("height",t.height.toString()),t.width&&e.setAttribute("width",t.width.toString()),e):e}();new MutationObserver(function(){var t,e,h,p,d,g,f,b;o?(o=!1,g=Array.from(s.children),f=0,b=l.orientation===x.VerticalReverse?g:g.reverse(),n=b.reduce(function(t,e){var r=parseInt(e.getAttribute("transform").split(",")[1].slice(0,-1),10),s=e.getElementsByTagName("foreignObject")[0],i=s&&s.firstElementChild;return t[r]=r+f,f+=L(i),t},{}),m(r)):(l.isHorizontal||Object.keys(i).forEach(function(t){var e=i[t],r=e.branchLabel,s=e.tags,n=e.message,o=a;if(r){u(r,o);var h=r.getBBox().width+2*P;o+=h+10}s.forEach(function(t){u(t,o);var e=parseFloat(t.getAttribute("data-offset")||"0"),r=t.getBBox().width+2*U+e;o+=r+10}),n&&u(n,o)}),t=c.getBBox(),e=t.height,h=t.width,p=l.isHorizontal?50:P+G,d=l.isHorizontal?50:D+G,c.setAttribute("width",(h+p).toString()),c.setAttribute("height",(e+d).toString()))}).observe(c,{attributes:!1,subtree:!0,childList:!0}),t.appendChild(c);var l=new w(e);return l.subscribe(function(t){o=!0,m(t)}),l.getUserApi();function m(t){i={};var e=t.commits,n=t.branchesPaths;a=t.commitMessagesX,r=t,s=function(t){return R({children:t.map(function(e){var r=d(e),s=r.x,n=r.y;return R({translate:{x:s,y:n},children:[function(t){if(t.renderDot)return t.renderDot(t);var e=t.hash,r=function(t){var e=document.createElementNS(B,"circle");return e.setAttribute("cx",t.radius.toString()),e.setAttribute("cy",t.radius.toString()),e.setAttribute("r",t.radius.toString()),t.id&&e.setAttribute("id",t.id),t.fill&&e.setAttribute("fill",t.fill),e}({id:e,radius:t.style.dot.size,fill:t.style.dot.color||""}),s="clip-"+t.hash,i=document.createElementNS(B,"clipPath");i.setAttribute("id",s),i.appendChild(T(e));var n=T(e);n.setAttribute("clip-path","url(#"+s+")"),n.setAttribute("stroke",t.style.dot.strokeColor||"");var o=t.style.dot.strokeWidth?2*t.style.dot.strokeWidth:0;n.setAttribute("stroke-width",o.toString());var a,m,u=t.dotText?k({content:t.dotText,font:t.style.dot.font,anchor:"middle",translate:{x:t.style.dot.size,y:t.style.dot.size}}):null;return R({onClick:t.onClick,onMouseOver:function(){!function(t){if(c.firstChild&&(!l.isVertical||l.mode===C.Compact)&&(!l.isVertical||t.style.hasTooltipInCompactMode)){var e=t.renderTooltip?t.renderTooltip(t):function(t){var e=j({d:"",fill:"#EEE"}),r=k({translate:{x:z+G,y:0},content:t.hashAbbrev+" - "+t.subject,fill:"#333"}),s=2*t.style.dot.size,i=R({translate:{x:s,y:s/2},children:[e]});return new MutationObserver(function(){var t=r.getBBox().width,s=z+t+2*G,i=["M 0,0","L "+z+","+z,"V 20","Q "+z+",25 "+(z+5)+",25","H "+(s-5),"Q "+s+",25 "+s+",20","V -20","Q "+s+",-25 "+(s-5)+",-25","H "+(z+5),"Q "+z+",-25 "+z+",-20","V -"+z,"z"].join(" ");e.setAttribute("d",i.toString())}).observe(i,{attributes:!1,subtree:!1,childList:!0}),i.appendChild(r),i}(t);h=R({translate:d(t),children:[e]}),c.firstChild.appendChild(h)}}(t),t.onMouseOver()},onMouseOut:function(){h&&h.remove(),t.onMouseOut()},children:[(a=[r,i],m=document.createElementNS(B,"defs"),a.forEach(function(t){return m.appendChild(t)}),m),n,u]})}(e)].concat(function(e){if(!l.template.arrow.size)return[null];var r=e.style.dot.size;return e.parents.map(function(s){var i=t.find(function(t){var e=t.hash;return e===s});if(!i)return null;var n=l.reverseArrow?{x:r+(i.x-e.x),y:r+(i.y-e.y)}:{x:r,y:r},o=j({d:E(l,i,e),fill:l.template.arrow.color||""});return R({translate:n,children:[o]})})}(e),[R({translate:{x:-s,y:0},children:[function(t){if(!t.style.message.display)return null;var e;if(t.renderMessage)return p(e=R({children:[]})),e.appendChild(t.renderMessage(t)),g(t,e),e;var r=k({content:t.message,fill:t.style.message.color||"",font:t.style.message.font,onClick:t.onMessageClick});if(e=R({translate:{x:0,y:t.style.dot.size},children:[r]}),t.body){var s=function(t){var e=document.createElementNS(B,"foreignObject");e.setAttribute("width",t.width.toString()),t.translate&&(e.setAttribute("x",t.translate.x.toString()),e.setAttribute("y",t.translate.y.toString()));var r=document.createElement("p");return r.textContent=t.content,e.appendChild(r),e}({width:600,translate:{x:10,y:0},content:t.body});p(e),e.appendChild(s)}return g(t,e),e}(e)].concat(function(t){return Array.from(l.branches.values()).map(function(e){if(!e.style.label.display)return null;if(!l.branchLabelOnEveryCommit){var r=l.refs.getCommit(e.name);if(t.hash!==r)return null}if(t.branchToDisplay!==e.name)return null;var s,n=e.renderLabel?e.renderLabel(e):N(e,t);if(l.isVertical)s=R({children:[n]});else{var o=2*t.style.dot.size;s=R({translate:{x:t.x,y:o+10},children:[n]})}return function(t,e){i[t.hashAbbrev]||f(t),i[t.hashAbbrev].branchLabel=e}(t,s),s})}(e),function(t){return t.tags?l.isHorizontal?[]:t.tags.map(function(e){var r=e.render?e.render(e.name,e.style):function(t){var e=j({d:"",fill:t.style.bgColor,stroke:t.style.strokeColor}),r=k({content:t.name,fill:t.style.color,font:t.style.font,translate:{x:0,y:0}}),s=R({children:[e]}),i=t.style.pointerWidth;return new MutationObserver(function(){var s=r.getBBox(),n=s.height,o=s.width;if(0!==n&&0!==o){var a=t.style.borderRadius,h=i+o+2*U,c=n+2*H,l=["M 0,0","L "+i+","+c/2,"V "+c/2,"Q "+i+","+c/2+" "+(i+a)+","+c/2,"H "+(h-a),"Q "+h+","+c/2+" "+h+","+(c/2-a),"V -"+(c/2-a),"Q "+h+",-"+c/2+" "+(h-a)+",-"+c/2,"H "+(i+a),"Q "+i+",-"+c/2+" "+i+",-"+c/2,"V -"+c/2,"z"].join(" ");e.setAttribute("d",l.toString()),r.setAttribute("x",(i+U).toString())}}).observe(s,{attributes:!1,subtree:!1,childList:!0}),s.appendChild(r),s}(e),s=R({translate:{x:0,y:t.style.dot.size},children:[r]});return s.setAttribute("data-offset",e.style.pointerWidth.toString()),function(t,e){i[t.hashAbbrev]||f(t),i[t.hashAbbrev].tags.push(e)}(t,s),s}):[]}(e))})])})})})}(e),c.innerHTML="",c.appendChild(R({translate:{x:P,y:G},children:[function(t){var e=l.template.commit.dot.size,r=l.template.branch.mergeStyle===A.Bezier;return R({children:Array.from(t).map(function(t){var s=t[0],i=t[1];return j({d:S(i.map(function(t){return t.map(d)}),r,l.isVertical),fill:"transparent",stroke:s.computedColor||"",strokeWidth:s.style.lineWidth,translate:{x:e,y:e}})})})}(n),s]}))}function u(t,e){var r=t.getAttribute("transform")||"translate(0, 0)";t.setAttribute("transform",r.replace(/translate\(([\d\.]+),/,"translate("+e+","))}function p(t){function e(t){if("foreignObject"===t.nodeName){var r=t.firstChild&&t.firstChild.parentElement;if(!r)return;r.setAttribute("height",L(r.firstElementChild).toString())}t.childNodes.forEach(e)}new MutationObserver(function(t){t.forEach(function(t){return e(t.target)})}).observe(t,{attributes:!1,subtree:!1,childList:!0})}function d(t){var e=t.x,r=t.y;return{x:e,y:n[r]||r}}function g(t,e){i[t.hashAbbrev]||f(t),i[t.hashAbbrev].message=e}function f(t){i[t.hashAbbrev]={branchLabel:null,tags:[],message:null}}},t.templateExtend=M,Object.defineProperty(t,"__esModule",{value:!0})});
+(function (global, factory) {
+	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports) :
+	typeof define === 'function' && define.amd ? define(['exports'], factory) :
+	(global = global || self, factory(global.GitgraphJS = {}));
+}(this, function (exports) { 'use strict';
+
+	var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+	function unwrapExports (x) {
+		return x && x.__esModule && Object.prototype.hasOwnProperty.call(x, 'default') ? x['default'] : x;
+	}
+
+	function createCommonjsModule(fn, module) {
+		return module = { exports: {} }, fn(module, module.exports), module.exports;
+	}
+
+	var orientation = createCommonjsModule(function (module, exports) {
+	// Extracted from `gitgraph.ts` because it caused `utils` tests to fail
+	// because of circular dependency between `utils` and `template`.
+	// It's not clear why (the circular dependency still exist) but `Orientation`
+	// was the only one causing issue. Maybe because it's an enum?
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var Orientation;
+	(function (Orientation) {
+	    Orientation["VerticalReverse"] = "vertical-reverse";
+	    Orientation["Horizontal"] = "horizontal";
+	    Orientation["HorizontalReverse"] = "horizontal-reverse";
+	})(Orientation = exports.Orientation || (exports.Orientation = {}));
+
+	});
+
+	unwrapExports(orientation);
+	var orientation_1 = orientation.Orientation;
+
+	var utils = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	/**
+	 * Provide a default value to a boolean.
+	 * @param value
+	 * @param defaultValue
+	 */
+	function booleanOptionOr(value, defaultValue) {
+	    return typeof value === "boolean" ? value : defaultValue;
+	}
+	exports.booleanOptionOr = booleanOptionOr;
+	/**
+	 * Provide a default value to a number.
+	 * @param value
+	 * @param defaultValue
+	 */
+	function numberOptionOr(value, defaultValue) {
+	    return typeof value === "number" ? value : defaultValue;
+	}
+	exports.numberOptionOr = numberOptionOr;
+	/**
+	 * Creates an object composed of the picked object properties.
+	 * @param obj The source object
+	 * @param paths The property paths to pick
+	 */
+	function pick(obj, paths) {
+	    return Object.assign({}, paths.reduce((mem, key) => (Object.assign({}, mem, { [key]: obj[key] })), {}));
+	}
+	exports.pick = pick;
+	/**
+	 * Print a light version of commits into the console.
+	 * @param commits List of commits
+	 * @param paths The property paths to pick
+	 */
+	function debug(commits, paths) {
+	    // tslint:disable-next-line:no-console
+	    console.log(JSON.stringify(commits.map((commit) => pick(commit, paths)), null, 2));
+	}
+	exports.debug = debug;
+	/**
+	 * Return true if is undefined.
+	 *
+	 * @param obj
+	 */
+	function isUndefined(obj) {
+	    return obj === undefined;
+	}
+	exports.isUndefined = isUndefined;
+	/**
+	 * Return a version of the object without any undefined keys.
+	 *
+	 * @param obj
+	 */
+	function withoutUndefinedKeys(obj = {}) {
+	    return Object.keys(obj).reduce((mem, key) => isUndefined(obj[key]) ? mem : Object.assign({}, mem, { [key]: obj[key] }), {});
+	}
+	exports.withoutUndefinedKeys = withoutUndefinedKeys;
+	/**
+	 * Return a string ready to use in `svg.path.d` to draw an arrow from params.
+	 *
+	 * @param graph Graph context
+	 * @param parent Parent commit of the target commit
+	 * @param commit Target commit
+	 */
+	function arrowSvgPath(graph, parent, commit) {
+	    const commitRadius = commit.style.dot.size;
+	    const size = graph.template.arrow.size;
+	    const h = commitRadius + graph.template.arrow.offset;
+	    // Delta between left & right (radian)
+	    const delta = Math.PI / 7;
+	    // Alpha angle between parent & commit (radian)
+	    const alpha = getAlpha(graph, parent, commit);
+	    // Top
+	    const x1 = h * Math.cos(alpha);
+	    const y1 = h * Math.sin(alpha);
+	    // Bottom right
+	    const x2 = (h + size) * Math.cos(alpha - delta);
+	    const y2 = (h + size) * Math.sin(alpha - delta);
+	    // Bottom center
+	    const x3 = (h + size / 2) * Math.cos(alpha);
+	    const y3 = (h + size / 2) * Math.sin(alpha);
+	    // Bottom left
+	    const x4 = (h + size) * Math.cos(alpha + delta);
+	    const y4 = (h + size) * Math.sin(alpha + delta);
+	    return `M${x1},${y1} L${x2},${y2} Q${x3},${y3} ${x4},${y4} L${x4},${y4}`;
+	}
+	exports.arrowSvgPath = arrowSvgPath;
+	function getAlpha(graph, parent, commit) {
+	    const deltaX = parent.x - commit.x;
+	    const deltaY = parent.y - commit.y;
+	    const commitSpacing = graph.template.commit.spacing;
+	    let alphaY;
+	    let alphaX;
+	    // Angle usually start from previous commit Y position:
+	    //
+	    // o
+	    // ↑ ↖ ︎
+	    // o  |  <-- path is straight until last commit Y position
+	    // ↑  o
+	    // | ↗︎
+	    // o
+	    //
+	    // So we can to default to commit spacing.
+	    // For horizontal orientation => same with commit X position.
+	    switch (graph.orientation) {
+	        case orientation.Orientation.Horizontal:
+	            alphaY = deltaY;
+	            alphaX = -commitSpacing;
+	            break;
+	        case orientation.Orientation.HorizontalReverse:
+	            alphaY = deltaY;
+	            alphaX = commitSpacing;
+	            break;
+	        case orientation.Orientation.VerticalReverse:
+	            alphaY = -commitSpacing;
+	            alphaX = deltaX;
+	            break;
+	        default:
+	            alphaY = commitSpacing;
+	            alphaX = deltaX;
+	            break;
+	    }
+	    // If commit is distant from its parent, there should be no angle.
+	    //
+	    //    o ︎
+	    //    ↑  <-- arrow is like previous commit was on same X position
+	    // o  |
+	    // | /
+	    // o
+	    //
+	    // For horizontal orientation => same with commit Y position.
+	    if (graph.isVertical) {
+	        if (Math.abs(deltaY) > commitSpacing)
+	            alphaX = 0;
+	    }
+	    else {
+	        if (Math.abs(deltaX) > commitSpacing)
+	            alphaY = 0;
+	    }
+	    if (graph.reverseArrow) {
+	        alphaY *= -1;
+	        alphaX *= -1;
+	    }
+	    return Math.atan2(alphaY, alphaX);
+	}
+
+	});
+
+	unwrapExports(utils);
+	var utils_1 = utils.booleanOptionOr;
+	var utils_2 = utils.numberOptionOr;
+	var utils_3 = utils.pick;
+	var utils_4 = utils.debug;
+	var utils_5 = utils.isUndefined;
+	var utils_6 = utils.withoutUndefinedKeys;
+	var utils_7 = utils.arrowSvgPath;
+
+	var template = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	/**
+	 * Branch merge style enum
+	 */
+	var MergeStyle;
+	(function (MergeStyle) {
+	    MergeStyle["Bezier"] = "bezier";
+	    MergeStyle["Straight"] = "straight";
+	})(MergeStyle || (MergeStyle = {}));
+	exports.MergeStyle = MergeStyle;
+	exports.DEFAULT_FONT = "normal 12pt Calibri";
+	/**
+	 * Gitgraph template
+	 *
+	 * Set of design rules for the rendering.
+	 */
+	class Template {
+	    constructor(options) {
+	        // Options
+	        options.branch = options.branch || {};
+	        options.branch.label = options.branch.label || {};
+	        options.arrow = options.arrow || {};
+	        options.commit = options.commit || {};
+	        options.commit.dot = options.commit.dot || {};
+	        options.commit.message = options.commit.message || {};
+	        // One color per column
+	        this.colors = options.colors || ["#000000"];
+	        // Branch style
+	        this.branch = {
+	            color: options.branch.color,
+	            lineWidth: options.branch.lineWidth || 2,
+	            mergeStyle: options.branch.mergeStyle || MergeStyle.Bezier,
+	            spacing: utils.numberOptionOr(options.branch.spacing, 20),
+	            label: {
+	                display: utils.booleanOptionOr(options.branch.label.display, true),
+	                color: options.branch.label.color || options.commit.color,
+	                strokeColor: options.branch.label.strokeColor || options.commit.color,
+	                bgColor: options.branch.label.bgColor || "white",
+	                font: options.branch.label.font ||
+	                    options.commit.message.font ||
+	                    exports.DEFAULT_FONT,
+	                borderRadius: utils.numberOptionOr(options.branch.label.borderRadius, 10),
+	            },
+	        };
+	        // Arrow style
+	        this.arrow = {
+	            size: options.arrow.size || null,
+	            color: options.arrow.color || null,
+	            offset: options.arrow.offset || 2,
+	        };
+	        // Commit style
+	        this.commit = {
+	            color: options.commit.color,
+	            spacing: utils.numberOptionOr(options.commit.spacing, 25),
+	            hasTooltipInCompactMode: utils.booleanOptionOr(options.commit.hasTooltipInCompactMode, true),
+	            dot: {
+	                color: options.commit.dot.color || options.commit.color,
+	                size: options.commit.dot.size || 3,
+	                strokeWidth: utils.numberOptionOr(options.commit.dot.strokeWidth, 0),
+	                strokeColor: options.commit.dot.strokeColor,
+	                font: options.commit.dot.font ||
+	                    options.commit.message.font ||
+	                    "normal 10pt Calibri",
+	            },
+	            message: {
+	                display: utils.booleanOptionOr(options.commit.message.display, true),
+	                displayAuthor: utils.booleanOptionOr(options.commit.message.displayAuthor, false),
+	                displayHash: utils.booleanOptionOr(options.commit.message.displayHash, false),
+	                color: options.commit.message.color || options.commit.color,
+	                font: options.commit.message.font || exports.DEFAULT_FONT,
+	            },
+	        };
+	        // Tag style
+	        // This one is computed in the Tag instance. It needs Commit style
+	        // that is partially computed at runtime (for colors).
+	        this.tag = options.tag || {};
+	    }
+	}
+	exports.Template = Template;
+	/**
+	 * Black arrow template
+	 */
+	const blackArrowTemplate = new Template({
+	    colors: ["#6963FF", "#47E8D4", "#6BDB52", "#E84BA5", "#FFA657"],
+	    branch: {
+	        color: "#000000",
+	        lineWidth: 4,
+	        spacing: 50,
+	        mergeStyle: MergeStyle.Straight,
+	    },
+	    commit: {
+	        spacing: 60,
+	        dot: {
+	            size: 16,
+	            strokeColor: "#000000",
+	            strokeWidth: 4,
+	        },
+	        message: {
+	            color: "black",
+	        },
+	    },
+	    arrow: {
+	        size: 16,
+	        offset: -1.5,
+	    },
+	});
+	exports.blackArrowTemplate = blackArrowTemplate;
+	/**
+	 * Metro template
+	 */
+	const metroTemplate = new Template({
+	    colors: ["#979797", "#008fb5", "#f1c109"],
+	    branch: {
+	        lineWidth: 10,
+	        spacing: 50,
+	    },
+	    commit: {
+	        spacing: 80,
+	        dot: {
+	            size: 14,
+	        },
+	        message: {
+	            font: "normal 14pt Arial",
+	        },
+	    },
+	});
+	exports.metroTemplate = metroTemplate;
+	var TemplateName;
+	(function (TemplateName) {
+	    TemplateName["Metro"] = "metro";
+	    TemplateName["BlackArrow"] = "blackarrow";
+	})(TemplateName || (TemplateName = {}));
+	exports.TemplateName = TemplateName;
+	/**
+	 * Extend an existing template with new options.
+	 *
+	 * @param selectedTemplate Template to extend
+	 * @param options Template options
+	 */
+	function templateExtend(selectedTemplate, options) {
+	    const template = getTemplate(selectedTemplate);
+	    if (!options.branch)
+	        options.branch = {};
+	    if (!options.commit)
+	        options.commit = {};
+	    // This is tedious, but it seems acceptable so we don't need lodash
+	    // as we want to keep bundlesize small.
+	    return {
+	        colors: options.colors || template.colors,
+	        arrow: Object.assign({}, template.arrow, options.arrow),
+	        branch: Object.assign({}, template.branch, options.branch, { label: Object.assign({}, template.branch.label, options.branch.label) }),
+	        commit: Object.assign({}, template.commit, options.commit, { dot: Object.assign({}, template.commit.dot, options.commit.dot), message: Object.assign({}, template.commit.message, options.commit.message) }),
+	        tag: Object.assign({}, template.tag, options.tag),
+	    };
+	}
+	exports.templateExtend = templateExtend;
+	/**
+	 * Resolve the template to use regarding given `template` value.
+	 *
+	 * @param template Selected template name, or instance.
+	 */
+	function getTemplate(template) {
+	    if (!template)
+	        return metroTemplate;
+	    if (typeof template === "string") {
+	        return {
+	            [TemplateName.BlackArrow]: blackArrowTemplate,
+	            [TemplateName.Metro]: metroTemplate,
+	        }[template];
+	    }
+	    return template;
+	}
+	exports.getTemplate = getTemplate;
+
+	});
+
+	unwrapExports(template);
+	var template_1 = template.MergeStyle;
+	var template_2 = template.DEFAULT_FONT;
+	var template_3 = template.Template;
+	var template_4 = template.blackArrowTemplate;
+	var template_5 = template.metroTemplate;
+	var template_6 = template.TemplateName;
+	var template_7 = template.templateExtend;
+	var template_8 = template.getTemplate;
+
+	var tag = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+
+	class Tag {
+	    constructor(name, style, render, commitStyle) {
+	        this.name = name;
+	        this.tagStyle = style;
+	        this.commitStyle = commitStyle;
+	        this.render = render;
+	    }
+	    /**
+	     * Style
+	     */
+	    get style() {
+	        return {
+	            strokeColor: this.tagStyle.strokeColor || this.commitStyle.color,
+	            bgColor: this.tagStyle.bgColor || this.commitStyle.color,
+	            color: this.tagStyle.color || "white",
+	            font: this.tagStyle.font || this.commitStyle.message.font || template.DEFAULT_FONT,
+	            borderRadius: utils.numberOptionOr(this.tagStyle.borderRadius, 10),
+	            pointerWidth: utils.numberOptionOr(this.tagStyle.pointerWidth, 12),
+	        };
+	    }
+	}
+	exports.Tag = Tag;
+
+	});
+
+	unwrapExports(tag);
+	var tag_1 = tag.Tag;
+
+	var commit = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	/**
+	 * Generate a random hash.
+	 *
+	 * @return hex string with 40 chars
+	 */
+	const getRandomHash = () => (Math.random()
+	    .toString(16)
+	    .substring(3) +
+	    Math.random()
+	        .toString(16)
+	        .substring(3) +
+	    Math.random()
+	        .toString(16)
+	        .substring(3) +
+	    Math.random()
+	        .toString(16)
+	        .substring(3)).substring(0, 40);
+	class Commit {
+	    constructor(options) {
+	        /**
+	         * Ref names
+	         */
+	        this.refs = [];
+	        /**
+	         * Commit x position
+	         */
+	        this.x = 0;
+	        /**
+	         * Commit y position
+	         */
+	        this.y = 0;
+	        // Set author & committer
+	        let name, email;
+	        try {
+	            [, name, email] = options.author.match(/(.*) <(.*)>/);
+	        }
+	        catch (e) {
+	            [name, email] = [options.author, ""];
+	        }
+	        this.author = { name, email, timestamp: Date.now() };
+	        this.committer = { name, email, timestamp: Date.now() };
+	        // Set commit message
+	        this.subject = options.subject;
+	        this.body = options.body || "";
+	        // Set commit hash
+	        this.hash = options.hash || getRandomHash();
+	        this.hashAbbrev = this.hash.substring(0, 7);
+	        // Set parent hash
+	        this.parents = options.parents ? options.parents : [];
+	        this.parentsAbbrev = this.parents.map((commit) => commit.substring(0, 7));
+	        // Set style
+	        this.style = Object.assign({}, options.style, { message: Object.assign({}, options.style.message), dot: Object.assign({}, options.style.dot) });
+	        this.dotText = options.dotText;
+	        // Set callbacks
+	        this.onClick = () => (options.onClick ? options.onClick(this) : undefined);
+	        this.onMessageClick = () => options.onMessageClick ? options.onMessageClick(this) : undefined;
+	        this.onMouseOver = () => options.onMouseOver ? options.onMouseOver(this) : undefined;
+	        this.onMouseOut = () => options.onMouseOut ? options.onMouseOut(this) : undefined;
+	        // Set custom renders
+	        this.renderDot = options.renderDot;
+	        this.renderMessage = options.renderMessage;
+	        this.renderTooltip = options.renderTooltip;
+	    }
+	    /**
+	     * Message
+	     */
+	    get message() {
+	        let message = "";
+	        if (this.style.message.displayHash) {
+	            //message += `${this.hashAbbrev} `;
+	        }
+	        message += this.subject;
+	        if (this.style.message.displayAuthor) {
+	            //message += ` - ${this.author.name} <${this.author.email}>`;
+	        }
+	        return message;
+	    }
+	    /**
+	     * Branch that should be rendered
+	     */
+	    get branchToDisplay() {
+	        return this.branches ? this.branches[0] : "";
+	    }
+	    setRefs(refs) {
+	        this.refs = refs.getNames(this.hash);
+	        return this;
+	    }
+	    setTags(tags, getTagStyle, getTagRender) {
+	        this.tags = tags
+	            .getNames(this.hash)
+	            .map((name) => new tag.Tag(name, getTagStyle(name), getTagRender(name), this.style));
+	        return this;
+	    }
+	    setBranches(branches) {
+	        this.branches = branches;
+	        return this;
+	    }
+	    setPosition({ x, y }) {
+	        this.x = x;
+	        this.y = y;
+	        return this;
+	    }
+	    withDefaultColor(color) {
+	        const newStyle = Object.assign({}, this.style, { dot: Object.assign({}, this.style.dot), message: Object.assign({}, this.style.message) });
+	        if (!newStyle.color)
+	            newStyle.color = color;
+	        if (!newStyle.dot.color)
+	            newStyle.dot.color = color;
+	        if (!newStyle.message.color)
+	            newStyle.message.color = color;
+	        const commit = this.cloneCommit();
+	        commit.style = newStyle;
+	        return commit;
+	    }
+	    /**
+	     * Ideally, we want Commit to be a [Value Object](https://martinfowler.com/bliki/ValueObject.html).
+	     * We started with a mutable class. So we'll refactor that little by little.
+	     * This private function is a helper to create a new Commit from existing one.
+	     */
+	    cloneCommit() {
+	        const commit = new Commit({
+	            author: `${this.author.name} <${this.author.email}>`,
+	            subject: this.subject,
+	            style: this.style,
+	            body: this.body,
+	            hash: this.hash,
+	            parents: this.parents,
+	            dotText: this.dotText,
+	            onClick: this.onClick,
+	            onMessageClick: this.onMessageClick,
+	            onMouseOver: this.onMouseOver,
+	            onMouseOut: this.onMouseOut,
+	            renderDot: this.renderDot,
+	            renderMessage: this.renderMessage,
+	            renderTooltip: this.renderTooltip,
+	        });
+	        commit.refs = this.refs;
+	        commit.branches = this.branches;
+	        commit.tags = this.tags;
+	        commit.x = this.x;
+	        commit.y = this.y;
+	        return commit;
+	    }
+	}
+	exports.Commit = Commit;
+
+	});
+
+	unwrapExports(commit);
+	var commit_1 = commit.Commit;
+
+	var branchUserApi = createCommonjsModule(function (module, exports) {
+	var __rest = (commonjsGlobal && commonjsGlobal.__rest) || function (s, e) {
+	    var t = {};
+	    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+	        t[p] = s[p];
+	    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+	        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) if (e.indexOf(p[i]) < 0)
+	            t[p[i]] = s[p[i]];
+	    return t;
+	};
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+
+	class BranchUserApi {
+	    // tslint:enable:variable-name
+	    constructor(branch, graph, onGraphUpdate) {
+	        this._branch = branch;
+	        this.name = branch.name;
+	        this._graph = graph;
+	        this._onGraphUpdate = onGraphUpdate;
+	    }
+	    branch(args) {
+	        const options = typeof args === "string" ? { name: args } : args;
+	        options.from = this;
+	        return this._graph.createBranch(options).getUserApi();
+	    }
+	    commit(options) {
+	        // Deal with shorter syntax
+	        if (typeof options === "string")
+	            options = { subject: options };
+	        if (!options)
+	            options = {};
+	        this._commitWithParents(options, []);
+	        this._onGraphUpdate();
+	        return this;
+	    }
+	    merge(...args) {
+	        let options = args[0];
+	        if (!isBranchMergeOptions(options)) {
+	            options = {
+	                branch: args[0],
+	                fastForward: false,
+	                commitOptions: { subject: args[1] },
+	            };
+	        }
+	        const { branch, fastForward, commitOptions, } = options;
+	        const branchName = typeof branch === "string" ? branch : branch.name;
+	        const branchLastCommitHash = this._graph.refs.getCommit(branchName);
+	        if (!branchLastCommitHash) {
+	            throw new Error(`The branch called "${branchName}" is unknown`);
+	        }
+	        let canFastForward = false;
+	        if (fastForward) {
+	            const lastCommitHash = this._graph.refs.getCommit(this._branch.name);
+	            if (lastCommitHash) {
+	                canFastForward = this._areCommitsConnected(lastCommitHash, branchLastCommitHash);
+	            }
+	        }
+	        if (fastForward && canFastForward) {
+	            this._fastForwardTo(branchLastCommitHash);
+	        }
+	        else {
+	            this._commitWithParents(Object.assign({}, commitOptions, { subject: (commitOptions && commitOptions.subject) ||
+	                    `Merge branch ${branchName}` }), [branchLastCommitHash]);
+	        }
+	        this._onGraphUpdate();
+	        return this;
+	    }
+	    tag(options) {
+	        if (typeof options === "string") {
+	            this._graph.getUserApi().tag({ name: options, ref: this._branch.name });
+	        }
+	        else {
+	            this._graph.getUserApi().tag(Object.assign({}, options, { ref: this._branch.name }));
+	        }
+	        return this;
+	    }
+	    /**
+	     * Checkout onto this branch and update "HEAD" in refs
+	     */
+	    checkout() {
+	        const target = this._branch;
+	        const headCommit = this._graph.refs.getCommit(target.name);
+	        this._graph.currentBranch = target;
+	        // Update "HEAD" in refs when the target branch is not empty
+	        if (headCommit) {
+	            this._graph.refs.set("HEAD", headCommit);
+	        }
+	        return this;
+	    }
+	    // tslint:disable:variable-name - Prefix `_` = explicitly private for JS users
+	    _commitWithParents(options, parents) {
+	        const parentOnSameBranch = this._graph.refs.getCommit(this._branch.name);
+	        if (parentOnSameBranch) {
+	            parents.unshift(parentOnSameBranch);
+	        }
+	        else if (this._branch.parentCommitHash) {
+	            parents.unshift(this._branch.parentCommitHash);
+	        }
+	        const { tag } = options, commitOptions = __rest(options, ["tag"]);
+	        const commit$1 = new commit.Commit(Object.assign({ hash: this._graph.generateCommitHash(), author: this._branch.commitDefaultOptions.author || this._graph.author, subject: this._branch.commitDefaultOptions.subject ||
+	                this._graph.commitMessage }, commitOptions, { parents, style: this._getCommitStyle(options.style) }));
+	        if (parentOnSameBranch) {
+	            // Take all the refs from the parent
+	            const parentRefs = this._graph.refs.getNames(parentOnSameBranch);
+	            parentRefs.forEach((ref) => this._graph.refs.set(ref, commit$1.hash));
+	        }
+	        else {
+	            // Set the branch ref
+	            this._graph.refs.set(this._branch.name, commit$1.hash);
+	        }
+	        // Add the new commit
+	        this._graph.commits.push(commit$1);
+	        // Move HEAD on the last commit
+	        this.checkout();
+	        // Add a tag to the commit if `option.tag` is provide
+	        if (tag)
+	            this.tag(tag);
+	    }
+	    _areCommitsConnected(parentCommitHash, childCommitHash) {
+	        const childCommit = this._graph.commits.find(({ hash }) => childCommitHash === hash);
+	        if (!childCommit)
+	            return false;
+	        const isFirstCommitOfGraph = childCommit.parents.length === 0;
+	        if (isFirstCommitOfGraph)
+	            return false;
+	        if (childCommit.parents.includes(parentCommitHash)) {
+	            return true;
+	        }
+	        // `childCommitHash` is not a direct child of `parentCommitHash`.
+	        // But maybe one of `childCommitHash` parent is.
+	        return childCommit.parents.some((directParentHash) => this._areCommitsConnected(parentCommitHash, directParentHash));
+	    }
+	    _fastForwardTo(commitHash) {
+	        this._graph.refs.set(this._branch.name, commitHash);
+	    }
+	    _getCommitStyle(style = {}) {
+	        return Object.assign({}, utils.withoutUndefinedKeys(this._graph.template.commit), utils.withoutUndefinedKeys(this._branch.commitDefaultOptions.style), style, { message: Object.assign({}, utils.withoutUndefinedKeys(this._graph.template.commit.message), utils.withoutUndefinedKeys(this._branch.commitDefaultOptions.style.message), style.message, utils.withoutUndefinedKeys({
+	                display: this._graph.shouldDisplayCommitMessage && undefined,
+	            })), dot: Object.assign({}, utils.withoutUndefinedKeys(this._graph.template.commit.dot), utils.withoutUndefinedKeys(this._branch.commitDefaultOptions.style.dot), style.dot) });
+	    }
+	}
+	exports.BranchUserApi = BranchUserApi;
+	function isBranchMergeOptions(options) {
+	    return typeof options === "object" && !(options instanceof BranchUserApi);
+	}
+
+	});
+
+	unwrapExports(branchUserApi);
+	var branchUserApi_1 = branchUserApi.BranchUserApi;
+
+	var branch = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	const DELETED_BRANCH_NAME = "";
+	exports.DELETED_BRANCH_NAME = DELETED_BRANCH_NAME;
+	class Branch {
+	    constructor(options) {
+	        this.gitgraph = options.gitgraph;
+	        this.name = options.name;
+	        this.style = options.style;
+	        this.parentCommitHash = options.parentCommitHash;
+	        this.commitDefaultOptions = options.commitDefaultOptions || { style: {} };
+	        this.onGraphUpdate = options.onGraphUpdate;
+	        this.renderLabel = options.renderLabel;
+	    }
+	    /**
+	     * Return the API to manipulate Gitgraph branch as a user.
+	     */
+	    getUserApi() {
+	        return new branchUserApi.BranchUserApi(this, this.gitgraph, this.onGraphUpdate);
+	    }
+	    /**
+	     * Return true if branch was deleted.
+	     */
+	    isDeleted() {
+	        return this.name === DELETED_BRANCH_NAME;
+	    }
+	}
+	exports.Branch = Branch;
+	function createDeletedBranch(gitgraph, style, onGraphUpdate) {
+	    return new Branch({
+	        name: DELETED_BRANCH_NAME,
+	        gitgraph,
+	        style,
+	        onGraphUpdate,
+	    });
+	}
+	exports.createDeletedBranch = createDeletedBranch;
+
+	});
+
+	unwrapExports(branch);
+	var branch_1 = branch.DELETED_BRANCH_NAME;
+	var branch_2 = branch.Branch;
+	var branch_3 = branch.createDeletedBranch;
+
+	var mode = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	var Mode;
+	(function (Mode) {
+	    Mode["Compact"] = "compact";
+	})(Mode || (Mode = {}));
+	exports.Mode = Mode;
+
+	});
+
+	unwrapExports(mode);
+	var mode_1 = mode.Mode;
+
+	var regular = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	class RegularGraphRows {
+	    constructor(commits) {
+	        this.rows = new Map();
+	        this.maxRowCache = undefined;
+	        this.computeRowsFromCommits(commits);
+	    }
+	    getRowOf(commitHash) {
+	        return this.rows.get(commitHash) || 0;
+	    }
+	    getMaxRow() {
+	        if (this.maxRowCache === undefined) {
+	            this.maxRowCache = uniq(Array.from(this.rows.values())).length - 1;
+	        }
+	        return this.maxRowCache;
+	    }
+	    computeRowsFromCommits(commits) {
+	        commits.forEach((commit, i) => {
+	            this.rows.set(commit.hash, i);
+	        });
+	        this.maxRowCache = undefined;
+	    }
+	}
+	exports.RegularGraphRows = RegularGraphRows;
+	/**
+	 * Creates a duplicate-free version of an array.
+	 *
+	 * Don't use lodash's `uniq` as it increased bundlesize a lot for such a
+	 * simple function.
+	 * => The way we bundle for browser seems not to work with `lodash-es`.
+	 * => I didn't to get tree-shaking to work with `lodash` (the CommonJS version).
+	 *
+	 * @param array Array of values
+	 */
+	function uniq(array) {
+	    const set = new Set();
+	    array.forEach((value) => set.add(value));
+	    return Array.from(set);
+	}
+
+	});
+
+	unwrapExports(regular);
+	var regular_1 = regular.RegularGraphRows;
+
+	var compact = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	class CompactGraphRows extends regular.RegularGraphRows {
+	    computeRowsFromCommits(commits) {
+	        commits.forEach((commit, i) => {
+	            let newRow = i;
+	            const isFirstCommit = i === 0;
+	            if (!isFirstCommit) {
+	                const parentRow = this.getRowOf(commit.parents[0]);
+	                const historyParent = commits[i - 1];
+	                newRow = Math.max(parentRow + 1, this.getRowOf(historyParent.hash));
+	                const isMergeCommit = commit.parents.length > 1;
+	                if (isMergeCommit) {
+	                    // Push commit to next row to avoid collision when the branch in which
+	                    // the merge happens has more commits than the merged branch.
+	                    const mergeTargetParentRow = this.getRowOf(commit.parents[1]);
+	                    if (parentRow < mergeTargetParentRow)
+	                        newRow++;
+	                }
+	            }
+	            this.rows.set(commit.hash, newRow);
+	        });
+	    }
+	}
+	exports.CompactGraphRows = CompactGraphRows;
+
+	});
+
+	unwrapExports(compact);
+	var compact_1 = compact.CompactGraphRows;
+
+	var graphRows = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+	exports.GraphRows = regular.RegularGraphRows;
+	function createGraphRows(mode$1, commits) {
+	    return mode$1 === mode.Mode.Compact
+	        ? new compact.CompactGraphRows(commits)
+	        : new regular.RegularGraphRows(commits);
+	}
+	exports.createGraphRows = createGraphRows;
+
+	});
+
+	unwrapExports(graphRows);
+	var graphRows_1 = graphRows.GraphRows;
+	var graphRows_2 = graphRows.createGraphRows;
+
+	var branchesOrder = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	class BranchesOrder {
+	    constructor(commits, colors, compareFunction) {
+	        this.branches = new Set();
+	        this.colors = colors;
+	        commits.forEach((commit) => this.branches.add(commit.branchToDisplay));
+	        if (compareFunction) {
+	            this.branches = new Set(Array.from(this.branches).sort(compareFunction));
+	        }
+	    }
+	    /**
+	     * Return the order of the given branch name.
+	     *
+	     * @param branchName Name of the branch
+	     */
+	    get(branchName) {
+	        return Array.from(this.branches).findIndex((branch) => branch === branchName);
+	    }
+	    /**
+	     * Return the color of the given branch.
+	     *
+	     * @param branchName Name of the branch
+	     */
+	    getColorOf(branchName) {
+	        return this.colors[this.get(branchName) % this.colors.length];
+	    }
+	}
+	exports.BranchesOrder = BranchesOrder;
+
+	});
+
+	unwrapExports(branchesOrder);
+	var branchesOrder_1 = branchesOrder.BranchesOrder;
+
+	var refs = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+	class Refs {
+	    constructor() {
+	        this.commitPerName = new Map();
+	        this.namesPerCommit = new Map();
+	    }
+	    /**
+	     * Set a new reference to a commit hash.
+	     *
+	     * @param name Name of the ref (ex: "master", "v1.0")
+	     * @param commitHash Commit hash
+	     */
+	    set(name, commitHash) {
+	        const prevCommitHash = this.commitPerName.get(name);
+	        if (prevCommitHash) {
+	            this.removeNameFrom(prevCommitHash, name);
+	        }
+	        this.addNameTo(commitHash, name);
+	        this.addCommitTo(name, commitHash);
+	        return this;
+	    }
+	    /**
+	     * Get the commit hash associated with the given reference name.
+	     *
+	     * @param name Name of the ref
+	     */
+	    getCommit(name) {
+	        return this.commitPerName.get(name);
+	    }
+	    /**
+	     * Get the list of reference names associated with given commit hash.
+	     *
+	     * @param commitHash Commit hash
+	     */
+	    getNames(commitHash) {
+	        return this.namesPerCommit.get(commitHash) || [];
+	    }
+	    /**
+	     * Get all reference names known.
+	     */
+	    getAllNames() {
+	        return Array.from(this.commitPerName.keys());
+	    }
+	    /**
+	     * Returns true if given commit hash is referenced.
+	     *
+	     * @param commitHash Commit hash
+	     */
+	    hasCommit(commitHash) {
+	        return this.namesPerCommit.has(commitHash);
+	    }
+	    /**
+	     * Returns true if given reference name exists.
+	     *
+	     * @param name Name of the ref
+	     */
+	    hasName(name) {
+	        return this.commitPerName.has(name);
+	    }
+	    removeNameFrom(commitHash, nameToRemove) {
+	        const names = this.namesPerCommit.get(commitHash) || [];
+	        this.namesPerCommit.set(commitHash, names.filter((name) => name !== nameToRemove));
+	    }
+	    addNameTo(commitHash, nameToAdd) {
+	        const prevNames = this.namesPerCommit.get(commitHash) || [];
+	        this.namesPerCommit.set(commitHash, [...prevNames, nameToAdd]);
+	    }
+	    addCommitTo(name, commitHashToAdd) {
+	        this.commitPerName.set(name, commitHashToAdd);
+	    }
+	}
+	exports.Refs = Refs;
+
+	});
+
+	unwrapExports(refs);
+	var refs_1 = refs.Refs;
+
+	var branchesPaths = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	/**
+	 * Calculate branches paths of the graph.
+	 *
+	 * It follows the Command pattern:
+	 * => a class with a single `execute()` public method.
+	 *
+	 * Main benefit is we can split computation in smaller steps without
+	 * passing around parameters (we can rely on private data).
+	 */
+	class BranchesPathsCalculator {
+	    constructor(commits, branches, commitSpacing, isGraphVertical, isGraphReverse, createDeletedBranch) {
+	        this.branchesPaths = new Map();
+	        this.commits = commits;
+	        this.branches = branches;
+	        this.commitSpacing = commitSpacing;
+	        this.isGraphVertical = isGraphVertical;
+	        this.isGraphReverse = isGraphReverse;
+	        this.createDeletedBranch = createDeletedBranch;
+	    }
+	    /**
+	     * Compute branches paths for graph.
+	     */
+	    execute() {
+	        this.fromCommits();
+	        this.withMergeCommits();
+	        return this.smoothBranchesPaths();
+	    }
+	    /**
+	     * Initialize branches paths from calculator's commits.
+	     */
+	    fromCommits() {
+	        this.commits.forEach((commit) => {
+	            let branch = this.branches.get(commit.branchToDisplay);
+	            if (!branch) {
+	                // NB: may not work properly if there are many deleted branches.
+	                branch = this.getDeletedBranchInPath() || this.createDeletedBranch();
+	            }
+	            const path = [];
+	            const existingBranchPath = this.branchesPaths.get(branch);
+	            const firstParentCommit = this.commits.find(({ hash }) => hash === commit.parents[0]);
+	            if (existingBranchPath) {
+	                path.push(...existingBranchPath);
+	            }
+	            else if (firstParentCommit) {
+	                // Make branch path starts from parent branch (parent commit).
+	                path.push({ x: firstParentCommit.x, y: firstParentCommit.y });
+	            }
+	            path.push({ x: commit.x, y: commit.y });
+	            this.branchesPaths.set(branch, path);
+	        });
+	    }
+	    /**
+	     * Insert merge commits points into `branchesPaths`.
+	     *
+	     * @example
+	     *     // Before
+	     *     [
+	     *       { x: 0, y: 640 },
+	     *       { x: 50, y: 560 }
+	     *     ]
+	     *
+	     *     // After
+	     *     [
+	     *       { x: 0, y: 640 },
+	     *       { x: 50, y: 560 },
+	     *       { x: 50, y: 560, mergeCommit: true }
+	     *     ]
+	     */
+	    withMergeCommits() {
+	        const mergeCommits = this.commits.filter(({ parents }) => parents.length > 1);
+	        mergeCommits.forEach((mergeCommit) => {
+	            const parentOnOriginBranch = this.commits.find(({ hash }) => {
+	                return hash === mergeCommit.parents[1];
+	            });
+	            if (!parentOnOriginBranch)
+	                return;
+	            const originBranchName = parentOnOriginBranch.branches
+	                ? parentOnOriginBranch.branches[0]
+	                : "";
+	            let branch = this.branches.get(originBranchName);
+	            if (!branch) {
+	                branch = this.getDeletedBranchInPath();
+	                if (!branch) {
+	                    // Still no branch? That's strange, we shouldn't set anything.
+	                    return;
+	                }
+	            }
+	            const lastPoints = [...(this.branchesPaths.get(branch) || [])];
+	            this.branchesPaths.set(branch, [
+	                ...lastPoints,
+	                { x: mergeCommit.x, y: mergeCommit.y, mergeCommit: true },
+	            ]);
+	        });
+	    }
+	    /**
+	     * Retrieve deleted branch from calculator's branches paths.
+	     */
+	    getDeletedBranchInPath() {
+	        return Array.from(this.branchesPaths.keys()).find((branch) => branch.isDeleted());
+	    }
+	    /**
+	     * Smooth all paths by putting points on each row.
+	     */
+	    smoothBranchesPaths() {
+	        const branchesPaths = new Map();
+	        this.branchesPaths.forEach((points, branch) => {
+	            if (points.length <= 1) {
+	                branchesPaths.set(branch, [points]);
+	                return;
+	            }
+	            // Cut path on each merge commits
+	            // Coordinate[] -> Coordinate[][]
+	            if (this.isGraphVertical) {
+	                points = points.sort((a, b) => (a.y > b.y ? -1 : 1));
+	            }
+	            else {
+	                points = points.sort((a, b) => (a.x > b.x ? 1 : -1));
+	            }
+	            if (this.isGraphReverse) {
+	                points = points.reverse();
+	            }
+	            const paths = points.reduce((mem, point, i) => {
+	                if (point.mergeCommit) {
+	                    mem[mem.length - 1].push(utils.pick(point, ["x", "y"]));
+	                    let j = i - 1;
+	                    let previousPoint = points[j];
+	                    // Find the last point which is not a merge
+	                    while (j >= 0 && previousPoint.mergeCommit) {
+	                        j--;
+	                        previousPoint = points[j];
+	                    }
+	                    // Start a new array with this point
+	                    if (j >= 0) {
+	                        mem.push([previousPoint]);
+	                    }
+	                }
+	                else {
+	                    mem[mem.length - 1].push(point);
+	                }
+	                return mem;
+	            }, [[]]);
+	            if (this.isGraphReverse) {
+	                paths.forEach((path) => path.reverse());
+	            }
+	            // Add intermediate points on each sub paths
+	            if (this.isGraphVertical) {
+	                paths.forEach((subPath) => {
+	                    if (subPath.length <= 1)
+	                        return;
+	                    const firstPoint = subPath[0];
+	                    const lastPoint = subPath[subPath.length - 1];
+	                    const column = subPath[1].x;
+	                    const branchSize = Math.round(Math.abs(firstPoint.y - lastPoint.y) / this.commitSpacing) - 1;
+	                    const branchPoints = branchSize > 0
+	                        ? new Array(branchSize).fill(0).map((_, i) => ({
+	                            x: column,
+	                            y: subPath[0].y - this.commitSpacing * (i + 1),
+	                        }))
+	                        : [];
+	                    const lastSubPaths = branchesPaths.get(branch) || [];
+	                    branchesPaths.set(branch, [
+	                        ...lastSubPaths,
+	                        [firstPoint, ...branchPoints, lastPoint],
+	                    ]);
+	                });
+	            }
+	            else {
+	                paths.forEach((subPath) => {
+	                    if (subPath.length <= 1)
+	                        return;
+	                    const firstPoint = subPath[0];
+	                    const lastPoint = subPath[subPath.length - 1];
+	                    const column = subPath[1].y;
+	                    const branchSize = Math.round(Math.abs(firstPoint.x - lastPoint.x) / this.commitSpacing) - 1;
+	                    const branchPoints = branchSize > 0
+	                        ? new Array(branchSize).fill(0).map((_, i) => ({
+	                            y: column,
+	                            x: subPath[0].x + this.commitSpacing * (i + 1),
+	                        }))
+	                        : [];
+	                    const lastSubPaths = branchesPaths.get(branch) || [];
+	                    branchesPaths.set(branch, [
+	                        ...lastSubPaths,
+	                        [firstPoint, ...branchPoints, lastPoint],
+	                    ]);
+	                });
+	            }
+	        });
+	        return branchesPaths;
+	    }
+	}
+	exports.BranchesPathsCalculator = BranchesPathsCalculator;
+	/**
+	 * Return a string ready to use in `svg.path.d` from coordinates
+	 *
+	 * @param coordinates Collection of coordinates
+	 */
+	function toSvgPath(coordinates, isBezier, isVertical) {
+	    return coordinates
+	        .map((path) => "M" +
+	        path
+	            .map(({ x, y }, i, points) => {
+	            if (isBezier &&
+	                points.length > 1 &&
+	                (i === 1 || i === points.length - 1)) {
+	                const previous = points[i - 1];
+	                if (isVertical) {
+	                    const middleY = (previous.y + y) / 2;
+	                    return `C ${previous.x} ${middleY} ${x} ${middleY} ${x} ${y}`;
+	                }
+	                else {
+	                    const middleX = (previous.x + x) / 2;
+	                    return `C ${middleX} ${previous.y} ${middleX} ${y} ${x} ${y}`;
+	                }
+	            }
+	            return `L ${x} ${y}`;
+	        })
+	            .join(" ")
+	            .slice(1))
+	        .join(" ");
+	}
+	exports.toSvgPath = toSvgPath;
+
+	});
+
+	unwrapExports(branchesPaths);
+	var branchesPaths_1 = branchesPaths.BranchesPathsCalculator;
+	var branchesPaths_2 = branchesPaths.toSvgPath;
+
+	var gitgraphUserApi = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+	class GitgraphUserApi {
+	    // tslint:enable:variable-name
+	    constructor(graph, onGraphUpdate) {
+	        this._graph = graph;
+	        this._onGraphUpdate = onGraphUpdate;
+	    }
+	    /**
+	     * Clear everything (as `rm -rf .git && git init`).
+	     */
+	    clear() {
+	        this._graph.refs = new refs.Refs();
+	        this._graph.tags = new refs.Refs();
+	        this._graph.commits = [];
+	        this._graph.branches = new Map();
+	        this._graph.currentBranch = this._graph.createBranch("master");
+	        this._onGraphUpdate();
+	        return this;
+	    }
+	    commit(options) {
+	        this._graph.currentBranch.getUserApi().commit(options);
+	        return this;
+	    }
+	    branch(args) {
+	        return this._graph.createBranch(args).getUserApi();
+	    }
+	    tag(...args) {
+	        // Deal with shorter syntax
+	        let name;
+	        let ref;
+	        let style;
+	        let render;
+	        if (typeof args[0] === "string") {
+	            name = args[0];
+	            ref = args[1];
+	        }
+	        else {
+	            name = args[0].name;
+	            ref = args[0].ref;
+	            style = args[0].style;
+	            render = args[0].render;
+	        }
+	        if (!ref) {
+	            const head = this._graph.refs.getCommit("HEAD");
+	            if (!head)
+	                return this;
+	            ref = head;
+	        }
+	        let commitHash;
+	        if (this._graph.refs.hasCommit(ref)) {
+	            // `ref` is a `Commit["hash"]`
+	            commitHash = ref;
+	        }
+	        if (this._graph.refs.hasName(ref)) {
+	            // `ref` is a `Branch["name"]`
+	            commitHash = this._graph.refs.getCommit(ref);
+	        }
+	        if (!commitHash) {
+	            throw new Error(`The ref "${ref}" does not exist`);
+	        }
+	        this._graph.tags.set(name, commitHash);
+	        this._graph.tagStyles[name] = style;
+	        this._graph.tagRenders[name] = render;
+	        this._onGraphUpdate();
+	        return this;
+	    }
+	    /**
+	     * Import a JSON.
+	     *
+	     * Data can't be typed since it comes from a JSON.
+	     * We validate input format and throw early if something is invalid.
+	     *
+	     * @experimental
+	     * @param data JSON from `git2json` output
+	     */
+	    import(data) {
+	        const invalidData = new Error("Only `git2json` format is supported for imported data.");
+	        // We manually validate input data instead of using a lib like yup.
+	        // => this is to keep bundlesize small.
+	        if (!Array.isArray(data)) {
+	            throw invalidData;
+	        }
+	        const areDataValid = data.every((options) => {
+	            return (typeof options === "object" &&
+	                typeof options.author === "object" &&
+	                Array.isArray(options.refs));
+	        });
+	        if (!areDataValid) {
+	            throw invalidData;
+	        }
+	        const commitOptionsList = data
+	            .map((options) => (Object.assign({}, options, { style: Object.assign({}, this._graph.template.commit, { message: Object.assign({}, this._graph.template.commit.message, { display: this._graph.shouldDisplayCommitMessage }) }), author: `${options.author.name} <${options.author.email}>` })))
+	            // Git2json outputs is reverse-chronological.
+	            // We need to commit it chronological order.
+	            .reverse();
+	        // Use validated `value`.
+	        this.clear();
+	        this._graph.commits = commitOptionsList.map((options) => new commit.Commit(options));
+	        // Create tags & refs.
+	        commitOptionsList.forEach(({ refs, hash }) => {
+	            if (!refs)
+	                return;
+	            if (!hash)
+	                return;
+	            const TAG_PREFIX = "tag: ";
+	            const tags = refs
+	                .map((ref) => ref.split(TAG_PREFIX))
+	                .map(([_, tag]) => tag)
+	                .filter((tag) => typeof tag === "string");
+	            tags.forEach((tag) => this._graph.tags.set(tag, hash));
+	            refs
+	                .filter((ref) => !ref.startsWith(TAG_PREFIX))
+	                .forEach((ref) => this._graph.refs.set(ref, hash));
+	        });
+	        // Create branches.
+	        const branches = this._getBranches();
+	        this._graph.commits
+	            .map((commit) => this._withBranches(branches, commit))
+	            .reduce((mem, commit) => {
+	            if (!commit.branches)
+	                return mem;
+	            commit.branches.forEach((branch) => mem.add(branch));
+	            return mem;
+	        }, new Set())
+	            .forEach((branch) => this.branch(branch));
+	        this._onGraphUpdate();
+	        return this;
+	    }
+	    // tslint:disable:variable-name - Prefix `_` = explicitly private for JS users
+	    // TODO: get rid of these duplicated private methods.
+	    //
+	    // These belong to Gitgraph. It is duplicated because of `import()`.
+	    // `import()` should use regular user API instead.
+	    _withBranches(branches, commit) {
+	        let commitBranches = Array.from((branches.get(commit.hash) || new Set()).values());
+	        if (commitBranches.length === 0) {
+	            // No branch => branch has been deleted.
+	            commitBranches = [branch.DELETED_BRANCH_NAME];
+	        }
+	        return commit.setBranches(commitBranches);
+	    }
+	    _getBranches() {
+	        const result = new Map();
+	        const queue = [];
+	        const branches = this._graph.refs
+	            .getAllNames()
+	            .filter((name) => name !== "HEAD");
+	        branches.forEach((branch) => {
+	            const commitHash = this._graph.refs.getCommit(branch);
+	            if (commitHash) {
+	                queue.push(commitHash);
+	            }
+	            while (queue.length > 0) {
+	                const currentHash = queue.pop();
+	                const current = this._graph.commits.find(({ hash }) => hash === currentHash);
+	                const prevBranches = result.get(currentHash) || new Set();
+	                prevBranches.add(branch);
+	                result.set(currentHash, prevBranches);
+	                if (current && current.parents && current.parents.length > 0) {
+	                    queue.push(current.parents[0]);
+	                }
+	            }
+	        });
+	        return result;
+	    }
+	}
+	exports.GitgraphUserApi = GitgraphUserApi;
+
+	});
+
+	unwrapExports(gitgraphUserApi);
+	var gitgraphUserApi_1 = gitgraphUserApi.GitgraphUserApi;
+
+	var gitgraph = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+
+
+
+
+
+
+
+
+
+	class GitgraphCore {
+	    constructor(options = {}) {
+	        this.refs = new refs.Refs();
+	        this.tags = new refs.Refs();
+	        this.tagStyles = {};
+	        this.tagRenders = {};
+	        this.commits = [];
+	        this.branches = new Map();
+	        this.listeners = [];
+	        this.nextTimeoutId = null;
+	        this.template = template.getTemplate(options.template);
+	        // Set a default `master` branch
+	        this.currentBranch = this.createBranch("master");
+	        // Set all options with default values
+	        this.orientation = options.orientation;
+	        this.reverseArrow = utils.booleanOptionOr(options.reverseArrow, false);
+	        this.initCommitOffsetX = utils.numberOptionOr(options.initCommitOffsetX, 0);
+	        this.initCommitOffsetY = utils.numberOptionOr(options.initCommitOffsetY, 0);
+	        this.mode = options.mode;
+	        this.author = options.author || "Sergio Flores <saxo-guy@epic.com>";
+	        this.commitMessage =
+	            options.commitMessage || "He doesn't like George Michael! Boooo!";
+	        this.generateCommitHash =
+	            typeof options.generateCommitHash === "function"
+	                ? options.generateCommitHash
+	                : () => undefined;
+	        this.branchesOrderFunction =
+	            typeof options.compareBranchesOrder === "function"
+	                ? options.compareBranchesOrder
+	                : undefined;
+	        this.branchLabelOnEveryCommit = utils.booleanOptionOr(options.branchLabelOnEveryCommit, false);
+	    }
+	    get isHorizontal() {
+	        return (this.orientation === orientation.Orientation.Horizontal ||
+	            this.orientation === orientation.Orientation.HorizontalReverse);
+	    }
+	    get isVertical() {
+	        return !this.isHorizontal;
+	    }
+	    get isReverse() {
+	        return (this.orientation === orientation.Orientation.HorizontalReverse ||
+	            this.orientation === orientation.Orientation.VerticalReverse);
+	    }
+	    get shouldDisplayCommitMessage() {
+	        return !this.isHorizontal && this.mode !== mode.Mode.Compact;
+	    }
+	    /**
+	     * Return the API to manipulate Gitgraph as a user.
+	     * Rendering library should give that API to their consumer.
+	     */
+	    getUserApi() {
+	        return new gitgraphUserApi.GitgraphUserApi(this, () => this.next());
+	    }
+	    /**
+	     * Add a change listener.
+	     * It will be called any time the graph have changed (commit, merge…).
+	     *
+	     * @param listener A callback to be invoked on every change.
+	     * @returns A function to remove this change listener.
+	     */
+	    subscribe(listener) {
+	        this.listeners.push(listener);
+	        let isSubscribed = true;
+	        return () => {
+	            if (!isSubscribed)
+	                return;
+	            isSubscribed = false;
+	            const index = this.listeners.indexOf(listener);
+	            this.listeners.splice(index, 1);
+	        };
+	    }
+	    /**
+	     * Return all data required for rendering.
+	     * Rendering libraries will use this to implement their rendering strategy.
+	     */
+	    getRenderedData() {
+	        const commits = this.computeRenderedCommits();
+	        const branchesPaths = this.computeRenderedBranchesPaths(commits);
+	        const commitMessagesX = this.computeCommitMessagesX(branchesPaths);
+	        this.computeBranchesColor(commits, branchesPaths);
+	        return { commits, branchesPaths, commitMessagesX };
+	    }
+	    createBranch(args) {
+	        const defaultParentBranchName = "HEAD";
+	        let options = {
+	            gitgraph: this,
+	            name: "",
+	            parentCommitHash: this.refs.getCommit(defaultParentBranchName),
+	            style: this.template.branch,
+	            onGraphUpdate: () => this.next(),
+	        };
+	        if (typeof args === "string") {
+	            options.name = args;
+	            options.parentCommitHash = this.refs.getCommit(defaultParentBranchName);
+	        }
+	        else {
+	            const parentBranchName = args.from
+	                ? args.from.name
+	                : defaultParentBranchName;
+	            const parentCommitHash = this.refs.getCommit(parentBranchName) ||
+	                (this.refs.hasCommit(args.from) ? args.from : undefined);
+	            args.style = args.style || {};
+	            options = Object.assign({}, options, args, { parentCommitHash, style: Object.assign({}, options.style, args.style, { label: Object.assign({}, options.style.label, args.style.label) }) });
+	        }
+	        const branch$1 = new branch.Branch(options);
+	        this.branches.set(branch$1.name, branch$1);
+	        return branch$1;
+	    }
+	    /**
+	     * Return commits with data for rendering.
+	     */
+	    computeRenderedCommits() {
+	        const branches = this.getBranches();
+	        const commitsWithBranches = this.commits.map((commit) => this.withBranches(branches, commit));
+	        const rows = graphRows.createGraphRows(this.mode, this.commits);
+	        const branchesOrder$1 = new branchesOrder.BranchesOrder(commitsWithBranches, this.template.colors, this.branchesOrderFunction);
+	        return (commitsWithBranches
+	            .map((commit) => commit.setRefs(this.refs))
+	            .map((commit) => this.withPosition(rows, branchesOrder$1, commit))
+	            // Fallback commit computed color on branch color.
+	            .map((commit) => commit.withDefaultColor(this.getBranchDefaultColor(branchesOrder$1, commit.branchToDisplay)))
+	            // Tags need commit style to be computed (with default color).
+	            .map((commit) => commit.setTags(this.tags, (name) => Object.assign({}, this.tagStyles[name], this.template.tag), (name) => this.tagRenders[name])));
+	    }
+	    /**
+	     * Return branches paths with all data required for rendering.
+	     *
+	     * @param commits List of commits with rendering data computed
+	     */
+	    computeRenderedBranchesPaths(commits) {
+	        return new branchesPaths.BranchesPathsCalculator(commits, this.branches, this.template.commit.spacing, this.isVertical, this.isReverse, () => branch.createDeletedBranch(this, this.template.branch, () => this.next())).execute();
+	    }
+	    /**
+	     * Set branches colors based on branches paths.
+	     *
+	     * @param commits List of graph commits
+	     * @param branchesPaths Branches paths to be rendered
+	     */
+	    computeBranchesColor(commits, branchesPaths) {
+	        const branchesOrder$1 = new branchesOrder.BranchesOrder(commits, this.template.colors, this.branchesOrderFunction);
+	        Array.from(branchesPaths).forEach(([branch]) => {
+	            branch.computedColor =
+	                branch.style.color ||
+	                    this.getBranchDefaultColor(branchesOrder$1, branch.name);
+	        });
+	    }
+	    /**
+	     * Return commit messages X position for rendering.
+	     *
+	     * @param branchesPaths Branches paths to be rendered
+	     */
+	    computeCommitMessagesX(branchesPaths) {
+	        const numberOfColumns = Array.from(branchesPaths).length;
+	        return numberOfColumns * this.template.branch.spacing;
+	    }
+	    /**
+	     * Add `branches` property to commit.
+	     *
+	     * @param branches All branches mapped by commit hash
+	     * @param commit Commit
+	     */
+	    withBranches(branches, commit) {
+	        let commitBranches = Array.from((branches.get(commit.hash) || new Set()).values());
+	        if (commitBranches.length === 0) {
+	            // No branch => branch has been deleted.
+	            commitBranches = [branch.DELETED_BRANCH_NAME];
+	        }
+	        return commit.setBranches(commitBranches);
+	    }
+	    /**
+	     * Get all branches from current commits.
+	     */
+	    getBranches() {
+	        const result = new Map();
+	        const queue = [];
+	        const branches = this.refs.getAllNames().filter((name) => name !== "HEAD");
+	        branches.forEach((branch) => {
+	            const commitHash = this.refs.getCommit(branch);
+	            if (commitHash) {
+	                queue.push(commitHash);
+	            }
+	            while (queue.length > 0) {
+	                const currentHash = queue.pop();
+	                const current = this.commits.find(({ hash }) => hash === currentHash);
+	                const prevBranches = result.get(currentHash) || new Set();
+	                prevBranches.add(branch);
+	                result.set(currentHash, prevBranches);
+	                if (current && current.parents && current.parents.length > 0) {
+	                    queue.push(current.parents[0]);
+	                }
+	            }
+	        });
+	        return result;
+	    }
+	    /**
+	     * Add position to given commit.
+	     *
+	     * @param rows Graph rows
+	     * @param branchesOrder Computed order of branches
+	     * @param commit Commit to position
+	     */
+	    withPosition(rows, branchesOrder, commit) {
+	        const row = rows.getRowOf(commit.hash);
+	        const maxRow = rows.getMaxRow();
+	        const order = branchesOrder.get(commit.branchToDisplay);
+	        switch (this.orientation) {
+	            default:
+	                return commit.setPosition({
+	                    x: this.initCommitOffsetX + this.template.branch.spacing * order,
+	                    y: this.initCommitOffsetY +
+	                        this.template.commit.spacing * (maxRow - row),
+	                });
+	            case orientation.Orientation.VerticalReverse:
+	                return commit.setPosition({
+	                    x: this.initCommitOffsetX + this.template.branch.spacing * order,
+	                    y: this.initCommitOffsetY + this.template.commit.spacing * row,
+	                });
+	            case orientation.Orientation.Horizontal:
+	                return commit.setPosition({
+	                    x: this.initCommitOffsetX + this.template.commit.spacing * row,
+	                    y: this.initCommitOffsetY + this.template.branch.spacing * order,
+	                });
+	            case orientation.Orientation.HorizontalReverse:
+	                return commit.setPosition({
+	                    x: this.initCommitOffsetX +
+	                        this.template.commit.spacing * (maxRow - row),
+	                    y: this.initCommitOffsetY + this.template.branch.spacing * order,
+	                });
+	        }
+	    }
+	    /**
+	     * Return the default color for given branch.
+	     *
+	     * @param branchesOrder Computed order of branches
+	     * @param branchName Name of the branch
+	     */
+	    getBranchDefaultColor(branchesOrder, branchName) {
+	        return branchesOrder.getColorOf(branchName);
+	    }
+	    /**
+	     * Tell each listener something new happened.
+	     * E.g. a rendering library will know it needs to re-render the graph.
+	     */
+	    next() {
+	        if (this.nextTimeoutId) {
+	            window.clearTimeout(this.nextTimeoutId);
+	        }
+	        // Use setTimeout() with `0` to debounce call to next tick.
+	        this.nextTimeoutId = window.setTimeout(() => {
+	            this.listeners.forEach((listener) => listener(this.getRenderedData()));
+	        }, 0);
+	    }
+	}
+	exports.GitgraphCore = GitgraphCore;
+
+	});
+
+	unwrapExports(gitgraph);
+	var gitgraph_1 = gitgraph.GitgraphCore;
+
+	var lib = createCommonjsModule(function (module, exports) {
+	Object.defineProperty(exports, "__esModule", { value: true });
+
+	exports.GitgraphCore = gitgraph.GitgraphCore;
+
+	exports.Mode = mode.Mode;
+
+	exports.GitgraphUserApi = gitgraphUserApi.GitgraphUserApi;
+
+	exports.BranchUserApi = branchUserApi.BranchUserApi;
+
+	exports.Branch = branch.Branch;
+
+	exports.Commit = commit.Commit;
+
+	exports.Tag = tag.Tag;
+
+	exports.Refs = refs.Refs;
+
+	exports.MergeStyle = template.MergeStyle;
+	exports.TemplateName = template.TemplateName;
+	exports.templateExtend = template.templateExtend;
+
+	exports.Orientation = orientation.Orientation;
+
+	exports.toSvgPath = branchesPaths.toSvgPath;
+
+	exports.arrowSvgPath = utils.arrowSvgPath;
+
+	});
+
+	unwrapExports(lib);
+	var lib_1 = lib.GitgraphCore;
+	var lib_2 = lib.Mode;
+	var lib_3 = lib.GitgraphUserApi;
+	var lib_4 = lib.BranchUserApi;
+	var lib_5 = lib.Branch;
+	var lib_6 = lib.Commit;
+	var lib_7 = lib.Tag;
+	var lib_8 = lib.Refs;
+	var lib_9 = lib.MergeStyle;
+	var lib_10 = lib.TemplateName;
+	var lib_11 = lib.templateExtend;
+	var lib_12 = lib.Orientation;
+	var lib_13 = lib.toSvgPath;
+	var lib_14 = lib.arrowSvgPath;
+
+	var SVG_NAMESPACE = "http://www.w3.org/2000/svg";
+	function createSvg(options) {
+	    var svg = document.createElementNS(SVG_NAMESPACE, "svg");
+	    if (!options)
+	        return svg;
+	    if (options.children) {
+	        options.children.forEach(function (child) { return svg.appendChild(child); });
+	    }
+	    if (options.viewBox) {
+	        svg.setAttribute("viewBox", options.viewBox);
+	    }
+	    if (options.height) {
+	        svg.setAttribute("height", options.height.toString());
+	    }
+	    if (options.width) {
+	        svg.setAttribute("width", options.width.toString());
+	    }
+	    return svg;
+	}
+	function createG(options) {
+	    var g = document.createElementNS(SVG_NAMESPACE, "g");
+	    options.children.forEach(function (child) { return child && g.appendChild(child); });
+	    if (options.translate) {
+	        g.setAttribute("transform", "translate(" + options.translate.x + ", " + options.translate.y + ")");
+	    }
+	    if (options.fill) {
+	        g.setAttribute("fill", options.fill);
+	    }
+	    if (options.stroke) {
+	        g.setAttribute("stroke", options.stroke);
+	    }
+	    if (options.strokeWidth) {
+	        g.setAttribute("stroke-width", options.strokeWidth.toString());
+	    }
+	    if (options.onClick) {
+	        g.addEventListener("click", options.onClick);
+	    }
+	    if (options.onMouseOver) {
+	        g.addEventListener("mouseover", options.onMouseOver);
+	    }
+	    if (options.onMouseOut) {
+	        g.addEventListener("mouseout", options.onMouseOut);
+	    }
+	    return g;
+	}
+	function createText(options) {
+	    var text = document.createElementNS(SVG_NAMESPACE, "text");
+	    text.setAttribute("alignment-baseline", "central");
+	    text.setAttribute("dominant-baseline", "central");
+	    text.textContent = options.content;
+	    if (options.fill) {
+	        text.setAttribute("fill", options.fill);
+	    }
+	    if (options.font) {
+	        text.setAttribute("style", "font: " + options.font);
+	    }
+	    if (options.anchor) {
+	        text.setAttribute("text-anchor", options.anchor);
+	    }
+	    if (options.translate) {
+	        text.setAttribute("x", options.translate.x.toString());
+	        text.setAttribute("y", options.translate.y.toString());
+	    }
+	    if (options.onClick) {
+	        text.addEventListener("click", options.onClick);
+	    }
+	    return text;
+	}
+	function createCircle(options) {
+	    var circle = document.createElementNS(SVG_NAMESPACE, "circle");
+	    circle.setAttribute("cx", options.radius.toString());
+	    circle.setAttribute("cy", options.radius.toString());
+	    circle.setAttribute("r", options.radius.toString());
+	    if (options.id) {
+	        circle.setAttribute("id", options.id);
+	    }
+	    if (options.fill) {
+	        circle.setAttribute("fill", options.fill);
+	    }
+	    return circle;
+	}
+	function createRect(options) {
+	    var rect = document.createElementNS(SVG_NAMESPACE, "rect");
+	    rect.setAttribute("width", options.width.toString());
+	    rect.setAttribute("height", options.height.toString());
+	    if (options.borderRadius) {
+	        rect.setAttribute("rx", options.borderRadius.toString());
+	    }
+	    if (options.fill) {
+	        rect.setAttribute("fill", options.fill || "transparent");
+	    }
+	    if (options.stroke) {
+	        rect.setAttribute("stroke", options.stroke);
+	    }
+	    return rect;
+	}
+	function createPath(options) {
+	    var path = document.createElementNS(SVG_NAMESPACE, "path");
+	    path.setAttribute("d", options.d);
+	    if (options.fill) {
+	        path.setAttribute("fill", options.fill);
+	    }
+	    if (options.stroke) {
+	        path.setAttribute("stroke", options.stroke);
+	    }
+	    if (options.strokeWidth) {
+	        path.setAttribute("stroke-width", options.strokeWidth.toString());
+	    }
+	    if (options.translate) {
+	        path.setAttribute("transform", "translate(" + options.translate.x + ", " + options.translate.y + ")");
+	    }
+	    return path;
+	}
+	function createUse(href) {
+	    var use = document.createElementNS(SVG_NAMESPACE, "use");
+	    use.setAttribute("href", "#" + href);
+	    // xlink:href is deprecated in SVG2, but we keep it for retro-compatibility
+	    // => https://developer.mozilla.org/en-US/docs/Web/SVG/Element/use#Browser_compatibility
+	    use.setAttributeNS("http://www.w3.org/1999/xlink", "xlink:href", "#" + href);
+	    return use;
+	}
+	function createClipPath() {
+	    return document.createElementNS(SVG_NAMESPACE, "clipPath");
+	}
+	function createDefs(children) {
+	    var defs = document.createElementNS(SVG_NAMESPACE, "defs");
+	    children.forEach(function (child) { return defs.appendChild(child); });
+	    return defs;
+	}
+	function createForeignObject(options) {
+	    var result = document.createElementNS(SVG_NAMESPACE, "foreignObject");
+	    result.setAttribute("width", options.width.toString());
+	    if (options.translate) {
+	        result.setAttribute("x", options.translate.x.toString());
+	        result.setAttribute("y", options.translate.y.toString());
+	    }
+	    var p = document.createElement("p");
+	    p.textContent = options.content;
+	    result.appendChild(p);
+	    return result;
+	}
+
+	var PADDING_X = 10;
+	var PADDING_Y = 5;
+	function createBranchLabel(branch, commit) {
+	    var rect = createRect({
+	        width: 0,
+	        height: 0,
+	        borderRadius: branch.style.label.borderRadius,
+	        stroke: branch.style.label.strokeColor || commit.style.color,
+	        fill: branch.style.label.bgColor,
+	    });
+	    var text = createText({
+	        content: branch.name,
+	        translate: {
+	            x: PADDING_X,
+	            y: 0,
+	        },
+	        font: branch.style.label.font,
+	        fill: branch.style.label.color || commit.style.color,
+	    });
+	    var branchLabel = createG({ children: [rect] });
+	    var observer = new MutationObserver(function () {
+	        var _a = text.getBBox(), height = _a.height, width = _a.width;
+	        var boxWidth = width + 2 * PADDING_X;
+	        var boxHeight = height + 2 * PADDING_Y;
+	        // Ideally, it would be great to refactor these behavior into SVG elements.
+	        rect.setAttribute("width", boxWidth.toString());
+	        rect.setAttribute("height", boxHeight.toString());
+	        text.setAttribute("y", (boxHeight / 2).toString());
+	    });
+	    observer.observe(branchLabel, {
+	        attributes: false,
+	        subtree: false,
+	        childList: true,
+	    });
+	    // Add text after observer is set up => react based on text size.
+	    // We might refactor it by including `onChildrenUpdate()` to `createG()`.
+	    branchLabel.appendChild(text);
+	    return branchLabel;
+	}
+
+	var PADDING_X$1 = 10;
+	var PADDING_Y$1 = 5;
+	function createTag(tag) {
+	    var path = createPath({
+	        d: "",
+	        fill: tag.style.bgColor,
+	        stroke: tag.style.strokeColor,
+	    });
+	    var text = createText({
+	        content: tag.name,
+	        fill: tag.style.color,
+	        font: tag.style.font,
+	        translate: { x: 0, y: 0 },
+	    });
+	    var result = createG({ children: [path] });
+	    var offset = tag.style.pointerWidth;
+	    var observer = new MutationObserver(function () {
+	        var _a = text.getBBox(), height = _a.height, width = _a.width;
+	        if (height === 0 || width === 0)
+	            return;
+	        var radius = tag.style.borderRadius;
+	        var boxWidth = offset + width + 2 * PADDING_X$1;
+	        var boxHeight = height + 2 * PADDING_Y$1;
+	        var pathD = [
+	            "M 0,0",
+	            "L " + offset + "," + boxHeight / 2,
+	            "V " + boxHeight / 2,
+	            "Q " + offset + "," + boxHeight / 2 + " " + (offset + radius) + "," + boxHeight / 2,
+	            "H " + (boxWidth - radius),
+	            "Q " + boxWidth + "," + boxHeight / 2 + " " + boxWidth + "," + (boxHeight / 2 - radius),
+	            "V -" + (boxHeight / 2 - radius),
+	            "Q " + boxWidth + ",-" + boxHeight / 2 + " " + (boxWidth - radius) + ",-" + boxHeight / 2,
+	            "H " + (offset + radius),
+	            "Q " + offset + ",-" + boxHeight / 2 + " " + offset + ",-" + boxHeight / 2,
+	            "V -" + boxHeight / 2,
+	            "z",
+	        ].join(" ");
+	        // Ideally, it would be great to refactor these behavior into SVG elements.
+	        path.setAttribute("d", pathD.toString());
+	        text.setAttribute("x", (offset + PADDING_X$1).toString());
+	    });
+	    observer.observe(result, {
+	        attributes: false,
+	        subtree: false,
+	        childList: true,
+	    });
+	    // Add text after observer is set up => react based on text size.
+	    // We might refactor it by including `onChildrenUpdate()` to `createG()`.
+	    result.appendChild(text);
+	    return result;
+	}
+
+	var PADDING = 10;
+	var OFFSET = 10;
+	function createTooltip(commit) {
+	    var path = createPath({ d: "", fill: "#EEE" });
+	    var text = createText({
+	        translate: { x: OFFSET + PADDING, y: 0 },
+	        content: commit.hashAbbrev + " - " + commit.subject,
+	        fill: "#333",
+	    });
+	    var commitSize = commit.style.dot.size * 2;
+	    var tooltip = createG({
+	        translate: { x: commitSize, y: commitSize / 2 },
+	        children: [path],
+	    });
+	    var observer = new MutationObserver(function () {
+	        var width = text.getBBox().width;
+	        var radius = 5;
+	        var boxHeight = 50;
+	        var boxWidth = OFFSET + width + 2 * PADDING;
+	        var pathD = [
+	            "M 0,0",
+	            "L " + OFFSET + "," + OFFSET,
+	            "V " + (boxHeight / 2 - radius),
+	            "Q " + OFFSET + "," + boxHeight / 2 + " " + (OFFSET + radius) + "," + boxHeight / 2,
+	            "H " + (boxWidth - radius),
+	            "Q " + boxWidth + "," + boxHeight / 2 + " " + boxWidth + "," + (boxHeight / 2 - radius),
+	            "V -" + (boxHeight / 2 - radius),
+	            "Q " + boxWidth + ",-" + boxHeight / 2 + " " + (boxWidth - radius) + ",-" + boxHeight / 2,
+	            "H " + (OFFSET + radius),
+	            "Q " + OFFSET + ",-" + boxHeight / 2 + " " + OFFSET + ",-" + (boxHeight / 2 - radius),
+	            "V -" + OFFSET,
+	            "z",
+	        ].join(" ");
+	        // Ideally, it would be great to refactor these behavior into SVG elements.
+	        // rect.setAttribute("width", boxWidth.toString());
+	        path.setAttribute("d", pathD.toString());
+	    });
+	    observer.observe(tooltip, {
+	        attributes: false,
+	        subtree: false,
+	        childList: true,
+	    });
+	    tooltip.appendChild(text);
+	    return tooltip;
+	}
+
+	function createGitgraph(graphContainer, options) {
+	    var commitsElements = {};
+	    // Store a map to replace commits y with the correct value,
+	    // including the message offset. Allows custom, flexible message height.
+	    // E.g. {20: 30} means for commit: y=20 -> y=30
+	    // Offset should be computed when graph is rendered (componentDidUpdate).
+	    var commitYWithOffsets = {};
+	    var shouldRecomputeOffsets = false;
+	    var lastData;
+	    var $commits;
+	    var commitMessagesX = 0;
+	    var $tooltip = null;
+	    // Create an `svg` context in which we'll render the graph.
+	    var svg = createSvg();
+	    adaptSvgOnUpdate();
+	    graphContainer.appendChild(svg);
+	    // React on gitgraph updates to re-render the graph.
+	    var gitgraph = new lib_1(options);
+	    gitgraph.subscribe(function (data) {
+	        shouldRecomputeOffsets = true;
+	        render(data);
+	    });
+	    // Return usable API for end-user.
+	    return gitgraph.getUserApi();
+	    function render(data) {
+	        // Reset before new rendering to flush previous state.
+	        commitsElements = {};
+	        var commits = data.commits, branchesPaths = data.branchesPaths;
+	        commitMessagesX = data.commitMessagesX;
+	        // Store data so we can re-render after offsets are computed.
+	        lastData = data;
+	        // Store $commits so we can compute offsets from actual height.
+	        $commits = renderCommits(commits);
+	        // Reset SVG with new content.
+	        svg.innerHTML = "";
+	        svg.appendChild(createG({
+	            // Translate graph left => left-most branch label is not cropped (horizontal)
+	            // Translate graph down => top-most commit tooltip is not cropped
+	            translate: { x: PADDING_X, y: PADDING },
+	            children: [renderBranchesPaths(branchesPaths), $commits],
+	        }));
+	    }
+	    function adaptSvgOnUpdate() {
+	        var observer = new MutationObserver(function () {
+	            if (shouldRecomputeOffsets) {
+	                shouldRecomputeOffsets = false;
+	                computeOffsets();
+	                render(lastData);
+	            }
+	            else {
+	                positionCommitsElements();
+	                adaptGraphDimensions();
+	            }
+	        });
+	        observer.observe(svg, {
+	            attributes: false,
+	            // Listen to subtree changes to react when we append the tooltip.
+	            subtree: true,
+	            childList: true,
+	        });
+	        function computeOffsets() {
+	            var commits = Array.from($commits.children);
+	            var totalOffsetY = 0;
+	            // In VerticalReverse orientation, commits are in the same order in the DOM.
+	            var orientedCommits = gitgraph.orientation === lib_12.VerticalReverse
+	                ? commits
+	                : commits.reverse();
+	            commitYWithOffsets = orientedCommits.reduce(function (newOffsets, commit) {
+	                var commitY = parseInt(commit
+	                    .getAttribute("transform")
+	                    .split(",")[1]
+	                    .slice(0, -1), 10);
+	                var firstForeignObject = commit.getElementsByTagName("foreignObject")[0];
+	                var customHtmlMessage = firstForeignObject && firstForeignObject.firstElementChild;
+	                newOffsets[commitY] = commitY + totalOffsetY;
+	                // Increment total offset after setting the offset
+	                // => offset next commits accordingly.
+	                totalOffsetY += getMessageHeight(customHtmlMessage);
+	                return newOffsets;
+	            }, {});
+	        }
+	        function positionCommitsElements() {
+	            if (gitgraph.isHorizontal) {
+	                // Elements don't appear on horizontal mode, yet.
+	                return;
+	            }
+	            var padding = 10;
+	            // Ensure commits elements (branch labels, message…) are well positionned.
+	            // It can't be done at render time since elements size is dynamic.
+	            Object.keys(commitsElements).forEach(function (commitHash) {
+	                var _a = commitsElements[commitHash], branchLabel = _a.branchLabel, tags = _a.tags, message = _a.message;
+	                // We'll store X position progressively and translate elements.
+	                var x = commitMessagesX;
+	                if (branchLabel) {
+	                    moveElement(branchLabel, x);
+	                    // BBox width misses box padding
+	                    // => they are set later, on branch label update.
+	                    // We would need to make branch label update happen before to solve it.
+	                    var branchLabelWidth = branchLabel.getBBox().width + 2 * PADDING_X;
+	                    x += branchLabelWidth + padding;
+	                }
+	                tags.forEach(function (tag) {
+	                    moveElement(tag, x);
+	                    // BBox width misses box padding and offset
+	                    // => they are set later, on tag update.
+	                    // We would need to make tag update happen before to solve it.
+	                    var offset = parseFloat(tag.getAttribute("data-offset") || "0");
+	                    var tagWidth = tag.getBBox().width + 2 * PADDING_X$1 + offset;
+	                    x += tagWidth + padding;
+	                });
+	                if (message) {
+	                    moveElement(message, x);
+	                }
+	            });
+	        }
+	        function adaptGraphDimensions() {
+	            var _a = svg.getBBox(), height = _a.height, width = _a.width;
+	            // FIXME: In horizontal mode, we mimic @gitgraph/react behavior
+	            // => it gets re-rendered after offsets are computed
+	            // => it applies paddings twice!
+	            //
+	            // It works… by chance. Technically, we should compute what would
+	            // *actually* go beyond the computed limits of the graph.
+	            var horizontalCustomOffset = 50;
+	            var widthOffset = gitgraph.isHorizontal
+	                ? horizontalCustomOffset
+	                : // Add `TOOLTIP_PADDING` so we don't crop the tooltip text.
+	                    // Add `BRANCH_LABEL_PADDING_X` so we don't cut branch label.
+	                    PADDING_X + PADDING;
+	            var heightOffset = gitgraph.isHorizontal
+	                ? horizontalCustomOffset
+	                : // Add `TOOLTIP_PADDING` so we don't crop tooltip text
+	                    // Add `BRANCH_LABEL_PADDING_Y` so we don't crop branch label.
+	                    PADDING_Y + PADDING;
+	            svg.setAttribute("width", (width + widthOffset).toString());
+	            svg.setAttribute("height", (height + heightOffset).toString());
+	        }
+	    }
+	    function moveElement(target, x) {
+	        var transform = target.getAttribute("transform") || "translate(0, 0)";
+	        target.setAttribute("transform", transform.replace(/translate\(([\d\.]+),/, "translate(" + x + ","));
+	    }
+	    function renderBranchesPaths(branchesPaths) {
+	        var offset = gitgraph.template.commit.dot.size;
+	        var isBezier = gitgraph.template.branch.mergeStyle === lib_9.Bezier;
+	        var paths = Array.from(branchesPaths).map(function (_a) {
+	            var branch = _a[0], coordinates = _a[1];
+	            return createPath({
+	                d: lib_13(coordinates.map(function (coordinate) { return coordinate.map(getWithCommitOffset); }), isBezier, gitgraph.isVertical),
+	                fill: "transparent",
+	                stroke: branch.computedColor || "",
+	                strokeWidth: branch.style.lineWidth,
+	                translate: {
+	                    x: offset,
+	                    y: offset,
+	                },
+	            });
+	        });
+	        return createG({ children: paths });
+	    }
+	    function renderCommits(commits) {
+	        return createG({ children: commits.map(renderCommit) });
+	        function renderCommit(commit) {
+	            var _a = getWithCommitOffset(commit), x = _a.x, y = _a.y;
+	            return createG({
+	                translate: { x: x, y: y },
+	                children: [
+	                    renderDot(commit)
+	                ].concat(renderArrows(commit), [
+	                    createG({
+	                        translate: { x: -x, y: 0 },
+	                        children: [
+	                            renderMessage(commit)
+	                        ].concat(renderBranchLabels(commit), renderTags(commit)),
+	                    }),
+	                ]),
+	            });
+	        }
+	        function renderArrows(commit) {
+	            if (!gitgraph.template.arrow.size) {
+	                return [null];
+	            }
+	            var commitRadius = commit.style.dot.size;
+	            return commit.parents.map(function (parentHash) {
+	                var parent = commits.find(function (_a) {
+	                    var hash = _a.hash;
+	                    return hash === parentHash;
+	                });
+	                if (!parent)
+	                    return null;
+	                // Starting point, relative to commit
+	                var origin = gitgraph.reverseArrow
+	                    ? {
+	                        x: commitRadius + (parent.x - commit.x),
+	                        y: commitRadius + (parent.y - commit.y),
+	                    }
+	                    : { x: commitRadius, y: commitRadius };
+	                var path = createPath({
+	                    d: lib_14(gitgraph, parent, commit),
+	                    fill: gitgraph.template.arrow.color || "",
+	                });
+	                return createG({ translate: origin, children: [path] });
+	            });
+	        }
+	    }
+	    function renderMessage(commit) {
+	        if (!commit.style.message.display) {
+	            return null;
+	        }
+	        var message;
+	        if (commit.renderMessage) {
+	            message = createG({ children: [] });
+	            // Add message after observer is set up => react based on body height.
+	            // We might refactor it by including `onChildrenUpdate()` to `createG()`.
+	            adaptMessageBodyHeight(message);
+	            message.appendChild(commit.renderMessage(commit));
+	            setMessageRef(commit, message);
+	            return message;
+	        }
+	        var text = createText({
+	            content: commit.message,
+	            fill: commit.style.message.color || "",
+	            font: commit.style.message.font,
+	            onClick: commit.onMessageClick,
+	        });
+	        message = createG({
+	            translate: { x: 0, y: commit.style.dot.size },
+	            children: [text],
+	        });
+	        if (commit.body) {
+	            var body = createForeignObject({
+	                width: 600,
+	                translate: { x: 10, y: 0 },
+	                content: commit.body,
+	            });
+	            // Add message after observer is set up => react based on body height.
+	            // We might refactor it by including `onChildrenUpdate()` to `createG()`.
+	            adaptMessageBodyHeight(message);
+	            message.appendChild(body);
+	        }
+	        setMessageRef(commit, message);
+	        return message;
+	    }
+	    function adaptMessageBodyHeight(message) {
+	        var observer = new MutationObserver(function (mutations) {
+	            mutations.forEach(function (_a) {
+	                var target = _a.target;
+	                return setChildrenForeignObjectHeight(target);
+	            });
+	        });
+	        observer.observe(message, {
+	            attributes: false,
+	            subtree: false,
+	            childList: true,
+	        });
+	        function setChildrenForeignObjectHeight(node) {
+	            if (node.nodeName === "foreignObject") {
+	                // We have to access the first child's parentElement to retrieve
+	                // the Element instead of the Node => we can compute dimensions.
+	                var foreignObject = node.firstChild && node.firstChild.parentElement;
+	                if (!foreignObject)
+	                    return;
+	                // Force the height of the foreignObject (browser issue)
+	                foreignObject.setAttribute("height", getMessageHeight(foreignObject.firstElementChild).toString());
+	            }
+	            node.childNodes.forEach(setChildrenForeignObjectHeight);
+	        }
+	    }
+	    function renderBranchLabels(commit) {
+	        // @gitgraph/core could compute branch labels into commits directly.
+	        // That will make it easier to retrieve them, just like tags.
+	        var branches = Array.from(gitgraph.branches.values());
+	        return branches.map(function (branch) {
+	            if (!branch.style.label.display)
+	                return null;
+	            if (!gitgraph.branchLabelOnEveryCommit) {
+	                var commitHash = gitgraph.refs.getCommit(branch.name);
+	                if (commit.hash !== commitHash)
+	                    return null;
+	            }
+	            // For the moment, we don't handle multiple branch labels.
+	            // To do so, we'd need to reposition each of them appropriately.
+	            if (commit.branchToDisplay !== branch.name)
+	                return null;
+	            var branchLabel = branch.renderLabel
+	                ? branch.renderLabel(branch)
+	                : createBranchLabel(branch, commit);
+	            var branchLabelContainer;
+	            if (gitgraph.isVertical) {
+	                branchLabelContainer = createG({
+	                    children: [branchLabel],
+	                });
+	            }
+	            else {
+	                var commitDotSize = commit.style.dot.size * 2;
+	                var horizontalMarginTop = 10;
+	                branchLabelContainer = createG({
+	                    translate: { x: commit.x, y: commitDotSize + horizontalMarginTop },
+	                    children: [branchLabel],
+	                });
+	            }
+	            setBranchLabelRef(commit, branchLabelContainer);
+	            return branchLabelContainer;
+	        });
+	    }
+	    function renderTags(commit) {
+	        if (!commit.tags)
+	            return [];
+	        if (gitgraph.isHorizontal)
+	            return [];
+	        return commit.tags.map(function (tag) {
+	            var tagElement = tag.render
+	                ? tag.render(tag.name, tag.style)
+	                : createTag(tag);
+	            var tagContainer = createG({
+	                translate: { x: 0, y: commit.style.dot.size },
+	                children: [tagElement],
+	            });
+	            // `data-offset` is used to position tag element in `positionCommitsElements`.
+	            // => because when it's executed, tag offsets are not resolved yet
+	            tagContainer.setAttribute("data-offset", tag.style.pointerWidth.toString());
+	            setTagRef(commit, tagContainer);
+	            return tagContainer;
+	        });
+	    }
+	    function renderDot(commit) {
+	        if (commit.renderDot) {
+	            return commit.renderDot(commit);
+	        }
+	        /*
+	        In order to handle strokes, we need to do some complex stuff here… 😅
+	    
+	        Problem: strokes are drawn inside & outside the circle.
+	        But we want the stroke to be drawn inside only!
+	    
+	        The outside overlaps with other elements, as we expect the dot to have a fixed size. So we want to crop the outside part.
+	    
+	        Solution:
+	        1. Create the circle in a <defs>
+	        2. Define a clip path that references the circle
+	        3. Use the clip path, adding the stroke.
+	        4. Double stroke width as half of it will be clipped (the outside part).
+	    
+	        Ref.: https://stackoverflow.com/a/32162431/3911841
+	    
+	        P.S. there is a proposal for a stroke-alignment property,
+	        but it's still a W3C Draft ¯\_(ツ)_/¯
+	        https://svgwg.org/specs/strokes/#SpecifyingStrokeAlignment
+	      */
+	        var circleId = commit.hash;
+	        var circle = createCircle({
+	            id: circleId,
+	            radius: commit.style.dot.size,
+	            fill: commit.style.dot.color || "",
+	        });
+	        var clipPathId = "clip-" + commit.hash;
+	        var circleClipPath = createClipPath();
+	        circleClipPath.setAttribute("id", clipPathId);
+	        circleClipPath.appendChild(createUse(circleId));
+	        var useCirclePath = createUse(circleId);
+	        useCirclePath.setAttribute("clip-path", "url(#" + clipPathId + ")");
+	        useCirclePath.setAttribute("stroke", commit.style.dot.strokeColor || "");
+	        var strokeWidth = commit.style.dot.strokeWidth
+	            ? commit.style.dot.strokeWidth * 2
+	            : 0;
+	        useCirclePath.setAttribute("stroke-width", strokeWidth.toString());
+	        var dotText = commit.dotText
+	            ? createText({
+	                content: commit.dotText,
+	                font: commit.style.dot.font,
+	                anchor: "middle",
+	                translate: { x: commit.style.dot.size, y: commit.style.dot.size },
+	            })
+	            : null;
+	        return createG({
+	            onClick: commit.onClick,
+	            onMouseOver: function () {
+	                appendTooltipToGraph(commit);
+	                commit.onMouseOver();
+	            },
+	            onMouseOut: function () {
+	                if ($tooltip)
+	                    $tooltip.remove();
+	                commit.onMouseOut();
+	            },
+	            children: [createDefs([circle, circleClipPath]), useCirclePath, dotText],
+	        });
+	    }
+	    function appendTooltipToGraph(commit) {
+	        if (!svg.firstChild)
+	            return;
+	        if (gitgraph.isVertical && gitgraph.mode !== lib_2.Compact)
+	            return;
+	        if (gitgraph.isVertical && !commit.style.hasTooltipInCompactMode)
+	            return;
+	        var tooltip = commit.renderTooltip
+	            ? commit.renderTooltip(commit)
+	            : createTooltip(commit);
+	        $tooltip = createG({
+	            translate: getWithCommitOffset(commit),
+	            children: [tooltip],
+	        });
+	        svg.firstChild.appendChild($tooltip);
+	    }
+	    function getWithCommitOffset(_a) {
+	        var x = _a.x, y = _a.y;
+	        return { x: x, y: commitYWithOffsets[y] || y };
+	    }
+	    function setBranchLabelRef(commit, branchLabels) {
+	        if (!commitsElements[commit.hashAbbrev]) {
+	            initCommitElements(commit);
+	        }
+	        commitsElements[commit.hashAbbrev].branchLabel = branchLabels;
+	    }
+	    function setMessageRef(commit, message) {
+	        if (!commitsElements[commit.hashAbbrev]) {
+	            initCommitElements(commit);
+	        }
+	        commitsElements[commit.hashAbbrev].message = message;
+	    }
+	    function setTagRef(commit, tag) {
+	        if (!commitsElements[commit.hashAbbrev]) {
+	            initCommitElements(commit);
+	        }
+	        commitsElements[commit.hashAbbrev].tags.push(tag);
+	    }
+	    function initCommitElements(commit) {
+	        commitsElements[commit.hashAbbrev] = {
+	            branchLabel: null,
+	            tags: [],
+	            message: null,
+	        };
+	    }
+	}
+	function getMessageHeight(message) {
+	    var messageHeight = 0;
+	    if (message) {
+	        var height = message.getBoundingClientRect().height;
+	        var marginTopInPx = window.getComputedStyle(message).marginTop || "0px";
+	        var marginTop = parseInt(marginTopInPx.replace("px", ""), 10);
+	        messageHeight = height + marginTop;
+	    }
+	    return messageHeight;
+	}
+
+	exports.MergeStyle = lib_9;
+	exports.Mode = lib_2;
+	exports.Orientation = lib_12;
+	exports.TemplateName = lib_10;
+	exports.createGitgraph = createGitgraph;
+	exports.templateExtend = lib_11;
+
+	Object.defineProperty(exports, '__esModule', { value: true });
+
+}));
