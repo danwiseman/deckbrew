@@ -8,7 +8,11 @@ module MasterDeckHelpers
         select "Commander", from: 'deck_type'
         check "is_public"
         fill_in "description", :with => fbmaster_deck.description
+        click_button "Next"
+        
+        Capybara.ignore_hidden_elements = false
         click_button "Create"
+        Capybara.ignore_hidden_elements = true
         
         master_deck = MasterDeck.where(:name => fbmaster_deck.name, :user => user).last 
         
