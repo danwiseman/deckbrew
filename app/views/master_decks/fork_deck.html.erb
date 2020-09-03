@@ -1,0 +1,43 @@
+<div class="row">
+  <div class="col-md-6">
+      <div class="card">
+          <div class="card-header card-header-icon card-header-primary">
+            <div class="card-icon">
+              <i class="fad fa-code-branch"></i>
+            </div>
+          </div>
+          <div class="card-body">
+
+              <%= form_with class: "form", url: "/decks/fork" do |f| %>
+                <div class="form-group">
+                  <label for="forked_from_branch">Select the branch to fork from:</label>
+                  <%= select("forked_from_branch", "forked_from_branch_id", options_from_collection_for_select(@deck_to_fork.branches, 'id', 'name', @selected_branch),
+                            { include_blank: false },
+                              :class => "form-control selectpicker", :data_style => "btn btn-link" ) %>
+                </div>
+                <div class="form-group"></div>
+                <div class="form-group">
+                <%= f.label "Deck Name:", for: :name %>
+                <%= f.text_field :name, value: @deck_to_fork.name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                <div class="togglebutton">
+                  <label>
+                    <%= f.check_box :is_public, checked: true %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Public Deck", class: "text-success label-on") %>
+                      <%= tag.span("Private Deck", class: "text-warning label-off") %>
+                  </label>
+                </div>
+                </div>
+                <div class="form-group">
+                <%= f.hidden_field :forked_from_id, :value => @deck_to_fork.id %>
+                <%= f.submit "Fork" , class: "btn btn-primary" %>
+              </div>
+              <% end %>
+              
+              </div>
+      </div>
+  </div>
+
+</div>

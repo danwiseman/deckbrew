@@ -30,9 +30,11 @@
         <a class="nav-link" href="/decks/<%= master_deck.slug %>/edit">Edit This Deck</a>
       </li>
       <% end %>
+      <% if master_deck.user != current_user %>
       <li class="nav-item">
-        <a class="nav-link" href="#0">Fork This Deck</a>
+        <a class="nav-link" href="<%= MasterDecksHelper.PathToMasterDeck(master_deck) %>/fork/<%= branch.slug %>">Fork This Deck</a>
       </li>
+      <% end %>
     </ul>
   </div>
   <%= render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch } %>
