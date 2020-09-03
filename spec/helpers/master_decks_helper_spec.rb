@@ -17,7 +17,11 @@ describe MasterDecksHelper do
             expect(master_deck_with_privacy_badge(master_deck, true)).to have_text(master_deck.name + " Public")
         end
         
-        it "returns a link to the master deck with a private badge when it is private"
+        it "returns a link to the master deck with a private badge when it is private" do
+            
+            master_deck = FactoryBot.create(:master_deck, is_public: 'false')
+            expect(master_deck_with_privacy_badge(master_deck, true)).to have_text(master_deck.name + " Private")
+        end
         
     end
     

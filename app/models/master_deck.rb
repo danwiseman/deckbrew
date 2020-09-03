@@ -8,7 +8,8 @@ class MasterDeck < ApplicationRecord
     
     validates_presence_of :name
     validates_presence_of :deck_type
-    validates_presence_of :is_public
+    
+    validates_inclusion_of :is_public, in: [true, false]
     
     validates :name, uniqueness: { scope: :user }
     
