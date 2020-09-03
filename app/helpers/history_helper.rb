@@ -5,7 +5,7 @@ module HistoryHelper
         history = Array.new
         
         
-        for branch_me in @master_deck.branches
+        for branch_me in master_deck.branches
             history << { "type": "branch", "source_branch": branch_me.source_branch, "date": branch_me.created_at, "name": branch_me.name, "jsslug": branch_me.slug.gsub("-","") }
             merge_history = branch_me.merge_history
             unless merge_history.size == 0
