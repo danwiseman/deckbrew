@@ -1,10 +1,13 @@
 class MasterDecksController < ApplicationController
     
+
        
     before_action :authenticate_user!, only: [:new, :create, :fork_deck]
     
     
     def index
+        
+        
         if params.has_key?(:user_id)
             @deck_user = User.friendly.find(params[:user_id])
         else
@@ -25,6 +28,7 @@ class MasterDecksController < ApplicationController
         else
            @deck_user = current_user 
         end
+
         
         if (@master_deck.is_public == false && @deck_user != current_user)
             redirect_to action: 'no_permission', reason: "You are not authorized to view this deck."
