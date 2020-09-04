@@ -16,9 +16,7 @@ gem 'font-awesome-rails', '~>4.x'
 
 gem 'friendly_id', '~> 5.4.0'
 
-gem 'pretty_magic',
-  :git => '/home/ec2-user/environment/pretty_magic',
-  :branch => 'testing'
+gem 'pretty_magic'
 
 # Use Puma as the app server
 gem 'puma', '~> 4.1'
