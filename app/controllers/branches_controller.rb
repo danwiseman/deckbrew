@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
-    before_action :authenticate_user!, only: [:new, :create]
-    before_action :set_master_deck, only: [:new, :create, :show, :compare, :merge]
+    before_action :authenticate_user!, only: [:new, :create, :merge, :edit, :update]
+    before_action :set_master_deck, only: [:new, :create, :edit, :show, :compare, :merge, :update]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -39,6 +39,13 @@ class BranchesController < ApplicationController
               render "new"
            end
         end
+    end
+    
+    def edit
+        @branch = @master_deck.branches.friendly.find(params['branch_id'])
+        
+        
+        render layout: "dashboard" 
     end
     
     def show 
@@ -91,10 +98,28 @@ class BranchesController < ApplicationController
        
     end
     
+    def update
+        if(@master_deck.branches.where(:name => params['branch']['name']).present?) 
+           # branch already exists fail.
+           flash[:warning] = 'A branch for this deck with that name already exists.'
+           render "new"
+        else
+            @branch = @master_deck.branches.friendly.find(params['branch_id'])
+            
+            @branch.update(name: params['branch']['name'], is_public: params['branch']['is_public'])
+            
+            redirect_to BranchesHelper.PathToBranch(@branch)
+        end
+    end
+    
     private
     
     def set_master_deck
-        @master_deck = MasterDeck.friendly.find(params[:master_deck_id])
+        if params.has_key?(:user_id)
+            @master_deck = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:master_deck_id])
+        else 
+            @master_deck = current_user.master_decks.friendly.find(params[:master_deck_id])
+        end
     end
     
     

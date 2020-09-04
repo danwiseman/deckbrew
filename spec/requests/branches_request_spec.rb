@@ -14,7 +14,7 @@ RSpec.describe "Branches", type: :request do
        user = FactoryBot.create(:user)
        sign_in_via_form(user)
        
-       master_deck = FactoryBot.create(:master_deck)
+       master_deck = create_master_deck_via_form(user)
 
        visit "/decks/#{master_deck.slug}/branch/new"
 
@@ -94,6 +94,41 @@ RSpec.describe "Branches", type: :request do
         
         # expect master to now have the deck of branch3
         expect(Deck.find(master_deck.branches.friendly.find("main").head_deck).cards).to eq(Deck.find(master_deck.branches.friendly.find("branch3").head_deck).cards)
+        
+    end
+    
+    it "allows the user to make changes to the branch name" do
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+
+        master_deck = create_master_deck_via_form(user)
+        create_many_branches(master_deck)
+        
+        visit "/decks/#{master_deck.slug}/branch/edit/branch3"
+        
+        fill_in "branch[name]",:with => "a new branch name"
+        
+        click_button "Edit"
+       
+        expect(page).to have_text("a new branch name") 
+        
+    end
+    
+    it "allows the user to delete a branch from the edit page" do
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+
+        master_deck = create_master_deck_via_form(user)
+        create_many_branches(master_deck)
+        
+        visit "/decks/#{master_deck.slug}/branch/edit/branch3"
+        
+        find("#delete_branch_btn").trigger("click") 
+        
+        fill_in "delete_confirm", :with => "branch3"
+        click_button "Delete"
+        
+        expect(page).to_not have_text("branch3")
         
     end
 
