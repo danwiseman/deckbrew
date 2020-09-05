@@ -15,7 +15,7 @@
             
             <td><%= render partial: "master_decks/deck_link", locals: { master_deck: master_deck, deck_user: user } %></td>
             <td>commander</td>
-            <td><%= prettyMtgText("{W}{B}") %></td>
+            <td><%= PrettyMagic::ManaIcons.add_icons_to_text("{W}{B}").html_safe %></td>
             <td>$$$$</td>
             <td class="td-actions text-right">
                 <%= render partial: "master_decks/table_actions", locals: { master_deck: master_deck, deck_user: user } %>

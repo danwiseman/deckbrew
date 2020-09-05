@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
-    before_action :authenticate_user!, only: [:new, :create]
-    before_action :set_master_deck, only: [:new, :create, :show, :compare, :merge]
+    before_action :authenticate_user!, only: [:new, :create, :merge, :edit, :update, :delete]
+    before_action :set_master_deck, only: [:new, :create, :edit, :show, :compare, :merge, :update, :delete]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -23,7 +23,8 @@ class BranchesController < ApplicationController
         else
            @branch = Branch.new(:name => params['name'], :master_deck => @master_deck,
                                  :source_branch => params['branched_from']['branched_from_id'], 
-                                 :source_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id)
+                                 :source_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id,
+                                 :is_public => params['is_public'])
         
                                 
            if @branch.save 
@@ -39,6 +40,13 @@ class BranchesController < ApplicationController
               render "new"
            end
         end
+    end
+    
+    def edit
+        @branch = @master_deck.branches.friendly.find(params['branch_id'])
+        
+        
+        render layout: "dashboard" 
     end
     
     def show 
@@ -58,6 +66,7 @@ class BranchesController < ApplicationController
     end
     
     def merge
+        puts params
        source_b_id = params['source_branch']['id']
        dest_b_id = params['destination_branch']['destination_branch_id']
        
@@ -79,6 +88,10 @@ class BranchesController < ApplicationController
             
             Branch.where(id: @merge_base.id).update_all(["merge_history = merge_history || ?::jsonb", new_merge])
            
+           if(params['delete_after_merge'] == 'true')
+               @merge_source.update(deleted: true)
+                flash[:warning] = @merge_source.name + ' was successfully deleted.'
+            end
            
            flash[:success] = 'Branch was merged.'
            redirect_to BranchesHelper.PathToBranch(@merge_base)
@@ -91,10 +104,43 @@ class BranchesController < ApplicationController
        
     end
     
+    def update
+        if(@master_deck.branches.where(:name => params['branch']['name']).present? && @master_deck.branches.friendly.find(params['branch_id']).name != params['branch']['name']) 
+           # branch already exists fail.
+           flash[:warning] = 'A branch for this deck with that name already exists.'
+           redirect_to "/decks/#{@master_deck.slug}/branch/edit/#{params['branch_id']}"
+           #render "edit", @branch = @master_deck.branches.friendly.find(params['branch_id'])
+        else
+            @branch = @master_deck.branches.friendly.find(params['branch_id'])
+            
+            @branch.update(name: params['branch']['name'], is_public: params['branch']['is_public'])
+            
+            redirect_to BranchesHelper.PathToBranch(@branch)
+        end
+    end
+    
+    def delete
+        unless(@master_deck.branches.friendly.find(params['branch_id']).present?) 
+           # branch already exists fail.
+           flash[:warning] = 'This branch to delete does not exist.'
+           render "new"
+        else
+            @branch = @master_deck.branches.friendly.find(params['branch_id'])
+            
+            @branch.update(deleted: true)
+            flash[:warning] = 'Branch was successfully deleted.'
+            redirect_to MasterDecksHelper.PathToMasterDeck(@master_deck)
+        end
+    end
+    
     private
     
     def set_master_deck
-        @master_deck = MasterDeck.friendly.find(params[:master_deck_id])
+        if params.has_key?(:user_id)
+            @master_deck = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:master_deck_id])
+        else 
+            @master_deck = current_user.master_decks.friendly.find(params[:master_deck_id])
+        end
     end
     
     
