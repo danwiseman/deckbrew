@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_03_164739) do
+ActiveRecord::Schema.define(version: 2020_09_05_121349) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -25,6 +25,7 @@ ActiveRecord::Schema.define(version: 2020_09_03_164739) do
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.string "slug"
+    t.boolean "deleted"
     t.index ["master_deck_id"], name: "index_branches_on_master_deck_id"
     t.index ["slug"], name: "index_branches_on_slug"
   end

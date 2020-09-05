@@ -1,7 +1,7 @@
 class BranchesController < ApplicationController
     
-    before_action :authenticate_user!, only: [:new, :create, :merge, :edit, :update]
-    before_action :set_master_deck, only: [:new, :create, :edit, :show, :compare, :merge, :update]
+    before_action :authenticate_user!, only: [:new, :create, :merge, :edit, :update, :delete]
+    before_action :set_master_deck, only: [:new, :create, :edit, :show, :compare, :merge, :update, :delete]
     
     def new
         @current_branches = @master_deck.branches.all
@@ -109,6 +109,20 @@ class BranchesController < ApplicationController
             @branch.update(name: params['branch']['name'], is_public: params['branch']['is_public'])
             
             redirect_to BranchesHelper.PathToBranch(@branch)
+        end
+    end
+    
+    def delete
+        unless(@master_deck.branches.friendly.find(params['branch_id']).present?) 
+           # branch already exists fail.
+           flash[:warning] = 'This branch to delete does not exist.'
+           render "new"
+        else
+            @branch = @master_deck.branches.friendly.find(params['branch_id'])
+            
+            @branch.update(deleted: true)
+            flash[:warning] = 'Branch was successfully deleted.'
+            redirect_to MasterDecksHelper.PathToMasterDeck(@master_deck)
         end
     end
     

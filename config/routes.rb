@@ -29,6 +29,7 @@ Rails.application.routes.draw do
         get ":master_deck_id/branch/new/:branched_from_id", to: "branches#new", on: :collection
         get ":master_deck_id/branch/edit/:branch_id", to: "branches#edit", on: :collection
         get ":master_deck_id/branch/compare/:source_branch", to: "branches#compare", on: :collection
+        get ":master_deck_id/branch/delete/:branch_id", to: "branches#delete", on: :collection
         post ":master_deck_id/branch/merge", to: "branches#merge", on: :collection
         patch ":master_deck_id/branch/:branch_id", to: "branches#update", on: :collection
         post "fork", to: "master_decks#create_fork", on: :collection
