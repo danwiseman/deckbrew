@@ -11,7 +11,14 @@
               <%= form_with class: "form", url: "/decks/fork" do |f| %>
                 <div class="form-group">
                   <label for="forked_from_branch">Select the branch to fork from:</label>
-                  <%= select("forked_from_branch", "forked_from_branch_id", options_from_collection_for_select(@deck_to_fork.branches, 'id', 'name', @selected_branch),
+                  <%= 
+                  possible_branches = Array.new
+                  for possible_branch in @deck_to_fork.branches
+                    if can_show_branch(possible_branch)
+                      possible_branches << possible_branch
+                    end
+                  end
+                  select("forked_from_branch", "forked_from_branch_id", options_from_collection_for_select(possible_branches, 'id', 'name', @selected_branch),
                             { include_blank: false },
                               :class => "form-control selectpicker", :data_style => "btn btn-link" ) %>
                 </div>

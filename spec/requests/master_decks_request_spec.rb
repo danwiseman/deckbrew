@@ -148,6 +148,29 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
-    
+    it "does not allow the user to see private branches in a public deck" do
+        user = FactoryBot.create(:user)
+       second_user = FactoryBot.create(:user)
+       sign_in_via_form(user)
+       
+       # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        create_many_branches(master_deck)
+        
+        visit "/decks/#{master_deck.slug}/branch/edit/branch3"
+        
+        uncheck "branch[is_public]"
+        
+        click_button "Edit"
+        
+        sign_out_via_link
+        
+        sign_in_via_form(second_user)
+        visit "/u/#{user.slug}/decks/#{master_deck.slug}"
+        
+        
+        expect(page).to_not have_text("branch3")
+        
+    end
 
 end
