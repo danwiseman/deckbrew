@@ -121,12 +121,8 @@ RSpec.describe "Branches", type: :request do
         master_deck = create_master_deck_via_form(user)
         create_many_branches(master_deck)
         
-        visit "/decks/#{master_deck.slug}/branch/edit/branch3"
+        visit "/decks/#{master_deck.slug}/branch/delete/branch3"
         
-        find("#delete_branch_btn").trigger("click") 
-        
-        fill_in "delete_confirm", :with => "branch3"
-        click_button "Delete"
         
         expect(page).to_not have_text("branch3")
         
