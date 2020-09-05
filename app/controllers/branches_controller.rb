@@ -23,7 +23,8 @@ class BranchesController < ApplicationController
         else
            @branch = Branch.new(:name => params['name'], :master_deck => @master_deck,
                                  :source_branch => params['branched_from']['branched_from_id'], 
-                                 :source_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id)
+                                 :source_deck => Branch.find(params['branched_from']['branched_from_id']).decks.last.id,
+                                 :is_public => params['is_public'])
         
                                 
            if @branch.save 
@@ -99,10 +100,11 @@ class BranchesController < ApplicationController
     end
     
     def update
-        if(@master_deck.branches.where(:name => params['branch']['name']).present?) 
+        if(@master_deck.branches.where(:name => params['branch']['name']).present? && @master_deck.branches.friendly.find(params['branch_id']).name != params['branch']['name']) 
            # branch already exists fail.
            flash[:warning] = 'A branch for this deck with that name already exists.'
-           render "new"
+           redirect_to "/decks/#{@master_deck.slug}/branch/edit/#{params['branch_id']}"
+           #render "edit", @branch = @master_deck.branches.friendly.find(params['branch_id'])
         else
             @branch = @master_deck.branches.friendly.find(params['branch_id'])
             
