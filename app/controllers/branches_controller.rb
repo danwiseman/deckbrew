@@ -66,6 +66,7 @@ class BranchesController < ApplicationController
     end
     
     def merge
+        puts params
        source_b_id = params['source_branch']['id']
        dest_b_id = params['destination_branch']['destination_branch_id']
        
@@ -87,6 +88,10 @@ class BranchesController < ApplicationController
             
             Branch.where(id: @merge_base.id).update_all(["merge_history = merge_history || ?::jsonb", new_merge])
            
+           if(params['delete_after_merge'] == 'true')
+               @merge_source.update(deleted: true)
+                flash[:warning] = @merge_source.name + ' was successfully deleted.'
+            end
            
            flash[:success] = 'Branch was merged.'
            redirect_to BranchesHelper.PathToBranch(@merge_base)
