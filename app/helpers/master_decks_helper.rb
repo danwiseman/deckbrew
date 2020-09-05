@@ -22,4 +22,18 @@ module MasterDecksHelper
         end
         output.html_safe
     end
+    
+    def can_show_master_deck(master_deck)
+       can_show = false
+       
+        if (master_deck.is_public == true)
+            can_show = true
+        else
+            if(master_deck.user == current_user)
+                can_show = true
+            end
+        end
+        
+        can_show
+    end
 end

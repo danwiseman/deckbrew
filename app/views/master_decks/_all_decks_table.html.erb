@@ -10,7 +10,8 @@
         </tr>
     </thead>
     <tbody>
-      <% for master_deck in master_decks  %>
+      <% for master_deck in master_decks  
+          if can_show_master_deck(master_deck) %>
         <tr>
             
             <td><%= render partial: "master_decks/deck_link", locals: { master_deck: master_deck, deck_user: user } %></td>
@@ -21,6 +22,7 @@
                 <%= render partial: "master_decks/table_actions", locals: { master_deck: master_deck, deck_user: user } %>
             </td>
         </tr>
-        <% end %>
+        <% end
+        end %>
     </tbody>
 </table>
