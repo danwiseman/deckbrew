@@ -66,7 +66,7 @@ class BranchesController < ApplicationController
     end
     
     def merge
-        puts params
+      
        source_b_id = params['source_branch']['id']
        dest_b_id = params['destination_branch']['destination_branch_id']
        
