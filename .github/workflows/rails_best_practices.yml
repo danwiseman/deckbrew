@@ -6,10 +6,6 @@
     # Changes the path to a Rails application
     files: # optional
     # Changes `rails_best_practices` command line options.
-
-Specify the options in JSON array format.
-e.g.: '["--vendor", "--spec"]'
-
     options: # optional
     # Changes the current working directory of the Node.js process
     working_directory: # optional
