@@ -1,0 +1,33 @@
+<div class="col-md-4">
+
+
+              <%= form_with class: "form", url: "/decks/#{master_deck.slug}/branch" do |f| %>
+                <div class="form-group">
+                  <label for="branched_from">Branch From</label>
+                  <%= select("branched_from", "branched_from_id", options_from_collection_for_select(current_branches, 'id', 'name', branched_from_id),
+                            { include_blank: false },
+                              :class => "form-control selectpicker", :data_style => "btn btn-link" ) %>
+                </div>
+                <div class="form-group"></div>
+                <div class="form-group">
+                <%= f.label "Branch Name:", for: :name %>
+                <%= f.text_field :name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                <div class="togglebutton">
+                  <label>
+                    <%= f.check_box :is_public, checked: master_deck.is_public? %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Public Branch", class: "text-success label-on") %>
+                      <%= tag.span("Private Branch", class: "text-warning label-off") %>
+                  </label>
+                </div>
+                </div>
+                <div class="form-group">
+                <%= f.submit "Create" , class: "btn btn-primary" %>
+                <%= link_to 'Back', :back, class: "btn btn-link" %>
+              </div>
+              <% end %>
+              
+            
+  </div>

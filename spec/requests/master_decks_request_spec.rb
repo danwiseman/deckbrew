@@ -53,6 +53,19 @@ RSpec.describe "MasterDecks", type: :request do
         
     end
     
+    it "shows a list of all the branches with details of the master deck" do
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+        
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        create_many_branches(master_deck)
+        
+        visit "/u/#{user.slug}/decks/#{master_deck.slug}/branches"
+        expect(page).to have_text('branch2')
+        
+    end
+    
     it "does not allow non-users and other users to view private decks" do
         user = FactoryBot.create(:user)
        second_user = FactoryBot.create(:user)

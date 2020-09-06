@@ -1,0 +1,51 @@
+<div class="row">
+    <div class="card text-center">
+      <div class="card-header card-header-info">
+        <ul class="nav nav-tabs">
+          <li class="nav-item nav-item-dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#0" role="button" aria-haspopup="true" aria-expanded="false" id="selected_branch"><i class="fal fa-code-branch"></i> <%= branch.name %></a>
+            <%= branch_dropdown_menu(master_deck, branch) %>
+            
+          </li>
+          <% if branch.name != "main" %>
+          <li class="nav-item">
+              <span class="nav-link">
+                  branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from['source_branch'])) %>" class="badge badge-primary">
+                    <i class="fad fa-code-branch"></i>
+                        <%= Branch.find(branch.branched_from['source_branch']).name %>
+                    </a>
+                  
+                </span>
+          </li>
+          <% end %>
+          <% if master_deck.user == current_user %>
+          <li class="nav-item">
+            <a class="nav-link" href="/decks/<%= master_deck.slug %>/edit">Edit This Deck</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/decks/<%= master_deck.slug %>/branch/edit/<%= branch.slug %>">Edit This Branch</a>
+          </li>
+          <% end %>
+          <% if master_deck.user != current_user %>
+          <li class="nav-item">
+            <a class="nav-link" href="<%= MasterDecksHelper.PathToMasterDeck(master_deck) %>/fork/<%= branch.slug %>">Fork This Deck</a>
+          </li>
+          <% end %>
+        </ul>
+      </div>
+      <%=
+          case branch_view
+              when "forms/new"
+                  render partial: "branches/forms/new", locals: { master_deck: master_deck, branch: branch, current_branches: current_branches, branched_from_id: branched_from_id }
+              when "forms/edit"
+                  render partial: "branches/forms/edit", locals: { master_deck: master_deck, branch: branch, current_branches: current_branches, branched_from_id: branched_from_id }
+              else
+                  render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch }
+            end
+                  
+      
+      %>
+      
+    </div>
+
+</div>

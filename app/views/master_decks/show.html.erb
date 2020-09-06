@@ -1,39 +1,11 @@
-<% content_for :body_style do %>
-product-page
-<% end %>
 
 
-<%= if @show_full_breadcrumbs 
-      breadcrumbs(@master_deck.user, @master_deck, @selected_branch)
-    else
-      breadcrumbs(@master_deck.user, @master_deck)
-    end %>
-<% if @master_deck.forked_from != nil 
-    forked_master_deck = MasterDeck.find(@master_deck.forked_from)
-%>
-<div class="forked-from-link">
-Forked from: <%= link_to "#{forked_master_deck.user.username}/#{forked_master_deck.name}", MasterDecksHelper.PathToMasterDeck(forked_master_deck) %>
-</div>
-<% end %>
+<%= render partial: "master_decks/common/breadcrumbs", locals: { master_deck: @master_deck, selected_branch: @selected_branch, show_full_breadcrumbs: @show_full_breadcrumbs } %>
 
-<ul class="nav main-deck-nav">
-  <li class="nav-item">
-    <a class="nav-link active" href="<%= MasterDecksHelper.PathToMasterDeck(@master_deck) %>"><i class="fad fa-clone"></i> Cards</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="<%= MasterDecksHelper.PathToMasterDeck(@master_deck) %>/branches"><i class="fad fa-code-branch"></i> Branches</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="<%= MasterDecksHelper.PathToMasterDeck(@master_deck) %>/settings"><i class="fad fa-cog"></i> Settings</a>
-  </li>
-</ul>
-
-
+<%= render partial: "master_decks/common/main_deck_nav", locals: { master_deck: @master_deck } %>
 
 <%= render partial: "master_decks/deck_stats", locals: { master_deck: @master_deck, branch: @selected_branch } %>
 
-<div class="row"> 
+<%= render partial: "master_decks/common/branch_card", locals: { master_deck: @master_deck, branch: @selected_branch, branch_view: "details" } %>
 
-<%= render partial: "branches/view", locals: { master_deck: @master_deck, branch: @selected_branch } %>
 
-</div> 

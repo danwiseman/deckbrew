@@ -1,6 +1,6 @@
 <div class="row row-chart-btn">
 
-  <button class="btn btn-link" id="chartCollapseBtn" type="button" data-toggle="collapse" data-target="#deck-charts" aria-expanded="false" aria-controls="chartsCollapse"><i class="fad fa-analytics"></i> show</button>
+  <button class="btn btn-link" id="chartCollapseBtn" type="button" data-toggle="collapse" data-target="#deck-charts" aria-expanded="false" aria-controls="chartsCollapse"><i class="fad fa-analytics"></i> show charts</button>
 
   
 </div>
@@ -8,7 +8,7 @@
 <div class="collapse" id="deck-charts">
 <div class="row">
     
-    <div class="col-md-10">
+    <div class="col-md-12">
         <div class="row">
             <div class="col-md-4">
                 <div class="card card-chart">
@@ -74,15 +74,7 @@
     </div>
     </div>
     
-    <div class="col-md-2">
-    <div class="info">
-	<div class="icon icon-primary">
-		<i class="fad fa-info-square"></i>
-	</div>
-	<h4 class="info-title">About This Deck</h4>
-	<p>Deck description will go here.</p>
-    </div>
-    </div>
+  
 </div>
 
 </div>
@@ -91,7 +83,7 @@
 
 $(document).ready(function(){
   $("#deck-charts").on("hide.bs.collapse", function(){
-    $("#chartCollapseBtn").html('<i class="fad fa-analytics"></i> show');
+    $("#chartCollapseBtn").html('<i class="fad fa-analytics"></i> show charts');
 
   });
   $("#deck-charts").on("show.bs.collapse", function(){

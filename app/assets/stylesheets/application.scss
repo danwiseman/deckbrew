@@ -28,7 +28,13 @@ input:checked ~ .label-on {
 }
 
 .main-deck-nav {
-  border-bottom: 1px solid $blue-grey-200;
+  border-bottom: 1px solid $purple-300;
+
+}
+
+.main-deck-nav a {
+  
+  border-bottom: 1px solid $purple-300;
   
 }
 
