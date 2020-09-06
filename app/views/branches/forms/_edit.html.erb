@@ -5,8 +5,9 @@
               <%= form_with model: branch, class: "form", url: "/decks/#{master_deck.slug}/branch/#{ branch.slug }" do |f| %>
                 <div class="form-group">
                 <%= f.label "Branch Name:", for: :name %>
-                <% if branch.name == 'main' 
+                <%= if branch.name == 'main' 
                       disable_name_change = true
+                      f.hidden_field :name, :value => branch.name
                     end
                 %>
                 <%= f.text_field :name, class: "form-control", disabled: disable_name_change %>

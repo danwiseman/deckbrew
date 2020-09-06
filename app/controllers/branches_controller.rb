@@ -124,7 +124,7 @@ class BranchesController < ApplicationController
         else
             @branch = @master_deck.branches.friendly.find(params['branch_id'])
             
-            @branch.update(name: params['branch']['name'], is_public: params['branch']['is_public'])
+            @branch.update!(name: params['branch']['name'], is_public: params['branch']['is_public'])
             
             redirect_to BranchesHelper.PathToBranch(@branch)
         end
