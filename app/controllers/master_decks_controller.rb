@@ -45,6 +45,12 @@ class MasterDecksController < ApplicationController
        render layout: "dashboard"
     end
     
+    def list_branches
+        @master_deck = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:id]) 
+        
+        render layout: "dashboard"
+    end
+    
     def fork_deck
         @deck_to_fork = User.friendly.find(params[:user_id]).master_decks.friendly.find(params[:id]) 
         if params.has_key?(:branch_id)

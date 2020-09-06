@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card card-plain">   
+        <div class="card-body" style="padding: 30px;">
+              <%= form_with model: branch, class: "form", url: "/decks/#{master_deck.slug}/branch/#{ branch.slug }" do |f| %>
+                <div class="form-group">
+                <%= f.label "Branch Name:", for: :name %>
+                <%= f.text_field :name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                <div class="togglebutton">
+                  <label>
+                    <%= f.check_box :is_public, checked: branch.is_public? %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Public Branch", class: "text-success label-on") %>
+                      <%= tag.span("Private Branch", class: "text-warning label-off") %>
+                  </label>
+                </div>
+                </div>
+                <div class="form-group">
+                <%= f.submit "Edit" , class: "btn btn-primary" %>
+                <%= link_to 'Back', :back, class: "btn btn-link" %>
+              </div>
+              <% end %>
+              </div>
+   </div>   
+      
+  </div>
+  <div class="col-md-2"></div>
+  <div class="col-md-6">
+    
+  <div class="info info-horizontal">
+      	<div class="icon icon-primary">
+      		<i class="fad fa-pen-square"></i>
+      	</div>
+      	<div class="description">
+      	<h4 class="info-title">Edit Your Branch</h4>
+      	<p>You can change the name of the branch and it's privacy settings here. Or, delete it below if you no longer want this branch.</p>
+      </div>
+      </div>
+      <div class="alert alert-default text-center">
+      No longer want this branch? <button type="button" id="delete_branch_btn" class="btn btn-danger" onclick="editBranch.showSwal('<%= branch.name %>')">Delete This Branch</button>.
+      
+    </div>
+
+  </div>
+
+
+</div>
+<% content_for :page_script do %>
+editBranch = {
+  showSwal: function(branch_name) {
+
+          swal({
+                html: '<div class="form-group">' +
+                    'Type the branch\'s name <strong>' + branch_name + '</strong> in the field below to delete' +
+                    '<input id="delete_confirm" name="delete_confirm" type="text" class="form-control" />' +
+                    '</div>',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'delete',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.value) {
+                  if ($('#delete_confirm').val() == branch_name) {
+                    // redirect_to deleting the branch in rails
+                    window.location.href = "/decks/<%= master_deck.slug %>/branch/delete/<%= branch.slug %>"
+                  } else {
+                    swal({
+                      html: 'Deletion cancel. Name did not match.',
+                      type: 'error',
+                      confirmButtonClass: 'btn btn-success',
+                      buttonsStyling: false
+                    })
+                  }
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swal({
+                    html: 'Cancelled',
+                    type: 'error',
+                    confirmButtonClass: 'btn btn-success',
+                    buttonsStyling: false
+                    })
+                }
+            }).catch(swal.noop)
+          }
+}
+<% end %>

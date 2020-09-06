@@ -1,0 +1,12 @@
+<%= if show_full_breadcrumbs 
+      breadcrumbs(master_deck.user, master_deck, selected_branch)
+    else
+      breadcrumbs(master_deck.user, master_deck)
+    end %>
+<% if master_deck.forked_from != nil 
+    forked_master_deck = MasterDeck.find(master_deck.forked_from)
+%>
+<div class="forked-from-link">
+Forked from: <%= link_to "#{forked_master_deck.user.username}/#{forked_master_deck.name}", MasterDecksHelper.PathToMasterDeck(forked_master_deck) %>
+</div>
+<% end %>

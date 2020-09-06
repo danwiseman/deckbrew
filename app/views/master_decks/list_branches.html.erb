@@ -1,0 +1,53 @@
+
+<%= render partial: "master_decks/common/breadcrumbs", locals: { master_deck: @master_deck, selected_branch: nil, show_full_breadcrumbs: false } %>
+
+<%= render partial: "master_decks/common/main_deck_nav", locals: { master_deck: @master_deck } %>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>Branch Name</th>
+            <th>Branched From</th>
+            <th>Created On</th>
+            <th>?</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for branch in @master_deck.branches 
+            if can_show_branch(branch) %>
+        <tr>
+            <td><%= branch_with_privacy_badge(branch, true)%></td>
+            <td><% if branch.name != "main" %>
+                        branched from <a href="<%=BranchesHelper.PathToBranch(Branch.find(branch.branched_from['source_branch'])) %>" class="badge badge-primary">
+                        <i class="fad fa-code-branch"></i>
+                            <%= Branch.find(branch.branched_from['source_branch']).name %>
+                        </a>
+              <% end %>
+              </td>
+              <td><%= tag.time Time.zone.parse(branch.created_at.to_s).utc.iso8601, class: "timeago", datetime: Time.zone.parse(branch.created_at.to_s).utc.iso8601 %></td>
+            <td>?</td>
+            
+            <td class="td-actions text-right">
+                <% if @master_deck.user == current_user %>
+                <a class="btn btn-info" href="/decks/<%= @master_deck.slug %>/branch/edit/<%= branch.slug %>">
+                    <i class="fad fa-edit"></i> Edit Branch
+                </a>
+                <a class="btn btn-success" href="/decks/<%= @master_deck.slug %>/branch/compare/<%= branch.slug %>">
+                    <i class="fad fa-code-merge"></i> Merge Branch
+                </a>
+                <% else %>
+                <a class="btn btn-info" href="<%= MasterDecksHelper.PathToMasterDeck(master_deck) %>/fork/<%= branch.slug %>">Fork This Deck</a>
+                
+                
+                <% end %>
+                
+            </td>
+        </tr>
+        <% end
+        end %>
+    </tbody>
+</table>
+

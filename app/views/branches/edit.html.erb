@@ -1,100 +1,12 @@
-<div class="row">
-  <div class="col-md-6">
-      <div class="card">
-          <div class="card-header card-header-icon card-header-primary">
-            <div class="card-icon">
-              <i class="fad fa-code-branch"></i> Edit <%= @branch.name %>
-            </div>
-          </div>
-          <div class="card-body">
+<% branch_view = "forms/edit" %>
 
-              <%= form_with model: @branch, class: "form", url: "/decks/#{@master_deck.slug}/branch/#{ @branch.slug }" do |f| %>
-                <div class="form-group">
-                <%= f.label "Branch Name:", for: :name %>
-                <%= f.text_field :name, class: "form-control" %>
-                </div>
-                <div class="form-group">
-                <div class="togglebutton">
-                  <label>
-                    <%= f.check_box :is_public, checked: @branch.is_public? %>
-                    <span class="toggle"></span>
-                      <%= tag.span("Public Branch", class: "text-success label-on") %>
-                      <%= tag.span("Private Branch", class: "text-warning label-off") %>
-                  </label>
-                </div>
-                </div>
-                <div class="form-group">
-                <%= f.submit "Edit" , class: "btn btn-primary" %>
-              </div>
-              <% end %>
-              
-              </div>
-             
-              <div class="card-footer">
-                 
-              </div>
-      </div>
-      
-  </div>
-  <div class="col-md-6">
-    <div class="card">
-  <div class="info info-horizontal">
-      	<div class="icon icon-primary">
-      		<i class="fad fa-pen-square"></i>
-      	</div>
-      	<div class="description">
-      	<h4 class="info-title">Edit Your Branch</h4>
-      	<p>You can change the name of the branch and it's privacy settings here. Or, delete it below if you no longer want this branch.</p>
-      </div>
-      </div>
-      <div class="alert alert-default text-center">
-      No longer want this branch? <button type="button" id="delete_branch_btn" class="btn btn-danger" onclick="editBranch.showSwal('<%= @branch.name %>')">Delete This Branch</button>.
-      
-    </div>
-  </div>
-  </div>
-</div>
+<%= render partial: "master_decks/common/breadcrumbs", locals: { master_deck: @master_deck, selected_branch: @branch, show_full_breadcrumbs: @show_full_breadcrumbs } %>
 
+<%= render partial: "master_decks/common/main_deck_nav", locals: { master_deck: @master_deck } %>
 
-<% content_for :page_script do %>
-editBranch = {
-  showSwal: function(branch_name) {
+<%= render partial: "master_decks/deck_stats", locals: { master_deck: @master_deck, branch: @branch } %>
 
-          swal({
-                html: '<div class="form-group">' +
-                    'Type the branch\'s name <strong>' + branch_name + '</strong> in the field below to delete' +
-                    '<input id="delete_confirm" name="delete_confirm" type="text" class="form-control" />' +
-                    '</div>',
-                showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                confirmButtonText: 'delete',
-                cancelButtonClass: 'btn btn-danger',
-                buttonsStyling: false
-            }).then((result) => {
-                if (result.value) {
-                  if ($('#delete_confirm').val() == branch_name) {
-                    // redirect_to deleting the branch in rails
-                    window.location.href = "/decks/<%= @master_deck.slug %>/branch/delete/<%= @branch.slug %>"
-                  } else {
-                    swal({
-                      html: 'Deletion cancel. Name did not match.',
-                      type: 'error',
-                      confirmButtonClass: 'btn btn-success',
-                      buttonsStyling: false
-                    })
-                  }
-                } else if (
-                  /* Read more about handling dismissals below */
-                  result.dismiss === Swal.DismissReason.cancel
-                ) {
-                  swal({
-                    html: 'Cancelled',
-                    type: 'error',
-                    confirmButtonClass: 'btn btn-success',
-                    buttonsStyling: false
-                    })
-                }
-            }).catch(swal.noop)
-          }
-}
-<% end %>
+<%= render partial: "master_decks/common/branch_card", locals: { master_deck: @master_deck, branch: @branch, 
+                                                                  current_branches: @current_branches, branched_from_id: @branched_from_id, 
+                                                                  branch_view: branch_view } %>
+

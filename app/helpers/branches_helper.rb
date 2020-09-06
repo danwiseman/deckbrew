@@ -36,7 +36,7 @@ module BranchesHelper
         can_show
     end
     
-    def branch_dropdown_menu (master_deck)
+    def branch_dropdown_menu (master_deck, current_branch)
         dropdown_menu = ""
         dropdown_menu = tag.div class: "dropdown-menu" do
           branch_items = ""
@@ -48,7 +48,7 @@ module BranchesHelper
           end
           if master_deck.user == current_user
             create_branch_portion += tag.div class: "dropdown-divider"
-            create_branch_portion += tag.a "Create a new branch", class: "dropdown-item", href: "/decks/#{master_deck.slug}/branch/new/#{ branch_li.slug }"
+            create_branch_portion += tag.a "Create a new branch", class: "dropdown-item", href: "/decks/#{master_deck.slug}/branch/new/#{ current_branch.slug }"
             create_branch_portion
           end
           branch_items.html_safe + create_branch_portion.html_safe

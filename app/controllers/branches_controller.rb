@@ -5,6 +5,14 @@ class BranchesController < ApplicationController
     
     def new
         @current_branches = @master_deck.branches.all
+        
+        if params.has_key?(:branch_id)
+           @branch = @master_deck.branches.friendly.find(params[:branch_id])
+           @show_full_breadcrumbs = true
+        else
+            @branch = @master_deck.branches.friendly.find('main')
+        end
+        
         if params.has_key?(:branched_from_id)
             @branched_from_id = @master_deck.branches.friendly.find(params['branched_from_id']).id
         else 
