@@ -1,12 +1,79 @@
+<div class="row row-chart-btn">
+
+  <button class="btn btn-link" id="chartCollapseBtn" type="button" data-toggle="collapse" data-target="#deck-charts" aria-expanded="false" aria-controls="chartsCollapse"><i class="fad fa-analytics"></i> show</button>
+
+  
+</div>
+
+<div class="collapse" id="deck-charts">
 <div class="row">
     
-    <div class="col-md-8">
-        STATS!
+    <div class="col-md-10">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card card-chart">
+                  <div class="card-header card-header-icon card-header-danger">
+                    <h4 class="card-title">Mana Chart</h4>
+                  </div>
+                  <div class="card-body">
+                    <div id="mana-chart" class="ct-chart"></div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6 class="card-category">Legend</h6>
+                      </div>
+                      <div class="col-md-12">
+                        <i class="fa fa-circle text-info"></i> Apple
+                        <i class="fa fa-circle text-warning"></i> Samsung
+                        <i class="fa fa-circle text-danger"></i> Windows Phone
+                      </div>
+                    </div>
+                  </div>
+                </div>
         
-    </div>
-    <div class="col-md-2">
+        </div>
+        <div class="col-md-4">
+            <div class="card card-chart">
+                  <div class="card-header card-header-icon card-header-danger">
+                    
+                    <h4 class="card-title">Card Type Distribution</h4>
+                  </div>
+                  <div class="card-body">
+                    <div id="card-types-chart" class="ct-chart"></div>
+                  </div>
+                  <div class="card-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <h6 class="card-category">Legend</h6>
+                      </div>
+                      <div class="col-md-12">
+                        <i class="fa fa-circle text-info"></i> Apple
+                        <i class="fa fa-circle text-warning"></i> Samsung
+                        <i class="fa fa-circle text-danger"></i> Windows Phone
+                      </div>
+                    </div>
+                  </div>
+                </div>
         
+        </div>
+        <div class="col-md-4">
+            <div class="card card-chart">
+                <div class="card-header card-header-info">
+                    <div id="mana-curve-chart" class="ct-chart"></div>
+                </div>
+                <div class="card-body">
+                    <h4 class="card-title ">CMC Curve</h4>
+                    <ul>
+                      <li>1: 50</li>
+                      <li>2: 20</li>
+                    </ul>
+                  </div>
+            </div>
+        </div>
     </div>
+    </div>
+    
     <div class="col-md-2">
     <div class="info">
 	<div class="icon icon-primary">
@@ -17,3 +84,91 @@
     </div>
     </div>
 </div>
+
+</div>
+
+<% content_for :page_script do %>
+
+$(document).ready(function(){
+  $("#deck-charts").on("hide.bs.collapse", function(){
+    $("#chartCollapseBtn").html('<i class="fad fa-analytics"></i> show');
+
+  });
+  $("#deck-charts").on("show.bs.collapse", function(){
+    $("#chartCollapseBtn").html('<i class="fad fa-analytics"></i> hide');
+    // wait for the divs to show, then update. Just in case they look funky
+    window.setTimeout(function(){
+        console.log("updating charts");
+        mana_chart.update();
+        card_types_chart.update();
+        mana_curve_chart.update(); 
+        }, 500);
+
+  });
+}); 
+
+// mana chart
+var mana_chart_data = {
+    labels: ['62%', '32%', '6%'],
+    series: [62, 32, 6]
+};
+
+var mana_chart_preferences = {
+    height: '230px',
+    donut: true,
+    donutWidth: 30,
+  donutSolid: true,
+  startAngle: 270,
+  showLabel: true
+};
+
+
+// card types chart
+var card_type_chart_data = {
+    labels: ['62%', '32%', '6%'],
+    series: [62, 32, 6]
+};
+
+var card_type_chart_preferences = {
+    height: '230px',
+    donut: true,
+    donutWidth: 30,
+  donutSolid: true,
+  startAngle: 270,
+  showLabel: true
+};
+
+// mana curve
+var mana_curve_chart_data = {
+    labels: ['\'07', '\'08', '\'09', '\'10', '\'11', '\'12', '\'13', '\'14', '\'15'],
+    series: [
+        [10, 16, 8, 13, 20, 15, 20, 34, 30]
+    ]
+};
+
+var mana_curve_chart_preferences = {
+    lineSmooth: Chartist.Interpolation.cardinal({
+        tension: 0
+    }),
+    low: 0,
+    high: 50, // creative tim: we recommend you to set the high sa the biggest value + something for a better look
+    chartPadding: {
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0
+    },
+    classNames: {
+        point: 'ct-point ct-white',
+        line: 'ct-line ct-white'
+    }
+};
+
+
+var mana_chart = Chartist.Pie('#mana-chart', mana_chart_data, mana_chart_preferences);
+
+var card_types_chart = Chartist.Pie('#card-types-chart', card_type_chart_data, card_type_chart_preferences);
+
+var mana_curve_chart = Chartist.Line('#mana-curve-chart', mana_curve_chart_data, mana_curve_chart_preferences);
+        
+        <% end %>

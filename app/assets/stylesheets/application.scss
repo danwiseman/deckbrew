@@ -13,6 +13,9 @@
  *= require_self
 
  */
+ 
+ @import "material-dashboard/variables";
+
 
 .label-on {
   display: none;
@@ -22,4 +25,26 @@ input:checked ~ .label-off {
 }
 input:checked ~ .label-on {
   display: inline;
+}
+
+.main-deck-nav {
+  border-bottom: 1px solid $blue-grey-200;
+  
+}
+
+.main-deck-nav a:hover {
+  color: $blue-grey-400;
+  border-bottom: 1px solid $blue-grey-600;
+  
+}
+
+.forked-from-link {
+  font-size: $font-size-small;
+  margin-left: 15px;
+  margin-top: -30px;
+}
+
+.row-chart-btn {
+  margin-bottom: -15px;
+  
 }
