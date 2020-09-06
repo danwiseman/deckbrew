@@ -5,7 +5,11 @@
               <%= form_with model: branch, class: "form", url: "/decks/#{master_deck.slug}/branch/#{ branch.slug }" do |f| %>
                 <div class="form-group">
                 <%= f.label "Branch Name:", for: :name %>
-                <%= f.text_field :name, class: "form-control" %>
+                <% if branch.name == 'main' 
+                      disable_name_change = true
+                    end
+                %>
+                <%= f.text_field :name, class: "form-control", disabled: disable_name_change %>
                 </div>
                 <div class="form-group">
                 <div class="togglebutton">
