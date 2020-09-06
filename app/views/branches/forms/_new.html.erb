@@ -10,8 +10,13 @@
                 </div>
                 <div class="form-group"></div>
                 <div class="form-group">
-                <%= f.label "Branch Name:", for: :name %>
+                <% if @error_name %>
+                  <%= f.label "A branch with that name already exists. Input a new name:", class: "error", for: :name %>
+                <% else %>
+                  <%= f.label "Branch Name:", for: :name %>
+                <% end %>
                 <%= f.text_field :name, class: "form-control" %>
+                
                 </div>
                 <div class="form-group">
                 <div class="togglebutton">

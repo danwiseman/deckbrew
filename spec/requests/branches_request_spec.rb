@@ -26,6 +26,23 @@ RSpec.describe "Branches", type: :request do
         
     end
     
+    it "does not create a new branch of the deck if one exists by that name" do
+       
+       user = FactoryBot.create(:user)
+       sign_in_via_form(user)
+       
+       master_deck = create_master_deck_via_form(user)
+       create_many_branches(master_deck)
+
+       visit "/decks/#{master_deck.slug}/branch/new"
+
+       fill_in "name", :with => "branch3"
+       click_button "Create"
+
+       expect(page).to have_content 'already exists'
+        
+    end
+    
     
     it "correctly branches from the selected branch and correct deck" do
         

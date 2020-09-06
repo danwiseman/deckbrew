@@ -27,7 +27,10 @@ class BranchesController < ApplicationController
         if(@master_deck.branches.where(:name => params['name']).present?) 
            # branch already exists fail.
            flash[:warning] = 'A branch for this deck with that name already exists.'
-           render "new"
+           @current_branches = @master_deck.branches.all
+           @branch = @master_deck.branches.friendly.find(params['branched_from']['branched_from_id'])
+           @error_name = true
+           render "new", layout: "dashboard"
         else
            @branch = Branch.new(:name => params['name'], :master_deck => @master_deck,
                                  :source_branch => params['branched_from']['branched_from_id'], 
