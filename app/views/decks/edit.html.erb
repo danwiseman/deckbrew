@@ -33,23 +33,10 @@
               <th>Name</th>
               <th>Set</th>
               <th>Foil</th>
-              <th>Actions</th>
+              <th class="text-right">Actions</th>
             </thead>
             <tbody>
-              <tr>
-                <td>1</td>
-                <td>Dakota Rice</td>
-                <td>$36,738</td>
-                <td>Niger</td>
-                <td class="td-actions text-right">
-                  <button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">
-                    <i class="material-icons">edit</i>
-                  </button>
-                  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
-                    <i class="material-icons">close</i>
-                  </button>
-                </td>
-              </tr>
+              
               
             </tbody>
           </table>
@@ -61,15 +48,6 @@
 
 
 </div>
-
-
-
-
-
-
-
-
-
 
 
 <% end %>
@@ -87,5 +65,16 @@ function addCardToTable() {
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
 }
+
+
+var card_ajax_options = {
+	url: function(phrase) {
+		return "https://api.scryfall.com/cards/autocomplete?q=" + phrase + "&format=json";
+	},
+
+	listLocation: "data"
+};
+
+$("#new-card-name").easyAutocomplete(card_ajax_options);
 
 <% end %>
