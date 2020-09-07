@@ -57,8 +57,36 @@ input:checked ~ .label-on {
 
 .quick-mana {
   
-  background: $grey-200;
-  border: 1px solid $grey-300;
+  background: $grey-300;
+  color: $primary;
+  border: 1px solid $grey-400;
+  border-radius: 3px;
   padding: 2%;
+  margin-right: 10px;
+  
+}
+
+.hidden-card-list {
+  display: none;
+  
+}
+
+.card-header-form label, .card-header-form input, .card-header-form .dropdown-toggle, .card-header-form .filter-option-inner-inner {
+  color: $grey-200;
+  
+}
+
+.card-header-form .bmd-form-group label {
+  
+  color: $grey-200;
+}
+
+.card-header-form .form-control:focus {
+  color: $grey-300;
+  
+}
+
+.card-header-form .easy-autocomplete-container {
+  color: $primary;
   
 }

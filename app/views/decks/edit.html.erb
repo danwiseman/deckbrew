@@ -1,10 +1,11 @@
 <%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/#{@branch.slug}/addcards" do |f| %>
+
 <div class="row">
-<div class="col-md-6">
+<div class="col-md-8">
     <div class="card">
-        <div class="card-body">
-            
-            <div class="form-group">
+        <div class="card-header card-header-primary card-header-form">
+          <div class="category">
+    <div class="form-group">
         <%= f.label "Card Name:", for: "new-card-name" %>
         <%= f.text_field "new-card-name", class: "form-control" %>
     </div>
@@ -19,8 +20,9 @@
         </div>
     </div>
     <div class="form-group">
+      <%= f.label "Foil:", for: "card-foil" %>
         <div class="togglebutton">
-                  <%= f.label "Foil:", for: "card-foil" %>
+                  
                   <label>
                     <%= f.check_box "foil" %>
                     <span class="toggle"></span>
@@ -52,20 +54,11 @@
       </div>
       </div>
     </div>
-        </div>
-    </div>
-    
-</div>
-<div class="col-md-6">
-    <div class="card">
-        <div class="card-header card-header-text card-header-warning">
-          <div class="card-text">
-            <h4 class="card-title">Cards</h4>
           </div>
         </div>
         <div class="card-body table-responsive">
           <table class="table table-hover" id="card-table">
-            <thead class="text-warning">
+            <thead class="text-success">
               <th>Qty</th>
               <th>Name</th>
               <th>Set</th>
@@ -78,14 +71,23 @@
             </tbody>
           </table>
         </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-info"><i class="fad fa-clipboard-list-check"></i> Verify Cards</button>
+          
+        </div>
       </div>
 
 </div>
 
 
 
-</div>
 
+</div>
+<div class="row">
+  
+  <%= f.text_area "", id: "hidden-card-list", name: "hidden-card-list", class: "hidden-card-list" %>
+  
+</div>
 
 <% end %>
 
@@ -96,7 +98,7 @@ function addCardToTable() {
     if ($('#foil:checked').val() == 1) {
       foil_text = '<i class="fad fa-badge-check"></i>';
     }
-    $('#card-table > tbody:last-child').append('<tr>' +
+    $('#card-table > tbody:last-child').prepend('<tr>' +
                                                 '<td>' + $('#card-quantity').val() + '</td><td>' + $('#new-card-name').val() + '</td>' + 
                                                 '<td><i class="ss ss-' + $( "#set-dropdown option:selected" ).val()  + '"></i> ' + $( "#set-dropdown option:selected" ).text() + '</td>' +
                                                 '<td>' + foil_text + '</td>' + 
@@ -106,6 +108,7 @@ function addCardToTable() {
                                                 '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
+    $('#hidden-card-list').append($('#card-quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
                                                 
                                                 
     $('#card-quantity').val('')
@@ -116,7 +119,7 @@ function addCardToTable() {
 
 function addQuickMana(land_name) {
   
-        $('#card-table > tbody:last-child').append('<tr>' +
+        $('#card-table > tbody:last-child').prepend('<tr>' +
                                                 '<td>' + $('#mana_quantity_mana_quantity_number').val() + '</td><td>' + land_name + '</td>' + 
                                                 '<td></td>' +
                                                 '<td></td>' + 
