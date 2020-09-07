@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_09_05_121349) do
+ActiveRecord::Schema.define(version: 2020_09_07_103912) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,6 +28,15 @@ ActiveRecord::Schema.define(version: 2020_09_05_121349) do
     t.boolean "deleted"
     t.index ["master_deck_id"], name: "index_branches_on_master_deck_id"
     t.index ["slug"], name: "index_branches_on_slug"
+  end
+
+  create_table "cards", force: :cascade do |t|
+    t.string "oracle_name"
+    t.uuid "scryfall_id"
+    t.jsonb "scryfall_data"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["scryfall_id"], name: "index_cards_on_scryfall_id", unique: true
   end
 
   create_table "decks", force: :cascade do |t|

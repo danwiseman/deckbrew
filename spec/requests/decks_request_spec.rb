@@ -13,9 +13,9 @@ include BranchHelpers
 RSpec.describe "Decks", type: :request do
     
     
-    it "should show all the cards from the chosen deck"
+        
     
-    it "should add chosen cards to the deck" do
+    it "should add chosen cards to the deck and then show them" do
         user = FactoryBot.create(:user)
         sign_in_via_form(user)
         
@@ -35,7 +35,22 @@ RSpec.describe "Decks", type: :request do
         
     end
     
-    it "should remove chosen cards from the deck"
+    it "should remove chosen cards from the deck" do
+        
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+        
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        visit "/decks/#{master_deck.slug}/branch/main/edit/cards"
+        fill_in "card name", with => "Steppe Glider"
+        click_button "add card"
+        click_button "Save"
+        
+        click_button "quick edit"
+        click_button "delete"
+        
+    end
     
     it "should save a history, by creating a new head deck, of changes to the deck"
     
