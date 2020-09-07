@@ -8,12 +8,49 @@
         <%= f.label "Card Name:", for: "new-card-name" %>
         <%= f.text_field "new-card-name", class: "form-control" %>
     </div>
-    <div class="form-group">
+    <div class="form-row">
+        <div class="col">
         <%= f.label "Card Quantity:", for: "card-quantity" %>
         <%= f.text_field "card-quantity", class: "form-control" %>
+        </div>
+        <div class="col">
+        <%= f.label "Set:", for: "card-quantity" %>
+        <select name="set-dropdown" id="set-dropdown" class="form-control selectpicker" data-style="btn btn-link" data-icon-base="ss"></select>
+        </div>
     </div>
     <div class="form-group">
+        <div class="togglebutton">
+                  <%= f.label "Foil:", for: "card-foil" %>
+                  <label>
+                    <%= f.check_box "foil" %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Foil", class: "text-success label-on") %>
+                      <%= tag.span("Not Foil", class: "text-warning label-off") %>
+                  </label>
+                </div>
+        </div>
+    
+    <div class="form-row">
+      <div class="col-md-5">
         <button class="btn btn-primary" type="button" onclick="addCardToTable()">Add Card to List</button>
+      </div>
+      <div class="col-md-7">
+        <div class="row quick-mana">
+        <div class="col-md-4 text-right">
+        Basic Lands Quick Add:
+        </div>
+        <div class="col-md-4 text-right">
+        <%= select("mana_quantity", "mana_quantity_number", (1..25).to_a.collect {|p| [ p, p ] }, { include_blank: false }, class: "form-control") %>
+        </div>
+        <div class="col-md-4">
+        <span onclick="addQuickMana('Plains')"><%= PrettyMagic::ManaIcons.mana_symbols('{w}').html_safe %></span>
+        <span  onclick="addQuickMana('Island')"><%= PrettyMagic::ManaIcons.mana_symbols('{u}').html_safe %></span>
+        <span  onclick="addQuickMana('Swamp')"><%= PrettyMagic::ManaIcons.mana_symbols('{b}').html_safe %></span>
+        <span  onclick="addQuickMana('Mountain')"><%= PrettyMagic::ManaIcons.mana_symbols('{r}').html_safe %></span>
+        <span  onclick="addQuickMana('Forest')"><%= PrettyMagic::ManaIcons.mana_symbols('{g}').html_safe %></span>
+        </div>
+      </div>
+      </div>
     </div>
         </div>
     </div>
@@ -55,26 +92,85 @@
 <% content_for :page_script do %>
 
 function addCardToTable() {
+    var foil_text = ""
+    if ($('#foil:checked').val() == 1) {
+      foil_text = '<i class="fad fa-badge-check"></i>';
+    }
     $('#card-table > tbody:last-child').append('<tr>' +
                                                 '<td>' + $('#card-quantity').val() + '</td><td>' + $('#new-card-name').val() + '</td>' + 
-                                                '<td>$36,738</td><td>Niger</td>' + 
+                                                '<td><i class="ss ss-' + $( "#set-dropdown option:selected" ).val()  + '"></i> ' + $( "#set-dropdown option:selected" ).text() + '</td>' +
+                                                '<td>' + foil_text + '</td>' + 
                                                 '<td class="td-actions text-right">' +
                                                 '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
                                                 '<i class="material-icons">edit</i></button>' +
                                                 '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
+                                                
+                                                
+    $('#card-quantity').val('')
+    $('#new-card-name').val('')
+    $('#foil').prop('checked',false);
+    $('#set-dropdown').empty();
 }
 
+function addQuickMana(land_name) {
+  
+        $('#card-table > tbody:last-child').append('<tr>' +
+                                                '<td>' + $('#mana_quantity_mana_quantity_number').val() + '</td><td>' + land_name + '</td>' + 
+                                                '<td></td>' +
+                                                '<td></td>' + 
+                                                '<td class="td-actions text-right">' +
+                                                '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
+                                                '<i class="material-icons">edit</i></button>' +
+                                                '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
+                                                '<i class="material-icons">close</i>' +
+                                                '</button></td></tr>');
+    
+}
 
 var card_ajax_options = {
 	url: function(phrase) {
 		return "https://api.scryfall.com/cards/autocomplete?q=" + phrase + "&format=json";
 	},
-
+	placeholder: "Enter a card name",
+	requestDelay: 500,
 	listLocation: "data"
 };
 
 $("#new-card-name").easyAutocomplete(card_ajax_options);
+
+$( "#new-card-name" ).change(function() {
+  $('#set-dropdown').empty();
+  updateSetList();
+});
+
+function updateSetList() {
+    let dropdown = $('#set-dropdown');
+
+    dropdown.empty();
+    
+    dropdown.append('<option selected="true" disabled></option>');
+    dropdown.prop('selectedIndex', 0);
+    
+    const url = 'https://api.scryfall.com/cards/search?order=set&q=';
+    
+    // Populate dropdown with list of provinces
+    $.getJSON(url + '%21%22' + $("#new-card-name").val() + '%22&unique=prints', function (data) {
+      dropdown.empty();
+      let sets = []
+      $.each(data.data, function (key, entry) {
+        if(sets.includes(entry.set)) {
+          // do nothing ...
+        } else {
+          dropdown.append($('<option></option>').attr('value', entry.set).attr('data-icon', 'ss-' + entry.set).text(entry.set_name));
+          sets.push(entry.set)
+        }
+      })
+      dropdown.selectpicker('refresh');
+    });
+  }
+
+
 
 <% end %>
