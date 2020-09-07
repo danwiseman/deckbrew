@@ -1,0 +1,91 @@
+<%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/#{@branch.slug}/addcards" do |f| %>
+<div class="row">
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-body">
+            
+            <div class="form-group">
+        <%= f.label "Card Name:", for: "new-card-name" %>
+        <%= f.text_field "new-card-name", class: "form-control" %>
+    </div>
+    <div class="form-group">
+        <%= f.label "Card Quantity:", for: "card-quantity" %>
+        <%= f.text_field "card-quantity", class: "form-control" %>
+    </div>
+    <div class="form-group">
+        <button class="btn btn-primary" type="button" onclick="addCardToTable()">Add Card to List</button>
+    </div>
+        </div>
+    </div>
+    
+</div>
+<div class="col-md-6">
+    <div class="card">
+        <div class="card-header card-header-text card-header-warning">
+          <div class="card-text">
+            <h4 class="card-title">Cards</h4>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover" id="card-table">
+            <thead class="text-warning">
+              <th>Qty</th>
+              <th>Name</th>
+              <th>Set</th>
+              <th>Foil</th>
+              <th>Actions</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td>Dakota Rice</td>
+                <td>$36,738</td>
+                <td>Niger</td>
+                <td class="td-actions text-right">
+                  <button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">
+                    <i class="material-icons">edit</i>
+                  </button>
+                  <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                    <i class="material-icons">close</i>
+                  </button>
+                </td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+</div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<% end %>
+
+<% content_for :page_script do %>
+
+function addCardToTable() {
+    $('#card-table > tbody:last-child').append('<tr>' +
+                                                '<td>' + $('#card-quantity').val() + '</td><td>' + $('#new-card-name').val() + '</td>' + 
+                                                '<td>$36,738</td><td>Niger</td>' + 
+                                                '<td class="td-actions text-right">' +
+                                                '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
+                                                '<i class="material-icons">edit</i></button>' +
+                                                '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
+                                                '<i class="material-icons">close</i>' +
+                                                '</button></td></tr>');
+}
+
+<% end %>
