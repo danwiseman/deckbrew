@@ -11,11 +11,11 @@
     </div>
     <div class="form-row">
         <div class="col">
-        <%= f.label "Card Quantity:", for: "card-quantity" %>
-        <%= f.text_field "card-quantity", class: "form-control" %>
+        <%= f.label "Card Quantity:", for: "card_quantity" %>
+        <%= select("card", "quantity", (1..45).to_a.collect {|p| [ p, p ] }, { include_blank: false }, data: { style: "btn btn-link" }, class: "form-control selectpicker") %>
         </div>
         <div class="col">
-        <%= f.label "Set:", for: "card-quantity" %>
+        <%= f.label "Set:", for: "set-dropdown" %>
         <select name="set-dropdown" id="set-dropdown" class="form-control selectpicker" data-style="btn btn-link" data-icon-base="ss"></select>
         </div>
     </div>
@@ -73,7 +73,7 @@
         </div>
         <div class="card-footer">
           <button type="button" class="btn btn-info"><i class="fad fa-clipboard-list-check"></i> Verify Cards</button>
-          
+          <button type="submit" class="btn btn-info btn-success">Submit</button>
         </div>
       </div>
 
@@ -98,20 +98,14 @@ function addCardToTable() {
     if ($('#foil:checked').val() == 1) {
       foil_text = '<i class="fad fa-badge-check"></i>';
     }
-    $('#card-table > tbody:last-child').prepend('<tr>' +
-                                                '<td>' + $('#card-quantity').val() + '</td><td>' + $('#new-card-name').val() + '</td>' + 
-                                                '<td><i class="ss ss-' + $( "#set-dropdown option:selected" ).val()  + '"></i> ' + $( "#set-dropdown option:selected" ).text() + '</td>' +
-                                                '<td>' + foil_text + '</td>' + 
-                                                '<td class="td-actions text-right">' +
-                                                '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
-                                                '<i class="material-icons">edit</i></button>' +
-                                                '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
-                                                '<i class="material-icons">close</i>' +
-                                                '</button></td></tr>');
-    $('#hidden-card-list').append($('#card-quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
+    
+    addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
+                $( "#set-dropdown option:selected" ).text(), foil_text);
+    
+    $('#hidden-card-list').append($('#card_quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
                                                 
                                                 
-    $('#card-quantity').val('')
+    $('#card_quantity').val('1')
     $('#new-card-name').val('')
     $('#foil').prop('checked',false);
     $('#set-dropdown').empty();
@@ -119,17 +113,23 @@ function addCardToTable() {
 
 function addQuickMana(land_name) {
   
-        $('#card-table > tbody:last-child').prepend('<tr>' +
-                                                '<td>' + $('#mana_quantity_mana_quantity_number').val() + '</td><td>' + land_name + '</td>' + 
-                                                '<td></td>' +
-                                                '<td></td>' + 
+      addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
+      $('#hidden-card-list').append($('#mana_quantity_mana_quantity_number').val() + ', ' +  land_name + ', , \n');
+      
+}
+
+function addCardRow(qty, name, set, set_name, foil) {
+  $('#card-table > tbody:last-child').prepend('<tr>' +
+                                                '<td>' + qty + '</td><td>' + name + '</td>' + 
+                                                '<td><i class="ss ss-' + set  + '"></i> ' + set_name + '</td>' +
+                                                '<td>' + foil + '</td>' + 
                                                 '<td class="td-actions text-right">' +
                                                 '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
                                                 '<i class="material-icons">edit</i></button>' +
                                                 '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
-    
+
 }
 
 var card_ajax_options = {
