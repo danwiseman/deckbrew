@@ -3,6 +3,7 @@ class CreateCards < ActiveRecord::Migration[6.0]
     create_table :cards do |t|
       
       t.string :oracle_name
+      t.string :set
       
       t.uuid :scryfall_id
       t.jsonb :scryfall_data

@@ -15,7 +15,7 @@ RSpec.describe "Decks", type: :request do
     
         
     
-    it "should add chosen cards to the deck and then show them" do
+    it "should add chosen cards to the deck and then show them", :js => true do
         user = FactoryBot.create(:user)
         sign_in_via_form(user)
         
@@ -23,15 +23,56 @@ RSpec.describe "Decks", type: :request do
         master_deck = create_master_deck_via_form(user)
         
         visit "/decks/#{master_deck.slug}/branch/main/editcards"
+        page.evaluate_script 'jQuery.active == 0'
         
-        fill_in "card name", with => "Steppe Glider"
-        click_button ("add card")
+        fill_in "new-card-name", :with => "Steppe Glider"
+        page.evaluate_script 'jQuery.active == 0'
         
-        expect("#card_list").to have_text("Steppe Glider")
+        page.execute_script("$('#addCardBtn').trigger('click')")
         
+
+        expect(page).to have_css("#card-table tr")
+        
+        Capybara.ignore_hidden_elements = false
+        fill_in "hidden_card_list", :with => "1, Steppe Glider, , undefined"
+        Capybara.ignore_hidden_elements = true
+
         click_button "Save"
         
         expect(page).to have_text("Steppe Glider")
+        
+    end
+    
+    it "should add chosen cards to the deck and then show cards that were errored for correction", :js => true do
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+        
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        
+        visit "/decks/#{master_deck.slug}/branch/main/editcards"
+        page.evaluate_script 'jQuery.active == 0'
+        
+        fill_in "new-card-name", :with => "Steppe Glider"
+        page.evaluate_script 'jQuery.active == 0'
+        
+        page.execute_script("$('#addCardBtn').trigger('click')")
+        
+        fill_in "new-card-name", :with => "Not A Real Card"
+        page.evaluate_script 'jQuery.active == 0'
+        
+        page.execute_script("$('#addCardBtn').trigger('click')")
+
+        expect(page).to have_css("#card-table tr")
+        
+        Capybara.ignore_hidden_elements = false
+        fill_in "hidden_card_list", :with => "1, Steppe Glider, , undefined\n1, Not A Real Card, , undefined"
+        
+        Capybara.ignore_hidden_elements = true
+
+        click_button "Save"
+        
+        expect(page).to have_text("Unable to find")
         
     end
     

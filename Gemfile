@@ -53,6 +53,10 @@ group :development, :test do
   gem 'rspec_junit_formatter', require: false
   gem 'rails-controller-testing'
   
+  gem "selenium-webdriver"
+  gem "chromedriver-helper"
+
+  
   gem 'factory_bot_rails'
 
   gem 'database_cleaner'

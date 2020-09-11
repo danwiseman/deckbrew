@@ -34,7 +34,7 @@
     
     <div class="form-row">
       <div class="col-md-5">
-        <button class="btn btn-primary" type="button" onclick="addCardToTable()">Add Card to List</button>
+        <button class="btn btn-primary" type="button" onclick="addCardToTable();" id="addCardBtn">Add Card to List</button>
       </div>
       <div class="col-md-7">
         <div class="row quick-mana">
@@ -73,7 +73,7 @@
         </div>
         <div class="card-footer">
           <button type="button" class="btn btn-info"><i class="fad fa-clipboard-list-check"></i> Verify Cards</button>
-          <button type="submit" class="btn btn-info btn-success">Submit</button>
+          <button type="submit" name="Save" class="btn btn-info btn-success">Save</button>
         </div>
       </div>
 
@@ -85,7 +85,7 @@
 </div>
 <div class="row">
   
-  <%= f.text_area "", id: "hidden-card-list", name: "hidden-card-list", class: "hidden-card-list" %>
+  <%= f.text_area "", id: "hidden_card_list", name: "hidden_card_list", class: "hidden-card-list" %>
   
 </div>
 
@@ -93,28 +93,33 @@
 
 <% content_for :page_script do %>
 
-function addCardToTable() {
-    var foil_text = ""
-    if ($('#foil:checked').val() == 1) {
-      foil_text = '<i class="fad fa-badge-check"></i>';
-    }
-    
-    addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
-                $( "#set-dropdown option:selected" ).text(), foil_text);
-    
-    $('#hidden-card-list').append($('#card_quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
-                                                
-                                                
-    $('#card_quantity').val('1')
-    $('#new-card-name').val('')
-    $('#foil').prop('checked',false);
-    $('#set-dropdown').empty();
-}
+
+
+$(document).ready(function() {
+      addCardToTable = function() {
+          var foil_text = ""
+          if ($('#foil:checked').val() == 1) {
+            foil_text = '<i class="fad fa-badge-check"></i>';
+          }
+          
+          addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
+                      $( "#set-dropdown option:selected" ).text(), foil_text);
+          
+          $('#hidden_card_list').append($('#card_quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
+                                                      
+                                                      
+          $('#card_quantity').val('1')
+          $('#new-card-name').val('')
+          $('#foil').prop('checked',false);
+          $('#set-dropdown').empty();
+      }
+});
+
 
 function addQuickMana(land_name) {
   
       addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
-      $('#hidden-card-list').append($('#mana_quantity_mana_quantity_number').val() + ', ' +  land_name + ', , \n');
+      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ', ' +  land_name + ', , \n');
       
 }
 

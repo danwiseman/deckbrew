@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 2020_09_07_103912) do
 
   create_table "cards", force: :cascade do |t|
     t.string "oracle_name"
+    t.string "set"
     t.uuid "scryfall_id"
     t.jsonb "scryfall_data"
     t.datetime "created_at", precision: 6, null: false
