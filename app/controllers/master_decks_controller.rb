@@ -41,6 +41,8 @@ class MasterDecksController < ApplicationController
         else
             @selected_branch = @master_deck.branches.friendly.find('main')
         end
+        
+        @head_deck = @selected_branch.decks.find(@selected_branch.head_deck)
        
        render layout: "dashboard"
     end

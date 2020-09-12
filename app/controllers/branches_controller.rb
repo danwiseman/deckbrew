@@ -62,6 +62,8 @@ class BranchesController < ApplicationController
     
     def show 
         @branch = @master_deck.branches.friendly.find(params['id'])
+        @head_deck = @branch.decks.find(@branch.head_deck)
+        
         
         render layout: "dashboard"
     end

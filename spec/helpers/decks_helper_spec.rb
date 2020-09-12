@@ -11,5 +11,21 @@ require 'rails_helper'
 #   end
 # end
 RSpec.describe DecksHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+    
+    describe "#displayDeck" do
+        it "shows all the cards in the deck as images"
+        
+        it "shows all the cards in the deck as a list in categories"
+        
+        it "shows all the cards in the deck as a table for editing"
+    
+      
+    end
+    
+    describe "#deckDiff" do
+       it "shows the difference between two decks"
+       
+        
+    end
+  
 end

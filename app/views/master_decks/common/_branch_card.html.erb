@@ -40,7 +40,7 @@
               when "forms/edit"
                   render partial: "branches/forms/edit", locals: { master_deck: master_deck, branch: branch, current_branches: current_branches, branched_from_id: branched_from_id }
               else
-                  render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch }
+                  render partial: "branches/detail", locals: { master_deck: master_deck, branch: branch, head_deck: head_deck }
             end
                   
       

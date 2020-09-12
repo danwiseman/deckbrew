@@ -12,4 +12,4 @@ user.user_profile.update(twitter: Faker::Twitter.screen_name, tagline: Faker::Ch
 master_deck = MasterDeck.create(user: user, name: Faker::Book.title, deck_type: 'commander', is_public: true, description: Faker::Coffee.notes)
 master_deck.branches.create(name: 'main', source_branch: 0, source_deck: 0)
 master_deck.branches.last.decks.create(version: 0, previousversion: 0)
-master_deck.branches.last.update(head_deck: master_deck.branches.last.decks.last)
+master_deck.branches.last.update(head_deck: master_deck.branches.last.decks.last.id)
