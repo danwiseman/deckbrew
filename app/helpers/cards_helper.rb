@@ -1,7 +1,7 @@
 module CardsHelper
     
     def cardDisplay(scryfall_id, options = {})
-          options = {size: normal}.merge(options)
+          options = {size: 'normal'}.merge(options)
           
           
           
