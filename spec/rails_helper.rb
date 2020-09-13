@@ -15,6 +15,10 @@ Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 require 'shoulda/matchers'
 
 require 'capybara/poltergeist'
+
+require "view_component/test_helpers"
+
+
 Capybara.javascript_driver = :poltergeist
 
 Shoulda::Matchers.configure do |config|
@@ -91,6 +95,8 @@ RSpec.configure do |config|
   config.include RequestSpecHelper, type: :helper
   
   config.include Capybara::DSL
+  
+  config.include ViewComponent::TestHelpers, type: :component
   
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction

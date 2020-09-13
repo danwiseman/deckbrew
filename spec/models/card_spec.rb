@@ -33,6 +33,18 @@ RSpec.describe Card, type: :model do
         
     end
     
+    it "can has easily accessible image urls" do
+        c = Card.snatch(uuid: 'fc4d7aa2-ee1b-435c-8876-44111fafc97a')    
+        expect(c.image).to eq("https://c1.scryfall.com/file/scryfall-cards/normal/front/f/c/fc4d7aa2-ee1b-435c-8876-44111fafc97a.jpg?1592673434") 
+        
+        token = Card.snatch(uuid: '2e20d047-0d43-4709-919c-0b0f714e9903')
+        expect(token.image(face: 'back')).to eq( "https://c1.scryfall.com/file/scryfall-cards/normal/back/2/e/2e20d047-0d43-4709-919c-0b0f714e9903.jpg?1572177109" )
+        
+        transf = Card.snatch(uuid: '23f3fa96-6276-463e-8033-a64c8f06c933')
+        expect(transf.image(size: 'large')).to eq('https://c1.scryfall.com/file/scryfall-cards/large/front/2/3/23f3fa96-6276-463e-8033-a64c8f06c933.jpg?1576385150')
+        
+    end
+    
   
   
 end

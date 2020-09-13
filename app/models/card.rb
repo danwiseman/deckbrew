@@ -39,6 +39,19 @@ class Card < ApplicationRecord
        return nil
     end
     
+    def image(options = {})
+        options = {face: 'front', size: 'normal'}.merge(options)
+        image_url = ""
+        
+        case options[:face]
+            when 'back'
+                image_url = self.scryfall_data['card_faces'][1]['image_uris'][options[:size]]
+            else
+                 image_url = get_front_image(options[:size])               
+            
+        end
+        return image_url
+    end
     
     private
     
@@ -100,6 +113,15 @@ class Card < ApplicationRecord
         return nil
     end
     
+    def get_front_image(size)
+        image_url = ""
+        if(self.scryfall_data['layout'] == 'double_faced_token' || self.scryfall_data['layout'] == 'transform')
+            image_url = self.scryfall_data['card_faces'][0]['image_uris'][size]
+        else
+            image_url = self.scryfall_data['image_uris'][size]
+        end
+        return image_url
+    end
     
     validates_presence_of :oracle_name
     validates_presence_of :scryfall_id
