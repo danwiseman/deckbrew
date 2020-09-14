@@ -39,7 +39,7 @@ RSpec.describe "Decks", type: :request do
 
         click_button "Save"
         
-        expect(page).to have_text("Steppe Glider")
+        expect(page).to have_css(".mtgcard img", :count => 1)
         
     end
     
