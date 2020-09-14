@@ -67,7 +67,19 @@
             </thead>
             <tbody>
               
+              <% unless @head_deck.cards.empty?
+                  for card in @head_deck.cards %>
               
+                <% unless card.empty? 
+                    card_details = Card.snatch(uuid: card['scryfall_id'])
+                      %>
+                      <tr><td><%= card['quantity'] %></td><td><%= card_details.oracle_name %></td><td><%= card_details.scryfall_data['set_name'] %></td><td></td></tr>
+                      
+                      <%
+                    end %>
+              
+              <%  end
+                  end %>
             </tbody>
           </table>
         </div>
@@ -85,7 +97,14 @@
 </div>
 <div class="row">
   
-  <%= f.text_area "", id: "hidden_card_list", name: "hidden_card_list", class: "hidden-card-list" %>
+  <textarea id="hidden_card_list" name="hidden_card_list" class="hidden-card-list"><% unless @head_deck.cards.empty?
+      for card in @head_deck.cards 
+        unless card.empty? 
+        card_details = Card.snatch(uuid: card['scryfall_id'])
+          %><%= card['quantity'] %>,"<%= card_details.oracle_name %>",<%= card_details.scryfall_data['set'] %>,<%= card_details.scryfall_data['foil'] %>
+          <% end 
+          end
+      end %></textarea>
   
 </div>
 
@@ -119,7 +138,7 @@ $(document).ready(function() {
 function addQuickMana(land_name) {
   
       addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
-      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ', "' +  land_name + '", , \n');
+      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ',"' +  land_name + '", , \n');
       
 }
 

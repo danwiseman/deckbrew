@@ -7,7 +7,7 @@ class DecksController < ApplicationController
     
 
     def edit
-        
+        @head_deck = @branch.decks.find(@branch.head_deck)
         
         render layout: "dashboard"
     end
@@ -78,8 +78,10 @@ class DecksController < ApplicationController
             
             else 
                 # add the card errors to it
-                error_cards << { qty: card_qty, name: card_name, set: card_set_code, foil: card_foil }
-                puts "adding error card"
+                unless card_name.nil? || card_name == ""
+                    error_cards << { qty: card_qty, name: card_name, set: card_set_code, foil: card_foil }
+                    puts "adding error card"
+                end
             end
             
             
