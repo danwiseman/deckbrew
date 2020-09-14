@@ -6,6 +6,6 @@
 
 <%= render partial: "master_decks/deck_stats", locals: { master_deck: @master_deck, branch: @selected_branch } %>
 
-<%= render partial: "master_decks/common/branch_card", locals: { master_deck: @master_deck, branch: @selected_branch, branch_view: "details" } %>
+<%= render partial: "master_decks/common/branch_card", locals: { master_deck: @master_deck, branch: @selected_branch, head_deck: @head_deck, branch_view: "details" } %>
 
 

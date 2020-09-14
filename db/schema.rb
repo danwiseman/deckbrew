@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2020_09_11_212039) do
     t.bigint "branch_id", null: false
     t.integer "version"
     t.integer "previousversion"
-    t.jsonb "cards", default: "{}", null: false
+    t.jsonb "cards", default: "", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["branch_id"], name: "index_decks_on_branch_id"

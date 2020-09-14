@@ -39,7 +39,8 @@ class BranchesController < ApplicationController
         
                                 
            if @branch.save 
-               @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id) 
+               @branch.decks.create(:version => 0, :previousversion => Branch.find(params['branched_from']['branched_from_id']).decks.last.id, 
+                                    :cards => Branch.find(params['branched_from']['branched_from_id']).decks.last.cards) 
                @branch.head_deck = @branch.decks.last.id
                @branch.save!
                
@@ -62,6 +63,8 @@ class BranchesController < ApplicationController
     
     def show 
         @branch = @master_deck.branches.friendly.find(params['id'])
+        @head_deck = @branch.decks.find(@branch.head_deck)
+        
         
         render layout: "dashboard"
     end

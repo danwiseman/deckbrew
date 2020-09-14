@@ -1,6 +1,15 @@
 <div class="card-body">
     <div class="row">
       
+      <% unless head_deck.cards.empty?
+          for card in head_deck.cards %>
+      
+        <%= unless card.empty? 
+              render(MtgCardComponent.new(scryfall_id: card['scryfall_id'], display_size: 'normal', content: '')) 
+            end %>
+      
+      <%  end
+          end %>
       
     </div>
     

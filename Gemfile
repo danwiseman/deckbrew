@@ -35,6 +35,8 @@ gem 'jbuilder', '~> 2.7'
 
 gem 'jquery-rails'
 
+gem "view_component"
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
@@ -52,6 +54,10 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.0.beta2'
   gem 'rspec_junit_formatter', require: false
   gem 'rails-controller-testing'
+  
+  gem "selenium-webdriver"
+  gem "chromedriver-helper"
+
   
   gem 'factory_bot_rails'
 

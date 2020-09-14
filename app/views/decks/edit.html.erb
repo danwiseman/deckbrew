@@ -1,0 +1,214 @@
+<%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/#{@branch.slug}/addcards" do |f| %>
+
+<div class="row">
+<div class="col-md-8">
+    <div class="card">
+        <div class="card-header card-header-primary card-header-form">
+          <div class="category">
+    <div class="form-group">
+        <%= f.label "Card Name:", for: "new-card-name" %>
+        <%= f.text_field "new-card-name", class: "form-control" %>
+    </div>
+    <div class="form-row">
+        <div class="col">
+        <%= f.label "Card Quantity:", for: "card_quantity" %>
+        <%= select("card", "quantity", (1..45).to_a.collect {|p| [ p, p ] }, { include_blank: false }, data: { style: "btn btn-link" }, class: "form-control selectpicker") %>
+        </div>
+        <div class="col">
+        <%= f.label "Set:", for: "set-dropdown" %>
+        <select name="set-dropdown" id="set-dropdown" class="form-control selectpicker" data-style="btn btn-link" data-icon-base="ss"></select>
+        </div>
+    </div>
+    <div class="form-group">
+      <%= f.label "Foil:", for: "card-foil" %>
+        <div class="togglebutton">
+                  
+                  <label>
+                    <%= f.check_box "foil" %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Foil", class: "text-success label-on") %>
+                      <%= tag.span("Not Foil", class: "text-warning label-off") %>
+                  </label>
+                </div>
+        </div>
+    
+    <div class="form-row">
+      <div class="col-md-5">
+        <button class="btn btn-primary" type="button" onclick="addCardToTable();" id="addCardBtn">Add Card to List</button>
+      </div>
+      <div class="col-md-7">
+        <div class="row quick-mana">
+        <div class="col-md-4 text-right">
+        Basic Lands Quick Add:
+        </div>
+        <div class="col-md-4 text-right">
+        <%= select("mana_quantity", "mana_quantity_number", (1..25).to_a.collect {|p| [ p, p ] }, { include_blank: false }, class: "form-control") %>
+        </div>
+        <div class="col-md-4">
+        <span onclick="addQuickMana('Plains')"><%= PrettyMagic::ManaIcons.mana_symbols('{w}').html_safe %></span>
+        <span  onclick="addQuickMana('Island')"><%= PrettyMagic::ManaIcons.mana_symbols('{u}').html_safe %></span>
+        <span  onclick="addQuickMana('Swamp')"><%= PrettyMagic::ManaIcons.mana_symbols('{b}').html_safe %></span>
+        <span  onclick="addQuickMana('Mountain')"><%= PrettyMagic::ManaIcons.mana_symbols('{r}').html_safe %></span>
+        <span  onclick="addQuickMana('Forest')"><%= PrettyMagic::ManaIcons.mana_symbols('{g}').html_safe %></span>
+        </div>
+      </div>
+      </div>
+    </div>
+          </div>
+        </div>
+        <div class="card-body table-responsive">
+          <table class="table table-hover" id="card-table">
+            <thead class="text-success">
+              <th>Qty</th>
+              <th>Name</th>
+              <th>Set</th>
+              <th>Foil</th>
+              <th class="text-right">Actions</th>
+            </thead>
+            <tbody>
+              
+              <% unless @head_deck.cards.empty?
+                  for card in @head_deck.cards %>
+              
+                <% unless card.empty? 
+                    card_details = Card.snatch(uuid: card['scryfall_id'])
+                      %>
+                      <tr>
+                          <td><%= card['quantity'] %></td>
+                          <td><%= card_details.oracle_name %></td>
+                          <td><i class="ss ss-<%= card_details.set %>"></i> <%= card_details.scryfall_data['set_name'] %></td>
+                          <td></td>
+                          <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">edit</i></button>
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                  <i class="material-icons">close</i></button>
+                          </td>
+                          </tr>
+                      
+                      <%
+                    end %>
+              
+              <%  end
+                  end %>
+            </tbody>
+          </table>
+        </div>
+        <div class="card-footer">
+          <button type="button" class="btn btn-info"><i class="fad fa-clipboard-list-check"></i> Verify Cards</button>
+          <button type="submit" name="Save" class="btn btn-info btn-success">Save</button>
+        </div>
+      </div>
+
+</div>
+
+
+
+
+</div>
+<div class="row">
+  
+  <textarea id="hidden_card_list" name="hidden_card_list" class="hidden-card-list"><% unless @head_deck.cards.empty?
+      for card in @head_deck.cards 
+        unless card.empty? 
+        card_details = Card.snatch(uuid: card['scryfall_id'])
+          %><%= card['quantity'] %>,"<%= card_details.oracle_name %>",<%= card_details.scryfall_data['set'] %>,<%= card_details.scryfall_data['foil'] %>
+          <% end 
+          end
+      end %></textarea>
+  
+</div>
+
+<% end %>
+
+<% content_for :page_script do %>
+
+
+
+$(document).ready(function() {
+      addCardToTable = function() {
+          var foil_text = ""
+          if ($('#foil:checked').val() == 1) {
+            foil_text = '<i class="fad fa-badge-check"></i>';
+          }
+          
+          addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
+                      $( "#set-dropdown option:selected" ).text(), foil_text);
+          
+          $('#hidden_card_list').append($('#card_quantity').val() + ',"' +  $('#new-card-name').val() + '", ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
+                                                      
+                                                      
+          $('#card_quantity').val('1')
+          $('#new-card-name').val('')
+          $('#foil').prop('checked',false);
+          $('#set-dropdown').empty();
+      }
+});
+
+
+function addQuickMana(land_name) {
+  
+      addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
+      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ',"' +  land_name + '", , \n');
+      
+}
+
+function addCardRow(qty, name, set, set_name, foil) {
+  $('#card-table > tbody:last-child').prepend('<tr>' +
+                                                '<td>' + qty + '</td><td>' + name + '</td>' + 
+                                                '<td><i class="ss ss-' + set  + '"></i> ' + set_name + '</td>' +
+                                                '<td>' + foil + '</td>' + 
+                                                '<td class="td-actions text-right">' +
+                                                '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
+                                                '<i class="material-icons">edit</i></button>' +
+                                                '<button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">' +
+                                                '<i class="material-icons">close</i>' +
+                                                '</button></td></tr>');
+
+}
+
+var card_ajax_options = {
+	url: function(phrase) {
+		return "https://api.scryfall.com/cards/autocomplete?q=" + phrase + "&format=json";
+	},
+	placeholder: "Enter a card name",
+	requestDelay: 500,
+	listLocation: "data"
+};
+
+$("#new-card-name").easyAutocomplete(card_ajax_options);
+
+$( "#new-card-name" ).change(function() {
+  $('#set-dropdown').empty();
+  updateSetList();
+});
+
+function updateSetList() {
+    let dropdown = $('#set-dropdown');
+
+    dropdown.empty();
+    
+    dropdown.append('<option selected="true" disabled></option>');
+    dropdown.prop('selectedIndex', 0);
+    
+    const url = 'https://api.scryfall.com/cards/search?order=set&q=';
+    
+    // Populate dropdown with list of provinces
+    $.getJSON(url + '%21%22' + $("#new-card-name").val() + '%22&unique=prints', function (data) {
+      dropdown.empty();
+      let sets = []
+      $.each(data.data, function (key, entry) {
+        if(sets.includes(entry.set)) {
+          // do nothing ...
+        } else {
+          dropdown.append($('<option></option>').attr('value', entry.set).attr('data-icon', 'ss-' + entry.set).text(entry.set_name));
+          sets.push(entry.set)
+        }
+      })
+      dropdown.selectpicker('refresh');
+    });
+  }
+
+
+
+<% end %>

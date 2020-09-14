@@ -7,7 +7,7 @@ class CreateDecks < ActiveRecord::Migration[6.0]
       t.integer :version
       t.integer :previousversion
       
-      t.jsonb :cards, null: false, default: '{}'
+      t.jsonb :cards, null: false, default: ''
 
       t.timestamps
     end
