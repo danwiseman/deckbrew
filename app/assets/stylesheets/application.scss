@@ -102,3 +102,37 @@ input:checked ~ .label-on {
   border-radius: 8px;
 }
 
+.error-card-list {
+  
+  
+}
+
+.error-card-list li {
+  display: block;
+  width: 200px;
+  border-radius: 5px;
+  padding: 5px;
+  background-color: $grey-200;
+}
+
+.error-card-list li label {
+  color: $grey-800;
+  
+}
+
+.error-card-list li:hover {
+  background-color: $grey-400;
+  
+}
+.error-card-list li:hover label {
+  color: $primary;
+  
+}
+
+.error-card-list img {
+  max-width:100%;
+  height:auto;
+  border-radius: 4px;
+  float: left;
+  
+}
