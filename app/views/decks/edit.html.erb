@@ -73,7 +73,18 @@
                 <% unless card.empty? 
                     card_details = Card.snatch(uuid: card['scryfall_id'])
                       %>
-                      <tr><td><%= card['quantity'] %></td><td><%= card_details.oracle_name %></td><td><%= card_details.scryfall_data['set_name'] %></td><td></td></tr>
+                      <tr>
+                          <td><%= card['quantity'] %></td>
+                          <td><%= card_details.oracle_name %></td>
+                          <td><i class="ss ss-<%= card_details.set %>"></i> <%= card_details.scryfall_data['set_name'] %></td>
+                          <td></td>
+                          <td class="td-actions text-right">
+                              <button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">
+                                  <i class="material-icons">edit</i></button>
+                              <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm">
+                                  <i class="material-icons">close</i></button>
+                          </td>
+                          </tr>
                       
                       <%
                     end %>
