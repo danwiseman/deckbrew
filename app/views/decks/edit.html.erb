@@ -105,7 +105,7 @@ $(document).ready(function() {
           addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
                       $( "#set-dropdown option:selected" ).text(), foil_text);
           
-          $('#hidden_card_list').append($('#card_quantity').val() + ', ' +  $('#new-card-name').val() + ', ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
+          $('#hidden_card_list').append($('#card_quantity').val() + ',"' +  $('#new-card-name').val() + '", ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
                                                       
                                                       
           $('#card_quantity').val('1')
@@ -119,7 +119,7 @@ $(document).ready(function() {
 function addQuickMana(land_name) {
   
       addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
-      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ', ' +  land_name + ', , \n');
+      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ', "' +  land_name + '", , \n');
       
 }
 

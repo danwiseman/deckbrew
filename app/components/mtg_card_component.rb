@@ -6,7 +6,7 @@ class MtgCardComponent < ViewComponent::Base
     
     @card = Card.snatch(uuid: scryfall_id)
     
-    @background_image = @card.image
+    
     
   end
 end
