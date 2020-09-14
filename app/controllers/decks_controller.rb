@@ -35,15 +35,54 @@ class DecksController < ApplicationController
     
     def errorcards(error_cards)
         @error_cards = error_cards
+        @possible_fixed_cards = Array.new
+        for error_card in @error_cards
+            # do a fuzzy search for each of the cards in there.
+            
+            # https://api.scryfall.com/cards/named?fuzzy=aust+com 
+            page_url = 'https://api.scryfall.com/cards/named?fuzzy=' + error_card[:name]
+            uri = URI(page_url)
+            response = Net::HTTP.get_response(uri)
+            puts response.body
+            if response.kind_of? Net::HTTPSuccess
+                data = JSON.parse(response.body)
+                
+                if data.key?('data')
+                    data['data'].each do |card_json|
+                        if(Card.where(:scryfall_id => card_json['id']).present?)
+                            
+                             newCard = Card.where(:scryfall_id => card_json['id']).first
+                             newCard.update(:oracle_name => card_json['name'], :set => card_json['set'], :scryfall_data => card_json)
+                        else    
+                            
+                            newCard = Card.create(:scryfall_id => card_json['id'], :oracle_name => card_json['name'], :set => card_json['set'], :scryfall_data => card_json)
+                        end
+                        @possible_fixed_cards << newCard
+                    end
+                else
+                    if(Card.where(:scryfall_id => data['id']).present?)
+                         newCard = Card.where(:scryfall_id => data['id']).first
+                         newCard.update(:oracle_name => data['name'], :set => data['set'], :scryfall_data => data)
+                    else    
+                        newCard = Card.create(:scryfall_id => data['id'], :oracle_name => data['name'], :set => data['set'], :scryfall_data => data)
+                    end
+                    @possible_fixed_cards << newCard
+                    
+                end
+                
+                
+            end
+            # to provide possible corrections
+            
+            # render a form to allow the user to correct those cards
+            
+            # then re-add the cards without creating a new deck.
+        end
         
-        # do a fuzzy search for each of the cards in there.
-        # to provide possible corrections
-        
-        # render a form to allow the user to correct those cards
-        
-        # then re-add the cards without creating a new deck.
         
         render layout: "dashboard"
+            
+        
     end
 
     private

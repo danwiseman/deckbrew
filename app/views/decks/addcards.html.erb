@@ -1,0 +1,16 @@
+Unable to find some of the cards. Please check possible matches below.
+
+<ul>
+<% for error_card in @error_cards %>
+<li><%= error_card[:name] %></li>
+<% end %>
+</ul>
+
+<% unless @possible_fixed_cards.empty? %>
+    <ul>
+        <% for card in @possible_fixed_cards %>
+        <li><%= card.oracle_name %></li>
+        <% end %>
+        </ul>
+
+<% end %>
