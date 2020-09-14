@@ -1,14 +1,26 @@
-Unable to find some of the cards. Please check possible matches below.
 
-<ul>
-<% for error_card in @error_cards %>
-<li><%= error_card[:name] %></li>
-<% end %>
-</ul>
+<div class="row">
+    <div class="col-md-3">
+<div class="card" style="width: 20rem;">
+<div class="card-header  card-header-text card-header-info"><div class="card-text">
+          <h4 class="card-title">Unable to find some of the cards. Please check possible matches</h4></div>
+         </div>
+  <ul class="list-group list-group-flush">
+      <% for error_card in @error_cards %>
+        <li class="list-group-item"><%= error_card[:name] %></li>
+        <% end %>
+  </ul>
+</div>
+
+
+</div>
+
+
+   <div class="col-md-9">
 
 <%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/#{@branch.slug}/fixedcards" do |f| %>
-<div class="row">
-    <div class="col">
+
+ 
         <div class="card">
             <div class="card-header  card-header-text card-header-primary"><div class="card-text">
               <h4 class="card-title">Check the correct cards to add</h4></div>
@@ -43,5 +55,7 @@ Unable to find some of the cards. Please check possible matches below.
         
     </div>
     
-</div>
+
 <% end %>
+
+</div>
