@@ -3,3 +3,4 @@ image:
 
 tasks:
   - init: yarn install && bundle install
+  - command: chromium-browser --no-sandbox
