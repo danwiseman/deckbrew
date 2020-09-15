@@ -91,7 +91,45 @@ RSpec.describe "Decks", type: :request do
     
     
     
-    it "should remove chosen cards from the deck" 
+    it "should remove chosen cards from the deck", :js => true do
+       user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+        
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        
+        visit "/decks/#{master_deck.slug}/branch/main/editcards"
+        page.evaluate_script 'jQuery.active == 0'
+        
+        fill_in "new-card-name", :with => "Steppe Glider"
+        page.evaluate_script 'jQuery.active == 0'
+        
+        page.execute_script("$('#addCardBtn').trigger('click')")
+        
+
+        expect(page).to have_css("#card-table tr")
+        
+        Capybara.ignore_hidden_elements = false
+        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }]'
+        Capybara.ignore_hidden_elements = true
+
+        click_button "Save"
+        
+        expect(page).to have_css(".mtgcard img", :count => 1) 
+        
+        visit "/decks/#{master_deck.slug}/branch/main/editcards"
+        
+        expect(all('tr').count).to eq(2)
+        
+        click_button "remove_card"
+        
+        click_button "Save"
+        
+        expect(page).to_not  have_css(".mtgcard img")
+        
+        
+        
+    end
     
     it "should save a history, by creating a new head deck, of changes to the deck"
     

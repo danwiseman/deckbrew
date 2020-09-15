@@ -19,7 +19,9 @@ require 'capybara/poltergeist'
 require "view_component/test_helpers"
 
 
-Capybara.javascript_driver = :poltergeist
+Capybara.javascript_driver = :selenium_chrome
+
+Selenium::WebDriver::Chrome.driver_path = "/home/ec2-user/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
