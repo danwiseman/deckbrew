@@ -108,14 +108,18 @@
 </div>
 <div class="row">
   
-  <textarea id="hidden_card_list" name="hidden_card_list" class="hidden-card-list"><% unless @head_deck.cards.empty?
+  <textarea id="hidden_card_list" name="hidden_card_list" class="hidden-card-list">
+  <% unless @head_deck.cards.empty?
+      json_card_data = JSON.parse('[]')
       for card in @head_deck.cards 
         unless card.empty? 
-        card_details = Card.snatch(uuid: card['scryfall_id'])
-          %><%= card['quantity'] %>,"<%= card_details.oracle_name %>",<%= card_details.scryfall_data['set'] %>,<%= card_details.scryfall_data['foil'] %>
-          <% end 
-          end
-      end %></textarea>
+          card_details = Card.snatch(uuid: card['scryfall_id'])
+          json_card_data <<  { "quantity": card['quantity'],   "name": card_details.oracle_name, "set": card_details.scryfall_data['set'], "is_foil": card_details.scryfall_data['foil'] }
+        end 
+      end
+    end %>
+    <%= json_card_data.to_json.html_safe %>
+    </textarea>
   
 </div>
 
@@ -135,8 +139,8 @@ $(document).ready(function() {
           addCardRow($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(),
                       $( "#set-dropdown option:selected" ).text(), foil_text);
           
-          $('#hidden_card_list').append($('#card_quantity').val() + ',"' +  $('#new-card-name').val() + '", ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
-                                                      
+          //$('#hidden_card_list').append($('#card_quantity').val() + ',"' +  $('#new-card-name').val() + '", ' + $( "#set-dropdown option:selected" ).val() + ', ' + $('#foil:checked').val() + '\n');
+          addToCardJson($('#card_quantity').val(), $('#new-card-name').val(), $( "#set-dropdown option:selected" ).val(), $('#foil:checked').val());                                            
                                                       
           $('#card_quantity').val('1')
           $('#new-card-name').val('')
@@ -149,7 +153,8 @@ $(document).ready(function() {
 function addQuickMana(land_name) {
   
       addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
-      $('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ',"' +  land_name + '", , \n');
+      //$('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ',"' +  land_name + '", , \n');
+      addToCardJson($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
       
 }
 
@@ -165,6 +170,17 @@ function addCardRow(qty, name, set, set_name, foil) {
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
 
+}
+
+function addToCardJson(qty, name, set, foil) {
+  var hidden_card_list_text = JSON.parse($('#hidden_card_list').val());
+  var newCard = JSON.parse('{ "quantity": "' + qty + '", "name": "' + name + '", "set": "' + set + '", "is_foil": "' + foil + '" }');
+
+  
+  hidden_card_list_text.push(newCard);
+  
+  
+  $('#hidden_card_list').val(JSON.stringify(hidden_card_list_text));
 }
 
 var card_ajax_options = {

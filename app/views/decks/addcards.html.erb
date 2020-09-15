@@ -1,0 +1,68 @@
+
+<div class="row">
+    <div class="col-md-3">
+<div class="card" style="width: 20rem;">
+<div class="card-header  card-header-text card-header-info"><div class="card-text">
+          <h4 class="card-title">Unable to find some of the cards. Please check possible matches</h4></div>
+         </div>
+  <ul class="list-group list-group-flush">
+      <% for error_card in @error_cards %>
+        <li class="list-group-item"><%= error_card['name'] %></li>
+        <% end %>
+  </ul>
+</div>
+
+
+</div>
+
+
+   <div class="col-md-9">
+
+<%= form_with class: "form", url: "/decks/#{@master_deck.slug}/branch/#{@branch.slug}/fixedcards" do |f| %>
+
+ 
+        <div class="card">
+            <div class="card-header  card-header-text card-header-primary"><div class="card-text">
+              <h4 class="card-title">Check the correct cards to add</h4></div>
+             </div>
+            <div class="card-body">
+                
+                <% unless @possible_fixed_cards.empty? %>
+                    <ul class="error-card-list">
+                        <% for card in @possible_fixed_cards %>
+                        <li><div class="form-check">
+                            <label class="form-check-label">
+                                <input class="form-check-input" type="checkbox" name="fixed_card[][check]" 
+                                            id="fixed_card[][check]" />
+                                <%= card.oracle_name %> <img src="<%= card.image(size: 'small') %>" /> 
+                                <span class="form-check-sign">
+                                    <span class="check"></span>
+                                </span>
+                            </label>
+                            <input type="hidden" value="<%= card.scryfall_id %>" name="fixed_card[][scryfall_id]" id="fixed_card[][scryfall_id]" />
+                            <%= select("", "fixed_card[][quantity]", (1..45).to_a.collect {|p| [ p, p ] }, { include_blank: false }, data: { style: "btn btn-primary" }, class: "form-control selectpicker") %>
+                        </div>
+                </li>
+                        <% end %>
+                        </ul>
+                
+                <% 
+                else %>
+                <div class="alert alert-info">No matches found. <a href="<%= BranchesHelper.PathToBranch(@branch) %>" class="alert-link">Continue on to your deck</a></div>
+                <%
+                end %>
+                
+            </div>
+            <div class="card-footer">
+                <button type="submit" class="btn btn-primary">Submit Fixed Cards</button>
+                
+            </div>
+        </div>
+        
+        
+    </div>
+    
+
+<% end %>
+
+</div>

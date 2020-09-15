@@ -34,12 +34,12 @@ RSpec.describe "Decks", type: :request do
         expect(page).to have_css("#card-table tr")
         
         Capybara.ignore_hidden_elements = false
-        fill_in "hidden_card_list", :with => "1, Steppe Glider, , undefined"
+        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }]'
         Capybara.ignore_hidden_elements = true
 
         click_button "Save"
         
-        expect(page).to have_text("Steppe Glider")
+        expect(page).to have_css(".mtgcard img", :count => 1)
         
     end
     
@@ -66,7 +66,10 @@ RSpec.describe "Decks", type: :request do
         expect(page).to have_css("#card-table tr")
         
         Capybara.ignore_hidden_elements = false
-        fill_in "hidden_card_list", :with => "1, Steppe Glider, , undefined\n1, Not A Real Card, , undefined"
+        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }, 
+                                                {"quantity": "1", "name": "Not A Real Card", "set": "", "foil": "undefined"},
+                                                {"quantity": "1", "name": "Tree of Per", "set": "", "foil": "undefined"},
+                                                {"quantity": "1", "name": "Command Tow", "set": "", "foil": "undefined"}]'
         
         Capybara.ignore_hidden_elements = true
 
@@ -74,7 +77,19 @@ RSpec.describe "Decks", type: :request do
         
         expect(page).to have_text("Unable to find")
         
+        
+        find('label', :text => 'Tree of Perdition').click
+        
+        
+        click_button "Submit Fixed Cards"
+        
+        # todo: fix this to actually search for the card
+        expect(page).to  have_css(".mtgcard img", :count => 2)
+        
+        
     end
+    
+    
     
     it "should remove chosen cards from the deck" 
     
