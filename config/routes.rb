@@ -38,6 +38,7 @@ Rails.application.routes.draw do
         # Deck Actions. Create is not neccessary as the deck should already exist
         get ":master_deck_id/branch/:branch_id/editcards", to: "decks#edit", on: :collection
         post ":master_deck_id/branch/:branch_id/addcards", to: "decks#addcards", on: :collection
+        post ":master_deck_id/branch/:branch_id/fixedcards", to: "decks#fixedcards", on: :collection
         
         # other master deck actions
         post "fork", to: "master_decks#create_fork", on: :collection

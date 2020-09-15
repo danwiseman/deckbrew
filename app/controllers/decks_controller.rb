@@ -2,8 +2,8 @@ class DecksController < ApplicationController
     
     require 'csv'  
     
-    before_action :authenticate_user!, only: [:edit, :addcards, :errorcards]
-    before_action :set_master_deck_and_current_branch, only: [:edit, :addcards, :errorcards]
+    before_action :authenticate_user!, only: [:edit, :addcards, :errorcards, :fixedcards]
+    before_action :set_master_deck_and_current_branch, only: [:edit, :addcards, :errorcards, :fixedcards]
     
 
     def edit
@@ -83,6 +83,35 @@ class DecksController < ApplicationController
         
         render layout: "dashboard"
             
+        
+    end
+
+    def fixedcards
+        
+       cards_to_add = params[:fixed_card]
+       
+        
+        cards_to_add.each do |params_card|
+            parsed_card = params_card.to_json
+            parsed_card = JSON.parse(parsed_card)
+            card = Card.snatch(uuid: parsed_card['scryfall_id'])
+            puts parsed_card
+            if (parsed_card['check'] == "on")
+            unless(card.nil?) 
+            
+                new_card = [{
+                  scryfall_id: card.scryfall_id,
+                  quantity: parsed_card['quantity']
+                }].to_json
+                
+                Deck.where(id: @branch.head_deck).update_all(["cards = cards || ?::jsonb", new_card])
+            
+            end 
+            end
+            
+        end
+        
+        redirect_to BranchesHelper.PathToBranch(@branch)
         
     end
 

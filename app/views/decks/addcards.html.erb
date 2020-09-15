@@ -32,15 +32,15 @@
                         <% for card in @possible_fixed_cards %>
                         <li><div class="form-check">
                             <label class="form-check-label">
-                                <input class="form-check-input" type="checkbox" name="fixed_card[<%= @possible_fixed_cards.index(card) %>]['check']" 
-                                            id="fixed_card[<%= @possible_fixed_cards.index(card) %>]['check']" />
+                                <input class="form-check-input" type="checkbox" name="fixed_card[][check]" 
+                                            id="fixed_card[][check]" />
                                 <%= card.oracle_name %> <img src="<%= card.image(size: 'small') %>" /> 
                                 <span class="form-check-sign">
                                     <span class="check"></span>
                                 </span>
                             </label>
-                            <input type="hidden" value="<%= card.scryfall_id %>" name="fixed_card[<%= @possible_fixed_cards.index(card) %>]['scryfall_id']" id="fixed_card[<%= @possible_fixed_cards.index(card) %>]['scryfall_id']" />
-                            <%= select("fixed_card[#{ @possible_fixed_cards.index(card) }]", "['quantity']", (1..45).to_a.collect {|p| [ p, p ] }, { include_blank: false }, data: { style: "btn btn-primary" }, class: "form-control selectpicker") %>
+                            <input type="hidden" value="<%= card.scryfall_id %>" name="fixed_card[][scryfall_id]" id="fixed_card[][scryfall_id]" />
+                            <%= select("", "fixed_card[][quantity]", (1..45).to_a.collect {|p| [ p, p ] }, { include_blank: false }, data: { style: "btn btn-primary" }, class: "form-control selectpicker") %>
                         </div>
                 </li>
                         <% end %>
