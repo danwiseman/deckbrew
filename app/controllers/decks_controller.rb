@@ -35,12 +35,13 @@ class DecksController < ApplicationController
     
     def errorcards(error_cards)
         @error_cards = error_cards
+        puts @error_cards
         @possible_fixed_cards = Array.new
         for error_card in @error_cards
             # do a fuzzy search for each of the cards in there.
             
             # https://api.scryfall.com/cards/named?fuzzy=aust+com 
-            page_url = 'https://api.scryfall.com/cards/named?fuzzy=' + error_card[:name]
+            page_url = 'https://api.scryfall.com/cards/named?fuzzy=' + error_card['name']
             uri = URI(page_url)
             response = Net::HTTP.get_response(uri)
             puts response.body
@@ -93,32 +94,29 @@ class DecksController < ApplicationController
         
     end
     
-    def add_cards_to_deck(deck, csv)
+    def add_cards_to_deck(deck, cards_json)
         
         # set error cards array to empty
         error_cards = Array.new
-        parsed_csv = CSV.parse(csv)
-        parsed_csv.each do |row|
-            card_qty = row[0]
-            card_name = row[1]
-            card_set_code = row[2]
-            card_foil = row[3]
+        parsed_cards = JSON.parse(cards_json)
+        parsed_cards.each do |parsed_card|
             
-            card = Card.snatch(name: card_name, set: card_set_code)
+            
+            card = Card.snatch(name: parsed_card['name'], set: parsed_card['set'])
             
             unless(card.nil?) 
             
                 new_card = [{
                   scryfall_id: card.scryfall_id,
-                  quantity: card_qty
+                  quantity: parsed_card['quantity']
                 }].to_json
                 
                 Deck.where(id: deck.id).update_all(["cards = cards || ?::jsonb", new_card])
             
             else 
                 # add the card errors to it
-                unless card_name.nil? || card_name == ""
-                    error_cards << { qty: card_qty, name: card_name, set: card_set_code, foil: card_foil }
+                unless parsed_card['name'].nil? || parsed_card['name'] == ""
+                    error_cards << parsed_card
                     puts "adding error card"
                 end
             end

@@ -108,7 +108,7 @@
 </div>
 <div class="row">
   
-  <textarea id="hidden_card_list" name="hidden_card_list" >
+  <textarea id="hidden_card_list" name="hidden_card_list" class="hidden-card-list">
   <% unless @head_deck.cards.empty?
       json_card_data = JSON.parse('[]')
       for card in @head_deck.cards 

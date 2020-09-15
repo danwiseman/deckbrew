@@ -7,7 +7,7 @@
          </div>
   <ul class="list-group list-group-flush">
       <% for error_card in @error_cards %>
-        <li class="list-group-item"><%= error_card[:name] %></li>
+        <li class="list-group-item"><%= error_card['name'] %></li>
         <% end %>
   </ul>
 </div>
@@ -46,7 +46,11 @@
                         <% end %>
                         </ul>
                 
-                <% end %>
+                <% 
+                else %>
+                <div class="alert alert-info">No matches found. <a href="<%= BranchesHelper.PathToBranch(@branch) %>" class="alert-link">Continue on to your deck</a></div>
+                <%
+                end %>
                 
             </div>
             <div class="card-footer">
