@@ -106,9 +106,7 @@ RSpec.describe "Branches", type: :request do
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"
         
-        # select merge into master
-        expect(page).to have_select 'source_branch[id]', selected: 'branch3'
-        select 'main', from: 'destination_branch[destination_branch_id]'
+
         
         # merge
         click_button "Merge These Branches"
