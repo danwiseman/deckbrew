@@ -15,7 +15,7 @@ class DecksController < ApplicationController
     def addcards
         #puts params
         
-        unless params.has_key?(:hidden_card_list)
+        unless !params[:hidden_card_list].present?
             # reference the head deck of the branch as the previous version
             new_version = Deck.find(@branch.head_deck).version + 1
             @branch.decks.create(:previousversion => @branch.head_deck, :version => new_version)

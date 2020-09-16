@@ -10,16 +10,16 @@
             <div class="row">
     <div class="col-md-6">
         <div class="row">
-            <div class="col">
+            <div class="col" id="destination_col">
             <%= select("destination_branch", "destination_branch_id", 
-                options_from_collection_for_select(@current_branches, 'id', 'name'),
+                options_from_collection_for_select(@current_branches, 'id', 'name', @master_deck.branches.friendly.find("main").id),
                       { include_blank: false },
                         :class => "form-control selectpicker destination-select", :data_style => "btn btn-link" ) %>
             </div>
             <div class="col text-center merge-arrow">
                 <i class="fas fa-arrow-left"></i>
             </div>
-            <div class="col">
+            <div class="col" id="source_col">
             <%= select("source_branch", "id", 
                 options_from_collection_for_select(@current_branches, 'id', 'name', @source_branch.id),
                       { include_blank: false },

@@ -106,7 +106,10 @@ RSpec.describe "Branches", type: :request do
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"
         
-
+        
+        find("#source_col").click
+        
+        find("#source_col").click_on "branch3"
         
         # merge
         click_button "Merge These Branches"

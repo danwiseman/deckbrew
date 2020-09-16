@@ -80,7 +80,7 @@ class BranchesController < ApplicationController
     end
     
     def merge
-      
+        puts params
        source_b_id = params['source_branch']['id']
        dest_b_id = params['destination_branch']['destination_branch_id']
        
@@ -112,8 +112,10 @@ class BranchesController < ApplicationController
            redirect_to BranchesHelper.PathToBranch(@merge_base)
            
         else
+            @source_branch = @master_deck.branches.friendly.find('main')
+            @current_branches = @master_deck.branches.all
             flash[:warning] = 'Both branches cannot be the same to merge.'
-            render "compare"
+            render "compare", layout: "dashboard"
         end
        
        
