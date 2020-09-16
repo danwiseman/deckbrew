@@ -51,24 +51,15 @@ RSpec.describe "Decks", type: :request do
         page.evaluate_script 'jQuery.active == 0'
         
         fill_in "new-card-name", :with => "Steppe Glider"
-        page.evaluate_script 'jQuery.active == 0'
+        click_button "addCardBtn"
         
-        page.execute_script("$('#addCardBtn').trigger('click')")
         
         fill_in "new-card-name", :with => "Not A Real Card"
-        page.evaluate_script 'jQuery.active == 0'
+        click_button "addCardBtn"
         
-        page.execute_script("$('#addCardBtn').trigger('click')")
-
-        expect(page).to have_css("#card-table tr")
-        
-        Capybara.ignore_hidden_elements = false
-        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }, 
-                                                {"quantity": "1", "name": "Not A Real Card", "set": "", "foil": "undefined"},
-                                                {"quantity": "1", "name": "Tree of Per", "set": "", "foil": "undefined"},
-                                                {"quantity": "1", "name": "Command Tow", "set": "", "foil": "undefined"}]'
-        
-        Capybara.ignore_hidden_elements = true
+        fill_in "new-card-name", :with => "Tree of Per"
+        click_button "addCardBtn"
+       
 
         click_button "Save"
         
@@ -98,31 +89,32 @@ RSpec.describe "Decks", type: :request do
         visit "/decks/#{master_deck.slug}/branch/main/editcards"
         page.evaluate_script 'jQuery.active == 0'
         
-        fill_in "new-card-name", :with => "Steppe Glider"
+        visit "/decks/#{master_deck.slug}/branch/main/editcards"
         page.evaluate_script 'jQuery.active == 0'
         
-        page.execute_script("$('#addCardBtn').trigger('click')")
+        fill_in "new-card-name", :with => "Steppe Glider"
+        click_button "addCardBtn"
         
-
-        expect(page).to have_css("#card-table tr")
         
-        Capybara.ignore_hidden_elements = false
-        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }]'
-        Capybara.ignore_hidden_elements = true
+        fill_in "new-card-name", :with => "Tree of Perdition"
+        click_button "addCardBtn"
+        
 
         click_button "Save"
         
-        expect(page).to have_css(".mtgcard img", :count => 1) 
+        expect(page).to have_css(".mtgcard img", :count => 2) 
         
         visit "/decks/#{master_deck.slug}/branch/main/editcards"
         
-        expect(all('tr').count).to eq(2)
+        expect(all('tr').count).to eq(3)
         
-        click_button "remove_card"
+        click_button "remove_card1"
+        
+        expect(all('tr').count).to eq(2)
         
         click_button "Save"
         
-        expect(page).to_not  have_css(".mtgcard img")
+        expect(page).to have_css(".mtgcard img", :count => 1)
         
         
         

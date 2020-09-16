@@ -84,7 +84,7 @@
                               <button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">
                                   <i class="material-icons">edit</i></button>
                               <button type="button" rel="tooltip" title="Remove" class="btn btn-danger btn-link btn-sm" 
-                                      onclick="removeCardFromJson(<%= id_number %>)" name="remove_card">
+                                      onclick="removeCardFromJson(<%= id_number %>)" name="remove_card<%= id_number %>">
                                   <i class="material-icons">close</i></button>
                           </td>
                           </tr>
@@ -179,7 +179,7 @@ function addCardRow(qty, name, set, set_name, foil, id_number) {
                                                 '<td class="td-actions text-right">' +
                                                 '<button type="button" rel="tooltip" title="Edit Card" class="btn btn-primary btn-link btn-sm">' +
                                                 '<i class="material-icons">edit</i></button>' +
-                                                '<button type="button" rel="tooltip" title="Remove"' + 
+                                                '<button type="button" rel="tooltip" title="Remove" name="remove_card' + id_number + '" '  + 
                                                 'onclick="removeCardFromJson(' + id_number + ')" class="btn btn-danger btn-link btn-sm">' +
                                                 '<i class="material-icons">close</i>' +
                                                 '</button></td></tr>');
