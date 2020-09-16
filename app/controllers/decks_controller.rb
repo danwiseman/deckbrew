@@ -14,23 +14,32 @@ class DecksController < ApplicationController
     
     def addcards
         #puts params
-        # reference the head deck of the branch as the previous version
-        new_version = Deck.find(@branch.head_deck).version + 1
-        @branch.decks.create(:previousversion => @branch.head_deck, :version => new_version)
-        # set the branch's head deck to the id of the new one.
-        @branch.update(:head_deck => @branch.decks.last.id)
         
-        # add the cards to a new deck
-        error_cards = add_cards_to_deck(@branch.decks.last, params[:hidden_card_list])  
+        unless !params[:hidden_card_list].present?
+            # reference the head deck of the branch as the previous version
+            new_version = Deck.find(@branch.head_deck).version + 1
+            @branch.decks.create(:previousversion => @branch.head_deck, :version => new_version)
+            # set the branch's head deck to the id of the new one.
+            @branch.update(:head_deck => @branch.decks.last.id)
+            
+            # add the cards to a new deck
+            error_cards = add_cards_to_deck(@branch.decks.last, params[:hidden_card_list])  
         
-        #puts error_cards
-        # redirect to the branch
-        if error_cards.size == 0
-            redirect_to BranchesHelper.PathToBranch(@branch)
+            #puts error_cards
+            # redirect to the branch
+            if error_cards.size == 0
+                redirect_to BranchesHelper.PathToBranch(@branch)
+            else
+                # redirect to error cards
+                errorcards(error_cards)
+            end
         else
-            # redirect to error cards
-            errorcards(error_cards)
+            flash[:info] = 'No cards were added.'
+            redirect_to BranchesHelper.PathToBranch(@branch)
+            
         end
+        
+        
     end
     
     def errorcards(error_cards)
