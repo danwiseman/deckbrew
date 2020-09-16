@@ -26,16 +26,13 @@ RSpec.describe "Decks", type: :request do
         page.evaluate_script 'jQuery.active == 0'
         
         fill_in "new-card-name", :with => "Steppe Glider"
-        page.evaluate_script 'jQuery.active == 0'
         
-        page.execute_script("$('#addCardBtn').trigger('click')")
+        click_button "addCardBtn"
         
+        sleep 2
 
         expect(page).to have_css("#card-table tr")
-        
-        Capybara.ignore_hidden_elements = false
-        fill_in "hidden_card_list", :with => '[{ "quantity": "1", "name": "Steppe Glider", "set": "" , "foil": "undefined" }]'
-        Capybara.ignore_hidden_elements = true
+
 
         click_button "Save"
         

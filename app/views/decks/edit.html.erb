@@ -126,9 +126,9 @@
           id_number += 1
         end 
         
-      end
-    end %>
-    <%= json_card_data.to_json.html_safe %>
+      end %>
+          <%= json_card_data.to_json.html_safe %>
+    <% end %>
     </textarea>
   
 </div>
@@ -187,6 +187,10 @@ function addCardRow(qty, name, set, set_name, foil, id_number) {
 }
 
 function addToCardJson(qty, name, set, foil, id_number) {
+  if (!$.trim($('#hidden_card_list').val())) {
+    $('#hidden_card_list').val("[]");
+  }
+    
   var hidden_card_list_text = JSON.parse($('#hidden_card_list').val());
   var newCard = JSON.parse('{ "id": "' + id_number + '", "quantity": "' + qty + '", "name": "' + name + '", "set": "' + set + '", "is_foil": "' + foil + '" }');
 

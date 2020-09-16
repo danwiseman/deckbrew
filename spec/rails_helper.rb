@@ -19,9 +19,7 @@ require 'capybara/poltergeist'
 require "view_component/test_helpers"
 
 
-Capybara.javascript_driver = :selenium_chrome
 
-#Selenium::WebDriver::Chrome.driver_path = "/home/ec2-user/node_modules/puppeteer/.local-chromium/linux-706915/chrome-linux/chrome"
 
 Shoulda::Matchers.configure do |config|
   config.integrate do |with|
@@ -34,7 +32,18 @@ Capybara.register_driver :poltergeist do |app|
   Capybara::Poltergeist::Driver.new(app, { js_errors: false, timeout: 520 })
 end
 
+Capybara.register_driver :headless_firefox do |app|
+  browser_options = Selenium::WebDriver::Firefox::Options.new()
+  browser_options.args << '--headless'
+Capybara::Selenium::Driver.new(
+    app,
+    browser: :firefox,
+    options: browser_options
+  )
+end
 
+
+Capybara.javascript_driver = :headless_firefox
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
