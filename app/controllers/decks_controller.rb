@@ -13,7 +13,7 @@ class DecksController < ApplicationController
     end
     
     def addcards
-        puts params
+        #puts params
         # reference the head deck of the branch as the previous version
         new_version = Deck.find(@branch.head_deck).version + 1
         @branch.decks.create(:previousversion => @branch.head_deck, :version => new_version)
@@ -23,7 +23,7 @@ class DecksController < ApplicationController
         # add the cards to a new deck
         error_cards = add_cards_to_deck(@branch.decks.last, params[:hidden_card_list])  
         
-        puts error_cards
+        #puts error_cards
         # redirect to the branch
         if error_cards.size == 0
             redirect_to BranchesHelper.PathToBranch(@branch)
@@ -35,7 +35,7 @@ class DecksController < ApplicationController
     
     def errorcards(error_cards)
         @error_cards = error_cards
-        puts @error_cards
+        #puts @error_cards
         @possible_fixed_cards = Array.new
         for error_card in @error_cards
             # do a fuzzy search for each of the cards in there.
@@ -44,7 +44,7 @@ class DecksController < ApplicationController
             page_url = 'https://api.scryfall.com/cards/named?fuzzy=' + error_card['name']
             uri = URI(page_url)
             response = Net::HTTP.get_response(uri)
-            puts response.body
+            #puts response.body
             if response.kind_of? Net::HTTPSuccess
                 data = JSON.parse(response.body)
                 
@@ -95,7 +95,7 @@ class DecksController < ApplicationController
             parsed_card = params_card.to_json
             parsed_card = JSON.parse(parsed_card)
             card = Card.snatch(uuid: parsed_card['scryfall_id'])
-            puts parsed_card
+            #puts parsed_card
             if (parsed_card['check'] == "on")
             unless(card.nil?) 
             
@@ -146,7 +146,7 @@ class DecksController < ApplicationController
                 # add the card errors to it
                 unless parsed_card['name'].nil? || parsed_card['name'] == ""
                     error_cards << parsed_card
-                    puts "adding error card"
+                    #puts "adding error card"
                 end
             end
             
