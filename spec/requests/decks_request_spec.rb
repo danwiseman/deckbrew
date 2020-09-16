@@ -3,11 +3,14 @@ require 'request_helper'
 
 require_relative '../support/branch_helpers'
 require_relative '../support/master_deck_helpers'
+require_relative '../support/deck_helpers'
 require_relative '../support/user_helpers'
 
 include UserHelpers
 include MasterDeckHelpers
 include BranchHelpers
+include DeckHelpers
+
 
 
 RSpec.describe "Decks", type: :request do
@@ -22,21 +25,9 @@ RSpec.describe "Decks", type: :request do
         # generate a master deck with branches
         master_deck = create_master_deck_via_form(user)
         
-        visit "/decks/#{master_deck.slug}/branch/main/editcards"
-        page.evaluate_script 'jQuery.active == 0'
+        add_cards(master_deck, master_deck.branches.friendly.find('main'))
         
-        fill_in "new-card-name", :with => "Steppe Glider"
-        
-        click_button "addCardBtn"
-        
-        sleep 2
-
-        expect(page).to have_css("#card-table tr")
-
-
-        click_button "Save"
-        
-        expect(page).to have_css(".mtgcard img", :count => 1)
+        expect(page).to have_css(".mtgcard img", :count => 3)
         
     end
     
@@ -85,36 +76,23 @@ RSpec.describe "Decks", type: :request do
         
         # generate a master deck with branches
         master_deck = create_master_deck_via_form(user)
-        
-        visit "/decks/#{master_deck.slug}/branch/main/editcards"
-        page.evaluate_script 'jQuery.active == 0'
-        
-        visit "/decks/#{master_deck.slug}/branch/main/editcards"
-        page.evaluate_script 'jQuery.active == 0'
-        
-        fill_in "new-card-name", :with => "Steppe Glider"
-        click_button "addCardBtn"
-        
-        
-        fill_in "new-card-name", :with => "Tree of Perdition"
-        click_button "addCardBtn"
-        
 
-        click_button "Save"
         
-        expect(page).to have_css(".mtgcard img", :count => 2) 
+        add_cards(master_deck, master_deck.branches.friendly.find('main'))
+        
+        expect(page).to have_css(".mtgcard img", :count => 3) 
         
         visit "/decks/#{master_deck.slug}/branch/main/editcards"
         
-        expect(all('tr').count).to eq(3)
+        expect(all('tr').count).to eq(4)
         
         click_button "remove_card1"
         
-        expect(all('tr').count).to eq(2)
+        expect(all('tr').count).to eq(3)
         
         click_button "Save"
         
-        expect(page).to have_css(".mtgcard img", :count => 1)
+        expect(page).to have_css(".mtgcard img", :count => 2)
         
         
         
