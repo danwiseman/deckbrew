@@ -164,9 +164,10 @@ $(document).ready(function() {
 
 function addQuickMana(land_name) {
   
-      addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
+      addCardRow($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "", id_number);
       //$('#hidden_card_list').append($('#mana_quantity_mana_quantity_number').val() + ',"' +  land_name + '", , \n');
-      addToCardJson($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "");
+      addToCardJson($('#mana_quantity_mana_quantity_number').val(), land_name, "", "", "", id_number);
+      id_number++;
       
 }
 
