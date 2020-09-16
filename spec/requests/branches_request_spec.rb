@@ -2,10 +2,13 @@ require 'rails_helper'
 require_relative '../support/branch_helpers'
 require_relative '../support/master_deck_helpers'
 require_relative '../support/user_helpers'
+require_relative '../support/deck_helpers'
 
 include UserHelpers
 include MasterDeckHelpers
 include BranchHelpers
+include DeckHelpers
+
 
 RSpec.describe "Branches", type: :request do
     
@@ -93,18 +96,17 @@ RSpec.describe "Branches", type: :request do
     
  
     
-    it "correctly shows deck differences and merges a branch into another branch" do
+    it "correctly shows deck differences and merges a branch into another branch", :js => true do
         user = FactoryBot.create(:user)
         sign_in_via_form(user)
 
         master_deck = create_master_deck_via_form(user)
         create_many_branches(master_deck)
+        add_cards(master_deck, master_deck.branches.friendly.find('branch3'))
         
         visit "/decks/#{master_deck.slug}/branch/compare/branch3"
         
-        # select merge into master
-        expect(page).to have_select 'source_branch[id]', selected: 'branch3'
-        select 'main', from: 'destination_branch[destination_branch_id]'
+
         
         # merge
         click_button "Merge These Branches"

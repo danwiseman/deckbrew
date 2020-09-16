@@ -88,10 +88,11 @@ class BranchesController < ApplicationController
            @merge_base = @master_deck.branches.friendly.find(dest_b_id)
            @merge_source = @master_deck.branches.friendly.find(source_b_id)
            
-           @merge_base.decks.new(:version => @merge_base.decks.last.version+1,
+           @new_deck = @merge_base.decks.new(:version => @merge_base.decks.last.version+1,
                                 :previousversion => @merge_source.head_deck,
                                 :cards => @merge_source.decks.find(@merge_source.head_deck).cards)
-           @merge_base.head_deck = @merge_base.decks.last
+           @new_deck.save!
+           @merge_base.update!(:head_deck => @new_deck.id)
            
            new_merge = [{
               event: 'merge',

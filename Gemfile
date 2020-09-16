@@ -56,7 +56,6 @@ group :development, :test do
   gem 'rails-controller-testing'
   
   gem "selenium-webdriver"
-  gem "chromedriver-helper"
 
   
   gem 'factory_bot_rails'
