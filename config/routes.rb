@@ -42,6 +42,8 @@ Rails.application.routes.draw do
         
         # other master deck actions
         post "fork", to: "master_decks#create_fork", on: :collection
+        get ":master_deck_id/settings", to: "master_decks#edit", on: :collection
+        patch ":master_deck_id", to: "master_decks#update", on: :collection
       end
       
       

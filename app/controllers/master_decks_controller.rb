@@ -2,7 +2,7 @@ class MasterDecksController < ApplicationController
     
 
        
-    before_action :authenticate_user!, only: [:new, :create, :fork_deck]
+    before_action :authenticate_user!, only: [:new, :create, :fork_deck, :edit]
     
     
     def index
@@ -98,6 +98,28 @@ class MasterDecksController < ApplicationController
         end
         
         
+    end
+    
+    def edit
+        @master_deck = current_user.master_decks.friendly.find(params[:master_deck_id])  
+       
+        render layout: "dashboard"
+    end
+    
+    def update
+        
+        if(MasterDeck.where(:name => params['master_deck']['name'], :user => current_user).present? && current_user.master_decks.friendly.find(params['master_deck_id']).name != params['master_deck']['name']) 
+           # a deck with that name already exists fail.
+           flash[:warning] = 'A deck with that name already exists.'
+           redirect_to "/decks/#{@master_deck.slug}/settings"
+           #render "edit", @branch = @master_deck.branches.friendly.find(params['branch_id'])
+        else
+            @master_deck = current_user.master_decks.friendly.find(params['master_deck_id'])
+            
+            @master_deck.update!(name: params['master_deck']['name'], is_public: params['master_deck']['is_public'], description: params['master_deck']['description'])
+            
+            redirect_to MasterDecksHelper.PathToMasterDeck(@master_deck)
+        end
     end
     
     def create_fork
