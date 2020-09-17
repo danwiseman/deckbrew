@@ -98,6 +98,8 @@ RSpec.describe "Decks", type: :request do
         
     end
     
+    it "should allow the user to change the names of cards in the card table"
+    
     it "should save a history, by creating a new head deck, of changes to the deck"
     
     it "should show differences between two decks"
