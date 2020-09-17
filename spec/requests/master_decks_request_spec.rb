@@ -185,5 +185,29 @@ RSpec.describe "MasterDecks", type: :request do
         expect(page).to_not have_text("branch3")
         
     end
+    
+    it "allows the user to change the deck name and privacy settings for the master deck" do
+        user = FactoryBot.create(:user)
+        sign_in_via_form(user)
+       
+        # generate a master deck with branches
+        master_deck = create_master_deck_via_form(user)
+        
+        visit "/decks/#{master_deck.slug}/settings"
+        
+        new_title = Faker::Book.title
+        new_desc = Faker::Coffee.notes
+        
+        fill_in "master_deck[name]", :with => new_title
+        fill_in "master_deck[description]", :with => new_desc
+        
+        click_button "Edit"
+        
+        expect(page).to have_text(new_title)
+        
+        # currently the description isn't displayed.
+        #expect(page).to have_text(new_desc)
+        
+    end
 
 end

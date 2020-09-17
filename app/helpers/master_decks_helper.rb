@@ -1,9 +1,15 @@
 module MasterDecksHelper
     
     
-    def self.PathToMasterDeck(master_deck)
-        UsersHelper.PathToUser(master_deck.user) + '/decks/' +  master_deck.slug
+    def self.PathToMasterDeck(master_deck, options = {})
+        options = { admin_path: false }.merge(options)
+        if options[:admin_path]
+            '/decks/' +  master_deck.slug
+        else 
+            UsersHelper.PathToUser(master_deck.user) + '/decks/' +  master_deck.slug
+        end
     end
+    
     
     def master_deck_with_privacy_badge(master_deck, is_linked=false)
         output = ""

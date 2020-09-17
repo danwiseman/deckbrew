@@ -9,6 +9,13 @@ describe MasterDecksHelper do
             
             expect(MasterDecksHelper.PathToMasterDeck(master_deck)).to eq('/u/' + master_deck.user.slug + '/decks/' +  master_deck.slug)
         end
+        
+        it "returns a link to just the deck for deck administration purposes" do
+            master_deck = FactoryBot.create(:master_deck)
+            
+            expect(MasterDecksHelper.PathToMasterDeck(master_deck, admin_path: true)).to eq('/decks/' +  master_deck.slug)
+            
+        end
     end
     
     describe "#master_deck_with_privacy_badge" do

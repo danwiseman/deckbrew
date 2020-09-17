@@ -1,0 +1,101 @@
+<div class="row">
+  <div class="col-md-6">
+      <div class="card">
+          <div class="card-header card-header-icon card-header-primary">
+            <div class="card-icon">
+              <i class="fad fa-clone"></i>
+            </div>
+          </div>
+
+        <div class="card-body" style="padding: 30px;">
+              <%= form_with model: @master_deck, class: "form", url: MasterDecksHelper.PathToMasterDeck(@master_deck, admin_path: true) do |f| %>
+                <div class="form-group">
+                <%= f.label "Name:", for: :name %>
+                <%= f.text_field :name, class: "form-control" %>
+                </div>
+                <div class="form-group">
+                <div class="togglebutton">
+                  <label>
+                    <%= f.check_box :is_public, checked: @master_deck.is_public? %>
+                    <span class="toggle"></span>
+                      <%= tag.span("Public Deck", class: "text-success label-on") %>
+                      <%= tag.span("Private Deck", class: "text-warning label-off") %>
+                  </label>
+                </div>
+                </div>
+                <div class="form-group">
+                    <%= f.label "Description:", for: :description %>
+                    <%= f.text_area :description, rows: 5, class: "form-control" %>    
+                </div>
+                <div class="form-group">
+                <%= f.submit "Edit" , class: "btn btn-primary" %>
+                <%= link_to 'Back', :back, class: "btn btn-link" %>
+              </div>
+              <% end %>
+              </div>
+   </div>   
+      
+  </div>
+
+  <div class="col-md-6">
+    
+  <div class="info info-horizontal">
+      	<div class="icon icon-primary">
+      		<i class="fad fa-pen-square"></i>
+      	</div>
+      	<div class="description">
+      	<h4 class="info-title">Edit Your Deck</h4>
+      	<p>You can change the name of the deck and it's privacy settings here. Or, delete it below if you no longer want this deck.</p>
+      </div>
+      </div>
+      <div class="alert alert-default text-center">
+      No longer want this deck? <button type="button" id="delete_deck_btn" class="btn btn-danger" onclick="editDeck.showSwal('<%= @master_deck.name %>')">Delete This Deck</button>.
+      
+    </div>
+
+  </div>
+
+
+</div>
+<% content_for :page_script do %>
+editDeck = {
+  showSwal: function(deck_name) {
+
+          swal({
+                html: '<div class="form-group">' +
+                    'Type the deck\'s name <strong>' + deck_name + '</strong> in the field below to delete' +
+                    '<input id="delete_confirm" name="delete_confirm" type="text" class="form-control" />' +
+                    '</div>',
+                showCancelButton: true,
+                confirmButtonClass: 'btn btn-success',
+                confirmButtonText: 'delete',
+                cancelButtonClass: 'btn btn-danger',
+                buttonsStyling: false
+            }).then((result) => {
+                if (result.value) {
+                  if ($('#delete_confirm').val() == deck_name) {
+                    // redirect_to deleting the branch in rails
+                    window.location.href = "/decks/<%= @master_deck.slug %>/delete"
+                  } else {
+                    swal({
+                      html: 'Deletion cancel. Name did not match.',
+                      type: 'error',
+                      confirmButtonClass: 'btn btn-success',
+                      buttonsStyling: false
+                    })
+                  }
+                } else if (
+                  /* Read more about handling dismissals below */
+                  result.dismiss === Swal.DismissReason.cancel
+                ) {
+                  swal({
+                    html: 'Cancelled',
+                    type: 'error',
+                    confirmButtonClass: 'btn btn-success',
+                    buttonsStyling: false
+                    })
+                }
+            }).catch(swal.noop)
+          }
+}
+<% end %>
