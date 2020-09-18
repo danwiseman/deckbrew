@@ -11,7 +11,7 @@
         <% if user_signed_in? %>
         <div class="user">
           <div class="photo">
-            
+            <%= user_gravatar(current_user) %>
           </div>
           <div class="user-info">
             <a data-toggle="collapse" href="#collapseExample" class="username">
