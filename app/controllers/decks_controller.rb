@@ -13,7 +13,7 @@ class DecksController < ApplicationController
     end
     
     def addcards
-        #puts params
+        puts params
         
         unless !params[:hidden_card_list].present?
             # reference the head deck of the branch as the previous version

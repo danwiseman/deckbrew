@@ -68,7 +68,7 @@ class Card < ApplicationRecord
             q = options[:uuid]
         elsif options[:set].present?
             # if set is valid, grab the specific card
-            q = "search?order=set&q=%21%22#{options[:name]}%22&e%3A#{options[:set]}'"
+            q = "search?order=set&q=%21%22#{options[:name]}%22+e%3A#{options[:set]}'"
         else
             # there's no set specified, so let scryfall just pick one
             q = "search?order=set&q=%21%22#{options[:name]}%22&unique=cards'"
@@ -77,6 +77,8 @@ class Card < ApplicationRecord
         
         
         page_url = uri_search + q
+      
+        
         uri = URI(page_url)
         response = Net::HTTP.get_response(uri)
         if response.kind_of? Net::HTTPSuccess
