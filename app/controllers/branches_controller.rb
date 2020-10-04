@@ -103,13 +103,13 @@ class BranchesController < ApplicationController
             
             Branch.where(id: @merge_base.id).update_all(["merge_history = merge_history || ?::jsonb", new_merge])
            
-           if(params['delete_after_merge'] == 'true')
-               @merge_source.update(deleted: true)
+            if(params['delete_after_merge'] == 'true')
+                @merge_source.update(deleted: true)
                 flash[:warning] = @merge_source.name + ' was successfully deleted.'
             end
            
-           flash[:success] = 'Branch was merged.'
-           redirect_to BranchesHelper.PathToBranch(@merge_base)
+            flash[:success] = 'Branch was merged.'
+            redirect_to BranchesHelper.PathToBranch(@merge_base)
            
         else
             @source_branch = @master_deck.branches.friendly.find('main')
@@ -129,9 +129,7 @@ class BranchesController < ApplicationController
            #render "edit", @branch = @master_deck.branches.friendly.find(params['branch_id'])
         else
             @branch = @master_deck.branches.friendly.find(params['branch_id'])
-            
             @branch.update!(name: params['branch']['name'], is_public: params['branch']['is_public'])
-            
             redirect_to BranchesHelper.PathToBranch(@branch)
         end
     end
@@ -143,7 +141,6 @@ class BranchesController < ApplicationController
            render "new"
         else
             @branch = @master_deck.branches.friendly.find(params['branch_id'])
-            
             @branch.update(deleted: true)
             flash[:warning] = 'Branch was successfully deleted.'
             redirect_to MasterDecksHelper.PathToMasterDeck(@master_deck)

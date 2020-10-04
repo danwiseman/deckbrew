@@ -1,0 +1,41 @@
+<div class="col-md-4">
+    <div class="card card-chart">
+      <div class="card-header card-header-icon card-header-danger">
+        <h4 class="card-title">Mana Chart</h4>
+      </div>
+      <div class="card-body">
+        <div id="mana-chart" class="ct-chart"></div>
+      </div>
+      <div class="card-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <h6 class="card-category">Legend</h6>
+          </div>
+          <div class="col-md-12">
+            <i class="fa fa-circle text-info"></i> Apple
+            <i class="fa fa-circle text-warning"></i> Samsung
+            <i class="fa fa-circle text-danger"></i> Windows Phone
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script>
+    
+    // mana chart
+var <%= @chart_type %>_data = {
+    labels: <%= @chart_labels %>,
+    series: <%= @chart_series %>
+};
+
+var <%= @chart_type %>_preferences = {
+    height: '230px',
+    donut: true,
+    donutWidth: 30,
+  donutSolid: true,
+  startAngle: 270,
+  showLabel: true
+};
+    
+</script>

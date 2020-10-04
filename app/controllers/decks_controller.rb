@@ -13,7 +13,6 @@ class DecksController < ApplicationController
     end
     
     def addcards
-        puts params
         
         unless !params[:hidden_card_list].present?
             # reference the head deck of the branch as the previous version
@@ -59,25 +58,12 @@ class DecksController < ApplicationController
                 
                 if data.key?('data')
                     data['data'].each do |card_json|
-                        if(Card.where(:scryfall_id => card_json['id']).present?)
-                            
-                             newCard = Card.where(:scryfall_id => card_json['id']).first
-                             newCard.update(:oracle_name => card_json['name'], :set => card_json['set'], :scryfall_data => card_json)
-                        else    
-                            
-                            newCard = Card.create(:scryfall_id => card_json['id'], :oracle_name => card_json['name'], :set => card_json['set'], :scryfall_data => card_json)
-                        end
+                        newCard = Card.snatch(uuid: card_json['id'])
                         @possible_fixed_cards << newCard
                     end
                 else
-                    if(Card.where(:scryfall_id => data['id']).present?)
-                         newCard = Card.where(:scryfall_id => data['id']).first
-                         newCard.update(:oracle_name => data['name'], :set => data['set'], :scryfall_data => data)
-                    else    
-                        newCard = Card.create(:scryfall_id => data['id'], :oracle_name => data['name'], :set => data['set'], :scryfall_data => data)
-                    end
+                    newCard = Card.snatch(uuid: data['id'])
                     @possible_fixed_cards << newCard
-                    
                 end
                 
                 
